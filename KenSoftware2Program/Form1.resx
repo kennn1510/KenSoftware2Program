@@ -147,13 +147,13 @@
     <value>35, 24</value>
   </data>
   <data name="LocationLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 16</value>
+    <value>61, 16</value>
   </data>
   <data name="LocationLabel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="LocationLabel.Text" xml:space="preserve">
-    <value>Location: placeholder</value>
+    <value>Location:</value>
   </data>
   <data name="&gt;&gt;LocationLabel.Name" xml:space="preserve">
     <value>LocationLabel</value>
@@ -174,13 +174,13 @@
     <value>15, 69</value>
   </data>
   <data name="UsernameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 16</value>
+    <value>70, 16</value>
   </data>
   <data name="UsernameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="UsernameLabel.Text" xml:space="preserve">
-    <value>Username/SecondLanguage</value>
+    <value>Username</value>
   </data>
   <data name="&gt;&gt;UsernameLabel.Name" xml:space="preserve">
     <value>UsernameLabel</value>
@@ -201,13 +201,13 @@
     <value>15, 159</value>
   </data>
   <data name="PasswordLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 16</value>
+    <value>67, 16</value>
   </data>
   <data name="PasswordLabel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="PasswordLabel.Text" xml:space="preserve">
-    <value>Password/SecondLanguage</value>
+    <value>Password</value>
   </data>
   <data name="&gt;&gt;PasswordLabel.Name" xml:space="preserve">
     <value>PasswordLabel</value>

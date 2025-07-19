@@ -51,6 +51,7 @@
             // 
             resources.ApplyResources(this.UsernameLabel, "UsernameLabel");
             this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Click += new System.EventHandler(this.UsernameLabel_Click);
             // 
             // PasswordLabel
             // 
