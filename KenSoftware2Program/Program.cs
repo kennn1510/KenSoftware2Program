@@ -19,7 +19,7 @@ namespace KenSoftware2Program
             Application.SetCompatibleTextRenderingDefault(false);
 
             DBConnection.startConnection();
-            Application.Run(new Form1());
+            Application.Run(new LoginForm());
             DBConnection.closeConnection();
         }
     }

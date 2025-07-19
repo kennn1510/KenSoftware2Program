@@ -12,42 +12,13 @@ using MySql.Data.MySqlClient;
 
 namespace KenSoftware2Program
 {
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
-        public Form1()
+        public LoginForm()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //get the connection string
-            string constr = ConfigurationManager.ConnectionStrings["localdb"].ConnectionString;
-
-            //make the connection
-            MySqlConnection conn = null;
-
-            try
-            {
-                conn = new MySqlConnection(constr);
-
-                //open the connection
-                conn.Open();
-
-                MessageBox.Show("Connection is open.");
-            } 
-            catch(MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                //close the connection
-                if(conn != null)
-                {
-                    conn.Close();
-                }
-            }
-        }
+       
     }
 }
