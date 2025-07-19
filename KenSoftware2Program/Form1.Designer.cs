@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.UsernameTextBox = new System.Windows.Forms.TextBox();
             this.LocationLabel = new System.Windows.Forms.Label();
             this.UsernameLabel = new System.Windows.Forms.Label();
@@ -38,59 +39,39 @@
             // 
             // UsernameTextBox
             // 
-            this.UsernameTextBox.Location = new System.Drawing.Point(18, 88);
+            resources.ApplyResources(this.UsernameTextBox, "UsernameTextBox");
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(176, 22);
-            this.UsernameTextBox.TabIndex = 2;
             // 
             // LocationLabel
             // 
-            this.LocationLabel.AutoSize = true;
-            this.LocationLabel.Location = new System.Drawing.Point(35, 24);
+            resources.ApplyResources(this.LocationLabel, "LocationLabel");
             this.LocationLabel.Name = "LocationLabel";
-            this.LocationLabel.Size = new System.Drawing.Size(136, 16);
-            this.LocationLabel.TabIndex = 3;
-            this.LocationLabel.Text = "Location: placeholder";
             // 
             // UsernameLabel
             // 
-            this.UsernameLabel.AutoSize = true;
-            this.UsernameLabel.Location = new System.Drawing.Point(15, 69);
+            resources.ApplyResources(this.UsernameLabel, "UsernameLabel");
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(182, 16);
-            this.UsernameLabel.TabIndex = 4;
-            this.UsernameLabel.Text = "Username/SecondLanguage";
             // 
             // PasswordLabel
             // 
-            this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Location = new System.Drawing.Point(15, 124);
+            resources.ApplyResources(this.PasswordLabel, "PasswordLabel");
             this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(179, 16);
-            this.PasswordLabel.TabIndex = 5;
-            this.PasswordLabel.Text = "Password/SecondLanguage";
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(18, 143);
+            resources.ApplyResources(this.PasswordTextBox, "PasswordTextBox");
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(176, 22);
-            this.PasswordTextBox.TabIndex = 6;
             // 
             // LoginButton
             // 
-            this.LoginButton.Location = new System.Drawing.Point(18, 171);
+            resources.ApplyResources(this.LoginButton, "LoginButton");
             this.LoginButton.Name = "LoginButton";
-            this.LoginButton.Size = new System.Drawing.Size(179, 23);
-            this.LoginButton.TabIndex = 7;
-            this.LoginButton.Text = "Login";
             this.LoginButton.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 344);
             this.Controls.Add(this.LoginButton);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.PasswordLabel);
@@ -98,7 +79,6 @@
             this.Controls.Add(this.LocationLabel);
             this.Controls.Add(this.UsernameTextBox);
             this.Name = "LoginForm";
-            this.Text = "Login Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 
