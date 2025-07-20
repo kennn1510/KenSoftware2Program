@@ -20,11 +20,11 @@ namespace KenSoftware2Program.Database
                 string constr = ConfigurationManager.ConnectionStrings["localdb"].ConnectionString;
                 conn = new MySqlConnection(constr);
                 conn.Open();
-                MessageBox.Show("Connection is open");
+                Console.WriteLine("Connection is open");
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
             }
             
         }
@@ -41,7 +41,7 @@ namespace KenSoftware2Program.Database
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
             }
 
         }

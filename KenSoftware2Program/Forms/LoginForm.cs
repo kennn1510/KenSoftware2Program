@@ -33,8 +33,6 @@ namespace KenSoftware2Program
             Console.WriteLine("Enter any key to quit.");
             Console.ReadLine();
 
-
-
             if (culture.TwoLetterISOLanguageName == "en")
             {
                 Console.WriteLine("Translated to english");
