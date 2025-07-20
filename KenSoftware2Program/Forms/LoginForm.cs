@@ -17,31 +17,30 @@ namespace KenSoftware2Program
 {
     public partial class LoginForm : Form
     {
-
-
         public LoginForm()
         {
             InitializeComponent();
-            GeoCoordinateWatcher watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-            watcher.MovementThreshold = 1.0; // set to one meter
-            watcher.TryStart(false, TimeSpan.FromSeconds(10));
+            LocalizeLanguage();
+        }
 
-            CivicAddressResolver resolver = new CivicAddressResolver();
+        private void LocalizeLanguage()
+        {
+            CultureInfo culture = CultureInfo.CurrentCulture;
 
-            if (!watcher.Position.Location.IsUnknown)
+            if (culture.TwoLetterISOLanguageName == "en")
             {
-                CivicAddress address = resolver.ResolveAddress(watcher.Position.Location);
-
-                if (!address.IsUnknown)
-                {
-                    LocationLabel.Text = $"Country: {address.CountryRegion}, Zip: {address.PostalCode}";
-                }
-                else
-                {
-                    LocationLabel.Text = "Address unknown.";
-                }
+                Console.WriteLine("Translated to english");
+            } else
+            {
+                Console.WriteLine("Traduit en français");
+                this.Text = "Formulaire de connexion";
+                LocationLabel.Text = "Emplacement";
+                UsernameLabel.Text = "Nom d'utilisateur:";
+                PasswordLabel.Text = "Mot de passe:";
+                LoginButton.Text = "Se connecter";
             }
         }
+
 
         private void UsernameLabel_Click(object sender, EventArgs e)
         {
