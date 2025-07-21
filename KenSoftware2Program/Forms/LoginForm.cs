@@ -79,6 +79,8 @@ namespace KenSoftware2Program
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
+            UsernameTextBox.Text = UsernameTextBox.Text.Trim();
+            PasswordTextBox.Text = PasswordTextBox.Text.Trim();
             if (UsernameTextBox.Text == "test" && PasswordTextBox.Text == "test")
             {
                 UsernameErrorsLabel.ResetText();
