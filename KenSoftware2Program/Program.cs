@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KenSoftware2Program.Database;
+using KenSoftware2Program.Forms;
+using System;
 using System.Windows.Forms;
-using KenSoftware2Program.Database;
 
 namespace KenSoftware2Program
 {
@@ -19,7 +17,14 @@ namespace KenSoftware2Program
             Application.SetCompatibleTextRenderingDefault(false);
 
             DBConnection.startConnection();
-            Application.Run(new LoginForm());
+            using (LoginForm loginForm = new LoginForm())
+            {
+                Application.Run(loginForm);
+                if (loginForm.DialogResult == DialogResult.OK)
+                {
+                    Application.Run(new CustomerForm());
+                }
+            }
             DBConnection.closeConnection();
         }
     }

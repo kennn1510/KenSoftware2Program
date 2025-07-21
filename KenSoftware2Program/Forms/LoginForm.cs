@@ -1,5 +1,4 @@
-﻿using KenSoftware2Program.Forms;
-using KenSoftware2Program.Models;
+﻿using KenSoftware2Program.Models;
 using System;
 using System.Device.Location;
 using System.Globalization;
@@ -85,10 +84,9 @@ namespace KenSoftware2Program
             {
                 UsernameErrorsLabel.ResetText();
                 PasswordErrorsLabel.ResetText();
-                Console.WriteLine("Come on in!!!");
-                CustomerForm customerForm = new CustomerForm();
-                customerForm.Show();
-                this.Hide();
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             else
             {
