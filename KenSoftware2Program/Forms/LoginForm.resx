@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="UsernameTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 92</value>
+    <value>129, 92</value>
   </data>
   <data name="UsernameTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
+    <value>210, 22</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UsernameTextBox.TabIndex" type="System.Int32, mscorlib">
@@ -138,7 +138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;UsernameTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="LocationLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -165,13 +165,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LocationLabel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="UsernameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="UsernameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 73</value>
+    <value>126, 73</value>
   </data>
   <data name="UsernameLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 16</value>
@@ -192,13 +192,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;UsernameLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="PasswordLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="PasswordLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 163</value>
+    <value>126, 163</value>
   </data>
   <data name="PasswordLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 16</value>
@@ -219,13 +219,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PasswordLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="PasswordTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 182</value>
+    <value>129, 182</value>
   </data>
   <data name="PasswordTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 22</value>
+    <value>210, 22</value>
   </data>
   <data name="PasswordTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -240,13 +240,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PasswordTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="LoginButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 254</value>
+    <value>129, 254</value>
   </data>
   <data name="LoginButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 34</value>
+    <value>213, 34</value>
   </data>
   <data name="LoginButton.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -264,6 +264,66 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LoginButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="UsernameErrorsLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UsernameErrorsLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 117</value>
+  </data>
+  <data name="UsernameErrorsLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 16</value>
+  </data>
+  <data name="UsernameErrorsLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="UsernameErrorsLabel.Text" xml:space="preserve">
+    <value>Incorrect username</value>
+  </data>
+  <data name="UsernameErrorsLabel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;UsernameErrorsLabel.Name" xml:space="preserve">
+    <value>UsernameErrorsLabel</value>
+  </data>
+  <data name="&gt;&gt;UsernameErrorsLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UsernameErrorsLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;UsernameErrorsLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PasswordErrorsLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PasswordErrorsLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 207</value>
+  </data>
+  <data name="PasswordErrorsLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 16</value>
+  </data>
+  <data name="PasswordErrorsLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="PasswordErrorsLabel.Text" xml:space="preserve">
+    <value>Incorrect password</value>
+  </data>
+  <data name="PasswordErrorsLabel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;PasswordErrorsLabel.Name" xml:space="preserve">
+    <value>PasswordErrorsLabel</value>
+  </data>
+  <data name="&gt;&gt;PasswordErrorsLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PasswordErrorsLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PasswordErrorsLabel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

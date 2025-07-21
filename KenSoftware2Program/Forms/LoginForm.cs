@@ -62,7 +62,6 @@ namespace KenSoftware2Program
                 {
                     Console.WriteLine("GeoCoordinateWatcher timed out on start.");
                 }
-                Console.WriteLine(watcher.Position.Location);
             }
 
             void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
@@ -74,6 +73,47 @@ namespace KenSoftware2Program
                 else
                 {
                     loginForm.LocationLabel.Text = $"Localisation: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
+                }
+            }
+        }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            if (UsernameTextBox.Text == "test" && PasswordTextBox.Text == "test")
+            {
+                UsernameErrorsLabel.ResetText();
+                PasswordErrorsLabel.ResetText();
+                Console.WriteLine("Come on in!!!");
+                // Do something else
+            } else {
+                UsernameErrorsLabel.Visible = true;
+                PasswordErrorsLabel.Visible = true;
+
+                if (UsernameTextBox.Text != PasswordTextBox.Text)
+                {
+                    if (culture.TwoLetterISOLanguageName == "en")
+                    {
+                        UsernameErrorsLabel.Text = "The username does not match the password";
+                        PasswordErrorsLabel.Text = "The password does not match the username";
+                    } else
+                    {
+                        UsernameErrorsLabel.Text = "Le nom d'utilisateur ne correspond pas au mot de passe";
+                        PasswordErrorsLabel.Text = "Le mot de passe ne correspond pas au nom d'utilisateur";
+                    }
+                } else
+                {
+                    if (culture.TwoLetterISOLanguageName == "en")
+                    {
+                        UsernameErrorsLabel.Text = "Incorrect username";
+                        PasswordErrorsLabel.Text = "Incorrect password";
+                    }
+                    else
+                    {
+                        UsernameErrorsLabel.Text = "Nom d'utilisateur incorrect";
+                        PasswordErrorsLabel.Text = "Mot de passe incorrect";
+                    }
+
+                    
                 }
             }
         }
