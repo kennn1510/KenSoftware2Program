@@ -18,39 +18,49 @@ namespace KenSoftware2Program
 {
     public partial class LoginForm : Form
     {
+        CultureInfo culture;
         public LoginForm()
         {
             InitializeComponent();
             LocalizeLanguage();
+            GetLocation();
         }
 
         private void LocalizeLanguage()
         {
-            CultureInfo culture = CultureInfo.CurrentCulture;
-
-            CLocation myLocation = new CLocation();
-            myLocation.GetLocationEvent();
-            Console.WriteLine("Enter any key to quit.");
-            Console.ReadLine();
+            culture = CultureInfo.CurrentCulture;
 
             if (culture.TwoLetterISOLanguageName == "en")
             {
                 Console.WriteLine("Translated to english");
-                //LocationLabel.Text = $"Location: {latitude}, {longitude}";
             } else
             {
                 Console.WriteLine("Traduit en français");
                 this.Text = "Formulaire de connexion";
-                LocationLabel.Text = $"Emplacement: ";
+                LocationLabel.Text = $"Localisation : traitement...";
                 UsernameLabel.Text = "Nom d'utilisateur:";
                 PasswordLabel.Text = "Mot de passe:";
                 LoginButton.Text = "Se connecter";
             }
         }
 
+        private void GetLocation()
+        {
+            CLocation myLocation = new CLocation(this, culture);
+            myLocation.GetLocationEvent();
+        }
+
         class CLocation
         {
             GeoCoordinateWatcher watcher;
+            private LoginForm loginForm;
+            private CultureInfo culture;
+
+            public CLocation(LoginForm loginForm, CultureInfo culture)
+            {
+                this.loginForm = loginForm;
+                this.culture = culture;
+            }
 
             public void GetLocationEvent()
             {
@@ -61,17 +71,20 @@ namespace KenSoftware2Program
                 {
                     Console.WriteLine("GeoCoordinateWatcher timed out on start.");
                 }
+                Console.WriteLine(watcher.Position.Location);
             }
 
             void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
             {
-                PrintPosition(e.Position.Location.Latitude, e.Position.Location.Longitude);
+                if (culture.TwoLetterISOLanguageName == "en")
+                {
+                    loginForm.LocationLabel.Text = $"Location: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
+                } else
+                {
+                    loginForm.LocationLabel.Text = $"Localisation: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
+                }
             }
 
-            void PrintPosition(double Latitude, double Longitude)
-            {
-                Console.WriteLine("Latitude: {0}, Longitude {1}", Latitude, Longitude);
-            }
         }
 
 
