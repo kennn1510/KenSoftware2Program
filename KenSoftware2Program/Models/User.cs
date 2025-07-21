@@ -10,24 +10,25 @@ namespace KenSoftware2Program.Models
 {
     internal class User
     {
-        public static string GetUsername()
+        private static string GetUserField(string fieldName)
         {
-            var cmd = new MySqlCommand("SELECT userName FROM user;", DBConnection.conn);
+            var query = $"SELECT {fieldName} FROM user;";
+            var cmd = new MySqlCommand(query, DBConnection.conn);
             var reader = cmd.ExecuteReader();
             reader.Read();
-            var username = reader.GetString(0);
+            var result = reader.GetString(0);
             reader.Close();
-            return username;
+            return result;
+        }
+        public static string GetUsername()
+        {
+            return GetUserField("userName");
         }
 
         public static string GetPassword()
         {
-            var cmd = new MySqlCommand("SELECT password FROM user;", DBConnection.conn);
-            var reader = cmd.ExecuteReader();
-            reader.Read();
-            var password = reader.GetString(0);
-            reader.Close();
-            return password;
+            return GetUserField("password");
         }
+
     }
 }
