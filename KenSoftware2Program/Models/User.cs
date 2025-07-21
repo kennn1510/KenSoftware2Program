@@ -1,10 +1,5 @@
 ﻿using KenSoftware2Program.Database;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KenSoftware2Program.Models
 {
@@ -24,11 +19,9 @@ namespace KenSoftware2Program.Models
         {
             return GetUserField("userName");
         }
-
         public static string GetPassword()
         {
             return GetUserField("password");
         }
-
     }
 }

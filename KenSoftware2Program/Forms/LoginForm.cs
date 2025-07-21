@@ -5,7 +5,6 @@ using System.Device.Location;
 using System.Globalization;
 using System.Windows.Forms;
 
-
 namespace KenSoftware2Program
 {
     public partial class LoginForm : Form
@@ -17,11 +16,9 @@ namespace KenSoftware2Program
             LocalizeLanguage();
             GetLocation();
         }
-
         private void LocalizeLanguage()
         {
             culture = CultureInfo.CurrentCulture;
-
             if (culture.TwoLetterISOLanguageName == "en")
             {
                 Console.WriteLine("Translated to english");
@@ -84,9 +81,6 @@ namespace KenSoftware2Program
             UsernameTextBox.Text = UsernameTextBox.Text.Trim();
             PasswordTextBox.Text = PasswordTextBox.Text.Trim();
 
-
-
-
             if (UsernameTextBox.Text == User.GetUsername() && PasswordTextBox.Text == User.GetPassword())
             {
                 UsernameErrorsLabel.ResetText();
@@ -96,7 +90,8 @@ namespace KenSoftware2Program
                 customerForm.Show();
                 this.Hide();
             }
-            else {
+            else
+            {
                 UsernameErrorsLabel.Visible = true;
                 PasswordErrorsLabel.Visible = true;
 
@@ -106,12 +101,14 @@ namespace KenSoftware2Program
                     {
                         UsernameErrorsLabel.Text = "The username does not match the password";
                         PasswordErrorsLabel.Text = "The password does not match the username";
-                    } else
+                    }
+                    else
                     {
                         UsernameErrorsLabel.Text = "Le nom d'utilisateur ne correspond pas au mot de passe";
                         PasswordErrorsLabel.Text = "Le mot de passe ne correspond pas au nom d'utilisateur";
                     }
-                } else
+                }
+                else
                 {
                     if (culture.TwoLetterISOLanguageName == "en")
                     {
@@ -123,8 +120,6 @@ namespace KenSoftware2Program
                         UsernameErrorsLabel.Text = "Nom d'utilisateur incorrect";
                         PasswordErrorsLabel.Text = "Mot de passe incorrect";
                     }
-
-                    
                 }
             }
         }
