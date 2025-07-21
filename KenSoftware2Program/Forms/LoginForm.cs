@@ -1,17 +1,7 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
+﻿using System;
 using System.Device.Location;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 
 namespace KenSoftware2Program
@@ -33,7 +23,8 @@ namespace KenSoftware2Program
             if (culture.TwoLetterISOLanguageName == "en")
             {
                 Console.WriteLine("Translated to english");
-            } else
+            }
+            else
             {
                 Console.WriteLine("Traduit en français");
                 this.Text = "Formulaire de connexion";
@@ -79,18 +70,12 @@ namespace KenSoftware2Program
                 if (culture.TwoLetterISOLanguageName == "en")
                 {
                     loginForm.LocationLabel.Text = $"Location: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
-                } else
+                }
+                else
                 {
                     loginForm.LocationLabel.Text = $"Localisation: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
                 }
             }
-
-        }
-
-
-        private void UsernameLabel_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
