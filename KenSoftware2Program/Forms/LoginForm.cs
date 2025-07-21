@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KenSoftware2Program.Forms;
+using KenSoftware2Program.Models;
+using System;
 using System.Device.Location;
 using System.Globalization;
 using System.Windows.Forms;
@@ -81,13 +83,20 @@ namespace KenSoftware2Program
         {
             UsernameTextBox.Text = UsernameTextBox.Text.Trim();
             PasswordTextBox.Text = PasswordTextBox.Text.Trim();
-            if (UsernameTextBox.Text == "test" && PasswordTextBox.Text == "test")
+
+
+
+
+            if (UsernameTextBox.Text == User.GetUsername() && PasswordTextBox.Text == User.GetPassword())
             {
                 UsernameErrorsLabel.ResetText();
                 PasswordErrorsLabel.ResetText();
                 Console.WriteLine("Come on in!!!");
-                // Do something else
-            } else {
+                CustomerForm customerForm = new CustomerForm();
+                customerForm.Show();
+                this.Hide();
+            }
+            else {
                 UsernameErrorsLabel.Visible = true;
                 PasswordErrorsLabel.Visible = true;
 
