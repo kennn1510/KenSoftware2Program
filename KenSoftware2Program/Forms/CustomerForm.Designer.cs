@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.RefreshButton = new System.Windows.Forms.Button();
-            this.LogoutButton = new System.Windows.Forms.Button();
             this.CustomerDataGridView = new System.Windows.Forms.DataGridView();
             this.AddCustomerButton = new System.Windows.Forms.Button();
             this.UpdateCustomerButton = new System.Windows.Forms.Button();
@@ -46,15 +45,6 @@
             this.RefreshButton.TabIndex = 0;
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.UseVisualStyleBackColor = true;
-            // 
-            // LogoutButton
-            // 
-            this.LogoutButton.Location = new System.Drawing.Point(713, 12);
-            this.LogoutButton.Name = "LogoutButton";
-            this.LogoutButton.Size = new System.Drawing.Size(75, 23);
-            this.LogoutButton.TabIndex = 1;
-            this.LogoutButton.Text = "Logout";
-            this.LogoutButton.UseVisualStyleBackColor = true;
             // 
             // CustomerDataGridView
             // 
@@ -112,7 +102,6 @@
             this.Controls.Add(this.UpdateCustomerButton);
             this.Controls.Add(this.AddCustomerButton);
             this.Controls.Add(this.CustomerDataGridView);
-            this.Controls.Add(this.LogoutButton);
             this.Controls.Add(this.RefreshButton);
             this.Name = "CustomerForm";
             this.Text = "Customer Form";
@@ -124,7 +113,6 @@
         #endregion
 
         private System.Windows.Forms.Button RefreshButton;
-        private System.Windows.Forms.Button LogoutButton;
         private System.Windows.Forms.DataGridView CustomerDataGridView;
         private System.Windows.Forms.Button AddCustomerButton;
         private System.Windows.Forms.Button UpdateCustomerButton;
