@@ -80,7 +80,7 @@ namespace KenSoftware2Program
             UsernameTextBox.Text = UsernameTextBox.Text.Trim();
             PasswordTextBox.Text = PasswordTextBox.Text.Trim();
 
-            if (UsernameTextBox.Text == User.GetUsername() && PasswordTextBox.Text == User.GetPassword())
+            if (User.ValidateLogin(UsernameTextBox.Text, PasswordTextBox.Text) != null)
             {
                 UsernameErrorsLabel.ResetText();
                 PasswordErrorsLabel.ResetText();
