@@ -54,5 +54,11 @@ namespace KenSoftware2Program.Forms
             string pattern = @"^\d{3}-\d{3}-\d{4}$";
             return Regex.IsMatch(phoneNumber, pattern);
         }
+
+        private void AddCustomerButton_Click(object sender, EventArgs e)
+        {
+            NewCustomerForm newCustomerForm = new NewCustomerForm();
+            newCustomerForm.ShowDialog();
+        }
     }
 }
