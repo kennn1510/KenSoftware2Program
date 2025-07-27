@@ -16,14 +16,12 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                using (Database.DBConnection.conn)
-                {
-                    string customerQuery = $"";
-                    string addressQuery = $"";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(customerQuery, Database.DBConnection.conn);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                }
+
+                string customerQuery = $"INSERT INTO customer";
+                string addressQuery = $"INSERT INTO address";
+                MySqlDataAdapter adapter = new MySqlDataAdapter(customerQuery, Database.DBConnection.conn);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
             }
             catch (Exception ex)
             {

@@ -18,30 +18,27 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                using (Database.DBConnection.conn)
-                {
-                    string query = @"
+                string query = @"
                         SELECT c.customerName, a.address, a.phone
                         FROM customer c
                         LEFT JOIN address a ON c.addressId = a.addressId";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    foreach (DataRow row in dataTable.Rows)
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    string phone = row["phone"]?.ToString();
+                    if (!string.IsNullOrEmpty(phone) && !IsValidPhoneNumber(phone))
                     {
-                        string phone = row["phone"]?.ToString();
-                        if (!string.IsNullOrEmpty(phone) && !IsValidPhoneNumber(phone))
-                        {
-                            row["phone"] = "Invalid: " + phone;
-                        }
+                        row["phone"] = "Invalid: " + phone;
                     }
-                    CustomerDataGridView.DataSource = dataTable;
-                    CustomerDataGridView.Columns["customerName"].HeaderText = "Customer Name";
-                    CustomerDataGridView.Columns["address"].HeaderText = "Address";
-                    CustomerDataGridView.Columns["phone"].HeaderText = "Phone Number";
-
-                    CustomerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
+                CustomerDataGridView.DataSource = dataTable;
+                CustomerDataGridView.Columns["customerName"].HeaderText = "Customer Name";
+                CustomerDataGridView.Columns["address"].HeaderText = "Address";
+                CustomerDataGridView.Columns["phone"].HeaderText = "Phone Number";
+
+                CustomerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
