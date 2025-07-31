@@ -86,5 +86,10 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void DeleteCustomerButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

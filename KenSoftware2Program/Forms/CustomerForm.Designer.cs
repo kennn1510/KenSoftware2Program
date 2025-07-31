@@ -49,6 +49,8 @@
             // 
             // CustomerDataGridView
             // 
+            this.CustomerDataGridView.AllowUserToAddRows = false;
+            this.CustomerDataGridView.AllowUserToDeleteRows = false;
             this.CustomerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CustomerDataGridView.Location = new System.Drawing.Point(12, 41);
             this.CustomerDataGridView.MultiSelect = false;
@@ -87,6 +89,7 @@
             this.DeleteCustomerButton.TabIndex = 5;
             this.DeleteCustomerButton.Text = "Delete Customer";
             this.DeleteCustomerButton.UseVisualStyleBackColor = true;
+            this.DeleteCustomerButton.Click += new System.EventHandler(this.DeleteCustomerButton_Click);
             // 
             // ManageAppointmentsButton
             // 
