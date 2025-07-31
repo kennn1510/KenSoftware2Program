@@ -148,6 +148,7 @@ namespace KenSoftware2Program.Forms
                     command.ExecuteNonQuery();
 
                     MessageBox.Show("Customer added successfully!");
+                    this.Close();
                 }
             }
             catch (ArgumentException ex)
