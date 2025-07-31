@@ -1,6 +1,6 @@
 ﻿namespace KenSoftware2Program.Forms
 {
-    partial class NewCustomerForm
+    partial class CustomerDataForm
     {
         /// <summary>
         /// Required designer variable.
@@ -167,7 +167,7 @@
             this.CountryTextBox.Size = new System.Drawing.Size(212, 22);
             this.CountryTextBox.TabIndex = 16;
             // 
-            // NewCustomerForm
+            // CustomerDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -187,8 +187,8 @@
             this.Controls.Add(this.PhoneNumberTextBox);
             this.Controls.Add(this.NameTextBox);
             this.Controls.Add(this.SubmitButton);
-            this.Name = "NewCustomerForm";
-            this.Text = "NewCustomerForm";
+            this.Name = "CustomerDataForm";
+            this.Text = "Customer Data Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

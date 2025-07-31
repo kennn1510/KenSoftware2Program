@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace KenSoftware2Program.Forms
 {
-    public partial class NewCustomerForm : Form
+    public partial class CustomerDataForm : Form
     {
-        public NewCustomerForm()
+        public CustomerDataForm()
         {
             InitializeComponent();
         }

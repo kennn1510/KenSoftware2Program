@@ -57,7 +57,7 @@ namespace KenSoftware2Program.Forms
 
         private void AddCustomerButton_Click(object sender, EventArgs e)
         {
-            NewCustomerForm newCustomerForm = new NewCustomerForm();
+            CustomerDataForm newCustomerForm = new CustomerDataForm();
             newCustomerForm.ShowDialog();
         }
 
