@@ -78,7 +78,7 @@ namespace KenSoftware2Program.Forms
 
         private void UpdateCustomerButton_Click(object sender, EventArgs e)
         {
-            CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm();
+            CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(CustomerDataGridView.SelectedCells);
             customerUpdateForm.ShowDialog();
         }
     }

@@ -51,6 +51,7 @@
             // 
             this.CustomerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CustomerDataGridView.Location = new System.Drawing.Point(12, 41);
+            this.CustomerDataGridView.MultiSelect = false;
             this.CustomerDataGridView.Name = "CustomerDataGridView";
             this.CustomerDataGridView.RowHeadersWidth = 51;
             this.CustomerDataGridView.RowTemplate.Height = 24;
