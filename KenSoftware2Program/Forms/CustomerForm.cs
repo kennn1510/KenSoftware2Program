@@ -60,5 +60,20 @@ namespace KenSoftware2Program.Forms
             NewCustomerForm newCustomerForm = new NewCustomerForm();
             newCustomerForm.ShowDialog();
         }
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetUpForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                // Ensure connection is closed on error
+                if (Database.DBConnection.conn.State == ConnectionState.Open)
+                    Database.DBConnection.conn.Close();
+            }
+        }
     }
 }
