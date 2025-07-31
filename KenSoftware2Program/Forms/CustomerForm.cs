@@ -195,5 +195,11 @@ namespace KenSoftware2Program.Forms
                     Database.DBConnection.conn.Close();
             }
         }
+
+        private void ManageAppointmentsButton_Click(object sender, EventArgs e)
+        {
+            AppointmentForm appointmentForm = new AppointmentForm();
+            appointmentForm.ShowDialog();
+        }
     }
 }
