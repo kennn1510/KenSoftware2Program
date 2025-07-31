@@ -106,17 +106,23 @@
     <Compile Include="Forms\CustomerForm.Designer.cs">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\CustomerUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CustomerUpdateForm.Designer.cs">
+      <DependentUpon>CustomerUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CustomerDataForm.cs">
+    <Compile Include="Forms\CustomerAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\CustomerDataForm.Designer.cs">
-      <DependentUpon>CustomerDataForm.cs</DependentUpon>
+    <Compile Include="Forms\CustomerAddForm.Designer.cs">
+      <DependentUpon>CustomerAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -132,8 +138,8 @@
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CustomerDataForm.resx">
-      <DependentUpon>CustomerDataForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CustomerAddForm.resx">
+      <DependentUpon>CustomerAddForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

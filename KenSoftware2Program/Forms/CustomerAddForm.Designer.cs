@@ -1,6 +1,6 @@
 ﻿namespace KenSoftware2Program.Forms
 {
-    partial class CustomerDataForm
+    partial class CustomerAddForm
     {
         /// <summary>
         /// Required designer variable.

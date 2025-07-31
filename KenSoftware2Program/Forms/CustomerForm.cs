@@ -57,8 +57,8 @@ namespace KenSoftware2Program.Forms
 
         private void AddCustomerButton_Click(object sender, EventArgs e)
         {
-            CustomerDataForm newCustomerForm = new CustomerDataForm();
-            newCustomerForm.ShowDialog();
+            CustomerAddForm customerAddForm = new CustomerAddForm();
+            customerAddForm.ShowDialog();
         }
 
         private void RefreshButton_Click(object sender, EventArgs e)
@@ -74,6 +74,12 @@ namespace KenSoftware2Program.Forms
                 if (Database.DBConnection.conn.State == ConnectionState.Open)
                     Database.DBConnection.conn.Close();
             }
+        }
+
+        private void UpdateCustomerButton_Click(object sender, EventArgs e)
+        {
+            CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm();
+            customerUpdateForm.ShowDialog();
         }
     }
 }

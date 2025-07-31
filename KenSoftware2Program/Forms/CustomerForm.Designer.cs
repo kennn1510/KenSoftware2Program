@@ -54,6 +54,7 @@
             this.CustomerDataGridView.Name = "CustomerDataGridView";
             this.CustomerDataGridView.RowHeadersWidth = 51;
             this.CustomerDataGridView.RowTemplate.Height = 24;
+            this.CustomerDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CustomerDataGridView.Size = new System.Drawing.Size(776, 367);
             this.CustomerDataGridView.TabIndex = 2;
             // 
@@ -75,6 +76,7 @@
             this.UpdateCustomerButton.TabIndex = 4;
             this.UpdateCustomerButton.Text = "Update Customer";
             this.UpdateCustomerButton.UseVisualStyleBackColor = true;
+            this.UpdateCustomerButton.Click += new System.EventHandler(this.UpdateCustomerButton_Click);
             // 
             // DeleteCustomerButton
             // 
