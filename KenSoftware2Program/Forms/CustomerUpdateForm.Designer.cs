@@ -42,7 +42,7 @@
             this.NameLabel = new System.Windows.Forms.Label();
             this.PhoneNumberTextBox = new System.Windows.Forms.TextBox();
             this.NameTextBox = new System.Windows.Forms.TextBox();
-            this.SubmitButton = new System.Windows.Forms.Button();
+            this.UpdateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CountryTextBox
@@ -157,14 +157,15 @@
             this.NameTextBox.Size = new System.Drawing.Size(212, 22);
             this.NameTextBox.TabIndex = 18;
             // 
-            // SubmitButton
+            // UpdateButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(292, 361);
-            this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(270, 43);
-            this.SubmitButton.TabIndex = 17;
-            this.SubmitButton.Text = "Submit";
-            this.SubmitButton.UseVisualStyleBackColor = true;
+            this.UpdateButton.Location = new System.Drawing.Point(292, 361);
+            this.UpdateButton.Name = "UpdateButton";
+            this.UpdateButton.Size = new System.Drawing.Size(270, 43);
+            this.UpdateButton.TabIndex = 17;
+            this.UpdateButton.Text = "Update";
+            this.UpdateButton.UseVisualStyleBackColor = true;
+            this.UpdateButton.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // CustomerUpdateForm
             // 
@@ -185,7 +186,7 @@
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.PhoneNumberTextBox);
             this.Controls.Add(this.NameTextBox);
-            this.Controls.Add(this.SubmitButton);
+            this.Controls.Add(this.UpdateButton);
             this.Name = "CustomerUpdateForm";
             this.Text = "Customer Update Form";
             this.ResumeLayout(false);
@@ -209,6 +210,6 @@
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.TextBox PhoneNumberTextBox;
         private System.Windows.Forms.TextBox NameTextBox;
-        private System.Windows.Forms.Button SubmitButton;
+        private System.Windows.Forms.Button UpdateButton;
     }
 }
