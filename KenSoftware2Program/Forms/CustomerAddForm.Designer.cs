@@ -167,7 +167,7 @@
             this.CountryTextBox.Size = new System.Drawing.Size(212, 22);
             this.CountryTextBox.TabIndex = 16;
             // 
-            // CustomerDataForm
+            // CustomerAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -187,8 +187,8 @@
             this.Controls.Add(this.PhoneNumberTextBox);
             this.Controls.Add(this.NameTextBox);
             this.Controls.Add(this.SubmitButton);
-            this.Name = "CustomerDataForm";
-            this.Text = "Customer Data Form";
+            this.Name = "CustomerAddForm";
+            this.Text = "Customer Add Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

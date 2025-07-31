@@ -98,20 +98,45 @@ namespace KenSoftware2Program.Forms
                         cityId = command.ExecuteScalar();
                     }
 
-                    // 3. Insert address
-                    command.CommandText = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES (@Address1, @Address2, @CityId, @PostalCode, @Phone, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
+                    // 3. Check if address already exists
+                    command.CommandText = "SELECT addressId FROM address WHERE address = @Address1 AND cityId = @CityId AND postalCode = @PostalCode AND phone = @Phone AND (address2 = @Address2 OR (address2 IS NULL AND @Address2 = ''))";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@Address2", Address2TextBox.Text?.Trim() ?? ""); // Handle null Address2
+                    command.Parameters.AddWithValue("@Address2", Address2TextBox.Text?.Trim() ?? "");
                     command.Parameters.AddWithValue("@CityId", cityId);
                     command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
                     command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-                    command.Parameters.AddWithValue("@CreatedBy", currentUser);
-                    command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
                     object addressId = command.ExecuteScalar();
 
-                    // 4. Insert customer
+                    if (addressId == null)
+                    {
+                        // Insert address if it doesn't exist
+                        command.CommandText = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES (@Address1, @Address2, @CityId, @PostalCode, @Phone, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
+                        command.Parameters.AddWithValue("@Address2", Address2TextBox.Text?.Trim() ?? "");
+                        command.Parameters.AddWithValue("@CityId", cityId);
+                        command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
+                        command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
+                        command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+                        command.Parameters.AddWithValue("@CreatedBy", currentUser);
+                        command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
+                        addressId = command.ExecuteScalar();
+                    }
+
+                    // 4. Check if customer already exists
+                    command.CommandText = "SELECT customerId FROM customer WHERE customerName = @Name AND addressId = @AddressId";
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@Name", NameTextBox.Text.Trim());
+                    command.Parameters.AddWithValue("@AddressId", addressId);
+                    object customerId = command.ExecuteScalar();
+
+                    if (customerId != null)
+                    {
+                        throw new ArgumentException("A customer with this name and address already exists.");
+                    }
+
+                    // 5. Insert customer
                     command.CommandText = "INSERT INTO customer (customerName, addressId, active, createDate, createdBy, lastUpdateBy) VALUES (@Name, @AddressId, @Active, @CreateDate, @CreatedBy, @LastUpdateBy)";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@Name", NameTextBox.Text.Trim());
@@ -124,9 +149,6 @@ namespace KenSoftware2Program.Forms
 
                     MessageBox.Show("Customer added successfully!");
                 }
-
-                // Close connection
-                Database.DBConnection.conn.Close();
             }
             catch (ArgumentException ex)
             {
