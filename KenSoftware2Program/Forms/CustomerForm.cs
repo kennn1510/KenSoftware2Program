@@ -25,14 +25,6 @@ namespace KenSoftware2Program.Forms
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    string phone = row["phone"]?.ToString();
-                    if (!string.IsNullOrEmpty(phone) && !IsValidPhoneNumber(phone))
-                    {
-                        row["phone"] = "Invalid: " + phone;
-                    }
-                }
                 CustomerDataGridView.DataSource = dataTable;
                 CustomerDataGridView.Columns["customerName"].HeaderText = "Customer Name";
                 CustomerDataGridView.Columns["address"].HeaderText = "Address";
