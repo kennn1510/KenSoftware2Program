@@ -24,7 +24,7 @@ namespace KenSoftware2Program.Forms
                 {
                     command.Connection = Database.DBConnection.conn;
                     //string currentUser = Environment.UserName; // Replace with actual user ID or username if available
-                    string currentUser = "testing123user";
+                    string currentUser = "test";
 
                     // 1. Check if country exists, insert if not
                     command.CommandText = "SELECT countryId FROM country WHERE country = @CountryName";
