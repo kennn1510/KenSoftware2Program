@@ -220,5 +220,18 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void ReportsButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ReportsForm reportsForm = new ReportsForm();
+                reportsForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
     }
 }

@@ -110,6 +110,7 @@
             this.ReportsButton.TabIndex = 7;
             this.ReportsButton.Text = "Reports";
             this.ReportsButton.UseVisualStyleBackColor = true;
+            this.ReportsButton.Click += new System.EventHandler(this.ReportsButton_Click);
             // 
             // CustomerForm
             // 
