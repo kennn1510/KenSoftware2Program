@@ -42,9 +42,9 @@
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.LocationTextBox = new System.Windows.Forms.TextBox();
             this.ContactTextBox = new System.Windows.Forms.TextBox();
-            this.TypeTextBox = new System.Windows.Forms.TextBox();
             this.UrlTextBox = new System.Windows.Forms.TextBox();
             this.SubmitButton = new System.Windows.Forms.Button();
+            this.TypeComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -167,13 +167,6 @@
             this.ContactTextBox.Size = new System.Drawing.Size(176, 22);
             this.ContactTextBox.TabIndex = 15;
             // 
-            // TypeTextBox
-            // 
-            this.TypeTextBox.Location = new System.Drawing.Point(96, 200);
-            this.TypeTextBox.Name = "TypeTextBox";
-            this.TypeTextBox.Size = new System.Drawing.Size(176, 22);
-            this.TypeTextBox.TabIndex = 16;
-            // 
             // UrlTextBox
             // 
             this.UrlTextBox.Location = new System.Drawing.Point(96, 247);
@@ -190,14 +183,28 @@
             this.SubmitButton.Text = "Submit";
             this.SubmitButton.UseVisualStyleBackColor = true;
             // 
+            // TypeComboBox
+            // 
+            this.TypeComboBox.FormattingEnabled = true;
+            this.TypeComboBox.Items.AddRange(new object[] {
+            "Presentation",
+            "Scrum",
+            "Remote",
+            "Interview",
+            "Assessment"});
+            this.TypeComboBox.Location = new System.Drawing.Point(96, 200);
+            this.TypeComboBox.Name = "TypeComboBox";
+            this.TypeComboBox.Size = new System.Drawing.Size(176, 24);
+            this.TypeComboBox.TabIndex = 19;
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TypeComboBox);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.UrlTextBox);
-            this.Controls.Add(this.TypeTextBox);
             this.Controls.Add(this.ContactTextBox);
             this.Controls.Add(this.LocationTextBox);
             this.Controls.Add(this.DescriptionTextBox);
@@ -235,8 +242,8 @@
         private System.Windows.Forms.TextBox DescriptionTextBox;
         private System.Windows.Forms.TextBox LocationTextBox;
         private System.Windows.Forms.TextBox ContactTextBox;
-        private System.Windows.Forms.TextBox TypeTextBox;
         private System.Windows.Forms.TextBox UrlTextBox;
         private System.Windows.Forms.Button SubmitButton;
+        private System.Windows.Forms.ComboBox TypeComboBox;
     }
 }
