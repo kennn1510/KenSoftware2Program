@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace KenSoftware2Program.Forms
 {
     public partial class AppointmentForm : Form
     {
-        public AppointmentForm()
+        private int customerId;
+
+        public AppointmentForm(int customerId)
         {
             InitializeComponent();
+            this.customerId = customerId;
+
         }
     }
 }

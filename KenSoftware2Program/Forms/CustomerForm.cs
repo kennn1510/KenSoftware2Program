@@ -198,8 +198,27 @@ namespace KenSoftware2Program.Forms
 
         private void ManageAppointmentsButton_Click(object sender, EventArgs e)
         {
-            AppointmentForm appointmentForm = new AppointmentForm();
-            appointmentForm.ShowDialog();
+            try
+            {
+                // Check if a row is selected
+                if (CustomerDataGridView.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Please select a customer to update.");
+                    return;
+                }
+
+                // Get the customerId from the selected row
+                int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
+
+                AppointmentForm appointmentForm = new AppointmentForm(customerId);
+                appointmentForm.ShowDialog();
+                // Refresh the grid after updating
+                SetUpForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }
