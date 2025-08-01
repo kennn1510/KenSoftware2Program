@@ -38,6 +38,12 @@
             this.EndLabel = new System.Windows.Forms.Label();
             this.StartDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.EndDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.TitleTextBox = new System.Windows.Forms.TextBox();
+            this.DescriptionTextBox = new System.Windows.Forms.TextBox();
+            this.LocationTextBox = new System.Windows.Forms.TextBox();
+            this.ContactTextBox = new System.Windows.Forms.TextBox();
+            this.TypeTextBox = new System.Windows.Forms.TextBox();
+            this.UrlTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -116,27 +122,75 @@
             // 
             this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.StartDateTimePicker.Location = new System.Drawing.Point(213, 307);
+            this.StartDateTimePicker.Location = new System.Drawing.Point(237, 307);
             this.StartDateTimePicker.Name = "StartDateTimePicker";
             this.StartDateTimePicker.ShowUpDown = true;
-            this.StartDateTimePicker.Size = new System.Drawing.Size(200, 22);
+            this.StartDateTimePicker.Size = new System.Drawing.Size(176, 22);
             this.StartDateTimePicker.TabIndex = 10;
             // 
             // EndDateTimePicker
             // 
             this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.EndDateTimePicker.Location = new System.Drawing.Point(213, 346);
+            this.EndDateTimePicker.Location = new System.Drawing.Point(238, 346);
             this.EndDateTimePicker.Name = "EndDateTimePicker";
             this.EndDateTimePicker.ShowUpDown = true;
-            this.EndDateTimePicker.Size = new System.Drawing.Size(200, 22);
+            this.EndDateTimePicker.Size = new System.Drawing.Size(175, 22);
             this.EndDateTimePicker.TabIndex = 11;
+            // 
+            // TitleTextBox
+            // 
+            this.TitleTextBox.Location = new System.Drawing.Point(237, 36);
+            this.TitleTextBox.Name = "TitleTextBox";
+            this.TitleTextBox.Size = new System.Drawing.Size(176, 22);
+            this.TitleTextBox.TabIndex = 12;
+            // 
+            // DescriptionTextBox
+            // 
+            this.DescriptionTextBox.Location = new System.Drawing.Point(238, 90);
+            this.DescriptionTextBox.Name = "DescriptionTextBox";
+            this.DescriptionTextBox.Size = new System.Drawing.Size(175, 22);
+            this.DescriptionTextBox.TabIndex = 13;
+            // 
+            // LocationTextBox
+            // 
+            this.LocationTextBox.Location = new System.Drawing.Point(237, 140);
+            this.LocationTextBox.Name = "LocationTextBox";
+            this.LocationTextBox.Size = new System.Drawing.Size(176, 22);
+            this.LocationTextBox.TabIndex = 14;
+            // 
+            // ContactTextBox
+            // 
+            this.ContactTextBox.Location = new System.Drawing.Point(237, 181);
+            this.ContactTextBox.Name = "ContactTextBox";
+            this.ContactTextBox.Size = new System.Drawing.Size(176, 22);
+            this.ContactTextBox.TabIndex = 15;
+            // 
+            // TypeTextBox
+            // 
+            this.TypeTextBox.Location = new System.Drawing.Point(237, 222);
+            this.TypeTextBox.Name = "TypeTextBox";
+            this.TypeTextBox.Size = new System.Drawing.Size(176, 22);
+            this.TypeTextBox.TabIndex = 16;
+            // 
+            // UrlTextBox
+            // 
+            this.UrlTextBox.Location = new System.Drawing.Point(237, 269);
+            this.UrlTextBox.Name = "UrlTextBox";
+            this.UrlTextBox.Size = new System.Drawing.Size(176, 22);
+            this.UrlTextBox.TabIndex = 17;
             // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.UrlTextBox);
+            this.Controls.Add(this.TypeTextBox);
+            this.Controls.Add(this.ContactTextBox);
+            this.Controls.Add(this.LocationTextBox);
+            this.Controls.Add(this.DescriptionTextBox);
+            this.Controls.Add(this.TitleTextBox);
             this.Controls.Add(this.EndDateTimePicker);
             this.Controls.Add(this.StartDateTimePicker);
             this.Controls.Add(this.EndLabel);
@@ -166,5 +220,11 @@
         private System.Windows.Forms.Label EndLabel;
         private System.Windows.Forms.DateTimePicker StartDateTimePicker;
         private System.Windows.Forms.DateTimePicker EndDateTimePicker;
+        private System.Windows.Forms.TextBox TitleTextBox;
+        private System.Windows.Forms.TextBox DescriptionTextBox;
+        private System.Windows.Forms.TextBox LocationTextBox;
+        private System.Windows.Forms.TextBox ContactTextBox;
+        private System.Windows.Forms.TextBox TypeTextBox;
+        private System.Windows.Forms.TextBox UrlTextBox;
     }
 }
