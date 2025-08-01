@@ -45,6 +45,9 @@
             this.UrlTextBox = new System.Windows.Forms.TextBox();
             this.SubmitButton = new System.Windows.Forms.Button();
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.CalendarViewButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -197,11 +200,32 @@
             this.TypeComboBox.Size = new System.Drawing.Size(176, 24);
             this.TypeComboBox.TabIndex = 19;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(290, 68);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(498, 344);
+            this.dataGridView1.TabIndex = 20;
+            // 
+            // CalendarViewButton
+            // 
+            this.CalendarViewButton.Location = new System.Drawing.Point(290, 14);
+            this.CalendarViewButton.Name = "CalendarViewButton";
+            this.CalendarViewButton.Size = new System.Drawing.Size(498, 36);
+            this.CalendarViewButton.TabIndex = 21;
+            this.CalendarViewButton.Text = "Calendar View";
+            this.CalendarViewButton.UseVisualStyleBackColor = true;
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 429);
+            this.Controls.Add(this.CalendarViewButton);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.TypeComboBox);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.UrlTextBox);
@@ -221,6 +245,7 @@
             this.Controls.Add(this.TitleLabel);
             this.Name = "AppointmentForm";
             this.Text = "Appointment Form";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,5 +270,7 @@
         private System.Windows.Forms.TextBox UrlTextBox;
         private System.Windows.Forms.Button SubmitButton;
         private System.Windows.Forms.ComboBox TypeComboBox;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button CalendarViewButton;
     }
 }

@@ -34,6 +34,7 @@
             this.UpdateCustomerButton = new System.Windows.Forms.Button();
             this.DeleteCustomerButton = new System.Windows.Forms.Button();
             this.ManageAppointmentsButton = new System.Windows.Forms.Button();
+            this.ReportsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,11 +102,21 @@
             this.ManageAppointmentsButton.UseVisualStyleBackColor = true;
             this.ManageAppointmentsButton.Click += new System.EventHandler(this.ManageAppointmentsButton_Click);
             // 
+            // ReportsButton
+            // 
+            this.ReportsButton.Location = new System.Drawing.Point(713, 12);
+            this.ReportsButton.Name = "ReportsButton";
+            this.ReportsButton.Size = new System.Drawing.Size(75, 23);
+            this.ReportsButton.TabIndex = 7;
+            this.ReportsButton.Text = "Reports";
+            this.ReportsButton.UseVisualStyleBackColor = true;
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ReportsButton);
             this.Controls.Add(this.ManageAppointmentsButton);
             this.Controls.Add(this.DeleteCustomerButton);
             this.Controls.Add(this.UpdateCustomerButton);
@@ -127,5 +138,6 @@
         private System.Windows.Forms.Button UpdateCustomerButton;
         private System.Windows.Forms.Button DeleteCustomerButton;
         private System.Windows.Forms.Button ManageAppointmentsButton;
+        private System.Windows.Forms.Button ReportsButton;
     }
 }
