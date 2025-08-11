@@ -47,13 +47,14 @@
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CalendarViewButton = new System.Windows.Forms.Button();
+            this.CustomerNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleLabel
             // 
             this.TitleLabel.AutoSize = true;
-            this.TitleLabel.Location = new System.Drawing.Point(12, 20);
+            this.TitleLabel.Location = new System.Drawing.Point(12, 68);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(36, 16);
             this.TitleLabel.TabIndex = 0;
@@ -62,7 +63,7 @@
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(12, 74);
+            this.DescriptionLabel.Location = new System.Drawing.Point(12, 105);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Size = new System.Drawing.Size(78, 16);
             this.DescriptionLabel.TabIndex = 1;
@@ -71,7 +72,7 @@
             // LocationLabel
             // 
             this.LocationLabel.AutoSize = true;
-            this.LocationLabel.Location = new System.Drawing.Point(15, 118);
+            this.LocationLabel.Location = new System.Drawing.Point(12, 140);
             this.LocationLabel.Name = "LocationLabel";
             this.LocationLabel.Size = new System.Drawing.Size(61, 16);
             this.LocationLabel.TabIndex = 2;
@@ -80,7 +81,7 @@
             // ContactLabel
             // 
             this.ContactLabel.AutoSize = true;
-            this.ContactLabel.Location = new System.Drawing.Point(15, 159);
+            this.ContactLabel.Location = new System.Drawing.Point(12, 181);
             this.ContactLabel.Name = "ContactLabel";
             this.ContactLabel.Size = new System.Drawing.Size(55, 16);
             this.ContactLabel.TabIndex = 3;
@@ -89,7 +90,7 @@
             // TypeLabel
             // 
             this.TypeLabel.AutoSize = true;
-            this.TypeLabel.Location = new System.Drawing.Point(15, 200);
+            this.TypeLabel.Location = new System.Drawing.Point(15, 221);
             this.TypeLabel.Name = "TypeLabel";
             this.TypeLabel.Size = new System.Drawing.Size(42, 16);
             this.TypeLabel.TabIndex = 4;
@@ -98,7 +99,7 @@
             // UrlLabel
             // 
             this.UrlLabel.AutoSize = true;
-            this.UrlLabel.Location = new System.Drawing.Point(15, 247);
+            this.UrlLabel.Location = new System.Drawing.Point(12, 260);
             this.UrlLabel.Name = "UrlLabel";
             this.UrlLabel.Size = new System.Drawing.Size(37, 16);
             this.UrlLabel.TabIndex = 5;
@@ -107,7 +108,7 @@
             // StartLabel
             // 
             this.StartLabel.AutoSize = true;
-            this.StartLabel.Location = new System.Drawing.Point(15, 285);
+            this.StartLabel.Location = new System.Drawing.Point(15, 297);
             this.StartLabel.Name = "StartLabel";
             this.StartLabel.Size = new System.Drawing.Size(37, 16);
             this.StartLabel.TabIndex = 7;
@@ -116,7 +117,7 @@
             // EndLabel
             // 
             this.EndLabel.AutoSize = true;
-            this.EndLabel.Location = new System.Drawing.Point(15, 324);
+            this.EndLabel.Location = new System.Drawing.Point(15, 336);
             this.EndLabel.Name = "EndLabel";
             this.EndLabel.Size = new System.Drawing.Size(34, 16);
             this.EndLabel.TabIndex = 8;
@@ -126,7 +127,7 @@
             // 
             this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.StartDateTimePicker.Location = new System.Drawing.Point(96, 285);
+            this.StartDateTimePicker.Location = new System.Drawing.Point(96, 297);
             this.StartDateTimePicker.Name = "StartDateTimePicker";
             this.StartDateTimePicker.ShowUpDown = true;
             this.StartDateTimePicker.Size = new System.Drawing.Size(176, 22);
@@ -136,7 +137,7 @@
             // 
             this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.EndDateTimePicker.Location = new System.Drawing.Point(97, 324);
+            this.EndDateTimePicker.Location = new System.Drawing.Point(97, 336);
             this.EndDateTimePicker.Name = "EndDateTimePicker";
             this.EndDateTimePicker.ShowUpDown = true;
             this.EndDateTimePicker.Size = new System.Drawing.Size(175, 22);
@@ -144,35 +145,35 @@
             // 
             // TitleTextBox
             // 
-            this.TitleTextBox.Location = new System.Drawing.Point(96, 14);
+            this.TitleTextBox.Location = new System.Drawing.Point(96, 62);
             this.TitleTextBox.Name = "TitleTextBox";
             this.TitleTextBox.Size = new System.Drawing.Size(176, 22);
             this.TitleTextBox.TabIndex = 12;
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(97, 68);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(97, 99);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(175, 22);
             this.DescriptionTextBox.TabIndex = 13;
             // 
             // LocationTextBox
             // 
-            this.LocationTextBox.Location = new System.Drawing.Point(96, 118);
+            this.LocationTextBox.Location = new System.Drawing.Point(93, 140);
             this.LocationTextBox.Name = "LocationTextBox";
             this.LocationTextBox.Size = new System.Drawing.Size(176, 22);
             this.LocationTextBox.TabIndex = 14;
             // 
             // ContactTextBox
             // 
-            this.ContactTextBox.Location = new System.Drawing.Point(96, 159);
+            this.ContactTextBox.Location = new System.Drawing.Point(93, 181);
             this.ContactTextBox.Name = "ContactTextBox";
             this.ContactTextBox.Size = new System.Drawing.Size(176, 22);
             this.ContactTextBox.TabIndex = 15;
             // 
             // UrlTextBox
             // 
-            this.UrlTextBox.Location = new System.Drawing.Point(96, 247);
+            this.UrlTextBox.Location = new System.Drawing.Point(93, 260);
             this.UrlTextBox.Name = "UrlTextBox";
             this.UrlTextBox.Size = new System.Drawing.Size(176, 22);
             this.UrlTextBox.TabIndex = 17;
@@ -195,7 +196,7 @@
             "Remote",
             "Interview",
             "Assessment"});
-            this.TypeComboBox.Location = new System.Drawing.Point(96, 200);
+            this.TypeComboBox.Location = new System.Drawing.Point(96, 221);
             this.TypeComboBox.Name = "TypeComboBox";
             this.TypeComboBox.Size = new System.Drawing.Size(176, 24);
             this.TypeComboBox.TabIndex = 19;
@@ -219,11 +220,21 @@
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
             // 
+            // CustomerNameLabel
+            // 
+            this.CustomerNameLabel.AutoSize = true;
+            this.CustomerNameLabel.Location = new System.Drawing.Point(12, 24);
+            this.CustomerNameLabel.Name = "CustomerNameLabel";
+            this.CustomerNameLabel.Size = new System.Drawing.Size(107, 16);
+            this.CustomerNameLabel.TabIndex = 22;
+            this.CustomerNameLabel.Text = "Customer Name:";
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 429);
+            this.Controls.Add(this.CustomerNameLabel);
             this.Controls.Add(this.CalendarViewButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.TypeComboBox);
@@ -272,5 +283,6 @@
         private System.Windows.Forms.ComboBox TypeComboBox;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button CalendarViewButton;
+        private System.Windows.Forms.Label CustomerNameLabel;
     }
 }
