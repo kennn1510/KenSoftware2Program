@@ -47,7 +47,6 @@
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
             this.AppointmentDataGridView = new System.Windows.Forms.DataGridView();
             this.CalendarViewButton = new System.Windows.Forms.Button();
-            this.CustomerLabel = new System.Windows.Forms.Label();
             this.EditAppointmentButton = new System.Windows.Forms.Button();
             this.DeleteAppointmentButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
@@ -226,15 +225,6 @@
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
             // 
-            // CustomerLabel
-            // 
-            this.CustomerLabel.AutoSize = true;
-            this.CustomerLabel.Location = new System.Drawing.Point(12, 24);
-            this.CustomerLabel.Name = "CustomerLabel";
-            this.CustomerLabel.Size = new System.Drawing.Size(67, 16);
-            this.CustomerLabel.TabIndex = 22;
-            this.CustomerLabel.Text = "Customer:";
-            // 
             // EditAppointmentButton
             // 
             this.EditAppointmentButton.Location = new System.Drawing.Point(290, 418);
@@ -260,7 +250,6 @@
             this.ClientSize = new System.Drawing.Size(800, 465);
             this.Controls.Add(this.DeleteAppointmentButton);
             this.Controls.Add(this.EditAppointmentButton);
-            this.Controls.Add(this.CustomerLabel);
             this.Controls.Add(this.CalendarViewButton);
             this.Controls.Add(this.AppointmentDataGridView);
             this.Controls.Add(this.TypeComboBox);
@@ -309,7 +298,6 @@
         private System.Windows.Forms.ComboBox TypeComboBox;
         private System.Windows.Forms.DataGridView AppointmentDataGridView;
         private System.Windows.Forms.Button CalendarViewButton;
-        private System.Windows.Forms.Label CustomerLabel;
         private System.Windows.Forms.Button EditAppointmentButton;
         private System.Windows.Forms.Button DeleteAppointmentButton;
     }
