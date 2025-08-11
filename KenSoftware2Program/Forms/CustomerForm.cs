@@ -210,7 +210,7 @@ namespace KenSoftware2Program.Forms
                 // Get the customerId from the selected row
                 int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
 
-                AppointmentForm appointmentForm = new AppointmentForm(customerId);
+                AppointmentForm appointmentForm = new AppointmentForm();
                 appointmentForm.ShowDialog();
                 // Refresh the grid after updating
                 SetUpForm();
