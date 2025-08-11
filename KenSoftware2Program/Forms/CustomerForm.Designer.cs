@@ -56,6 +56,7 @@
             this.CustomerDataGridView.Location = new System.Drawing.Point(12, 41);
             this.CustomerDataGridView.MultiSelect = false;
             this.CustomerDataGridView.Name = "CustomerDataGridView";
+            this.CustomerDataGridView.ReadOnly = true;
             this.CustomerDataGridView.RowHeadersWidth = 51;
             this.CustomerDataGridView.RowTemplate.Height = 24;
             this.CustomerDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

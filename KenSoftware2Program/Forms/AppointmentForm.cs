@@ -20,6 +20,26 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
+                string query = @"
+                    SELECT
+                        c.customerName,
+                        ap.appointmentId,
+                        ap.title,
+                        ap.description,
+                        ap.location,
+                        ap.contact,
+                        ap.type,
+                        ap.start,
+                        ap.end
+                    FROM
+                        customer c
+                    RIGHT JOIN
+                        appointment ap ON c.customerId = ap.customerId";
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                AppointmentDataGridView.DataSource = dataTable;
+
                 if (Database.DBConnection.conn.State != ConnectionState.Open)
                     Database.DBConnection.conn.Open();
                 using (MySqlCommand command = new MySqlCommand())
@@ -52,6 +72,10 @@ namespace KenSoftware2Program.Forms
                 if (Database.DBConnection.conn.State == ConnectionState.Open)
                     Database.DBConnection.conn.Close();
             }
+        }
+
+        private void AddAppointmentButton_Click(object sender, EventArgs e)
+        {
         }
     }
 }

@@ -45,12 +45,12 @@
             this.UrlTextBox = new System.Windows.Forms.TextBox();
             this.AddAppointmentButton = new System.Windows.Forms.Button();
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.AppointmentDataGridView = new System.Windows.Forms.DataGridView();
             this.CalendarViewButton = new System.Windows.Forms.Button();
             this.CustomerLabel = new System.Windows.Forms.Label();
             this.EditAppointmentButton = new System.Windows.Forms.Button();
             this.DeleteAppointmentButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -188,6 +188,7 @@
             this.AddAppointmentButton.TabIndex = 18;
             this.AddAppointmentButton.Text = "Add Appointment";
             this.AddAppointmentButton.UseVisualStyleBackColor = true;
+            this.AddAppointmentButton.Click += new System.EventHandler(this.AddAppointmentButton_Click);
             // 
             // TypeComboBox
             // 
@@ -203,15 +204,18 @@
             this.TypeComboBox.Size = new System.Drawing.Size(176, 24);
             this.TypeComboBox.TabIndex = 19;
             // 
-            // dataGridView1
+            // AppointmentDataGridView
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(290, 68);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(498, 344);
-            this.dataGridView1.TabIndex = 20;
+            this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AppointmentDataGridView.Location = new System.Drawing.Point(290, 68);
+            this.AppointmentDataGridView.MultiSelect = false;
+            this.AppointmentDataGridView.Name = "AppointmentDataGridView";
+            this.AppointmentDataGridView.ReadOnly = true;
+            this.AppointmentDataGridView.RowHeadersWidth = 51;
+            this.AppointmentDataGridView.RowTemplate.Height = 24;
+            this.AppointmentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.AppointmentDataGridView.Size = new System.Drawing.Size(498, 344);
+            this.AppointmentDataGridView.TabIndex = 20;
             // 
             // CalendarViewButton
             // 
@@ -258,7 +262,7 @@
             this.Controls.Add(this.EditAppointmentButton);
             this.Controls.Add(this.CustomerLabel);
             this.Controls.Add(this.CalendarViewButton);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.AppointmentDataGridView);
             this.Controls.Add(this.TypeComboBox);
             this.Controls.Add(this.AddAppointmentButton);
             this.Controls.Add(this.UrlTextBox);
@@ -278,7 +282,7 @@
             this.Controls.Add(this.TitleLabel);
             this.Name = "AppointmentForm";
             this.Text = "Appointment Form";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,7 +307,7 @@
         private System.Windows.Forms.TextBox UrlTextBox;
         private System.Windows.Forms.Button AddAppointmentButton;
         private System.Windows.Forms.ComboBox TypeComboBox;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView AppointmentDataGridView;
         private System.Windows.Forms.Button CalendarViewButton;
         private System.Windows.Forms.Label CustomerLabel;
         private System.Windows.Forms.Button EditAppointmentButton;
