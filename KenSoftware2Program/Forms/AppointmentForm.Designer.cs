@@ -43,11 +43,13 @@
             this.LocationTextBox = new System.Windows.Forms.TextBox();
             this.ContactTextBox = new System.Windows.Forms.TextBox();
             this.UrlTextBox = new System.Windows.Forms.TextBox();
-            this.SubmitButton = new System.Windows.Forms.Button();
+            this.AddAppointmentButton = new System.Windows.Forms.Button();
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.CalendarViewButton = new System.Windows.Forms.Button();
-            this.CustomerNameLabel = new System.Windows.Forms.Label();
+            this.CustomerLabel = new System.Windows.Forms.Label();
+            this.EditAppointmentButton = new System.Windows.Forms.Button();
+            this.DeleteAppointmentButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -178,14 +180,14 @@
             this.UrlTextBox.Size = new System.Drawing.Size(176, 22);
             this.UrlTextBox.TabIndex = 17;
             // 
-            // SubmitButton
+            // AddAppointmentButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(18, 376);
-            this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(254, 36);
-            this.SubmitButton.TabIndex = 18;
-            this.SubmitButton.Text = "Submit";
-            this.SubmitButton.UseVisualStyleBackColor = true;
+            this.AddAppointmentButton.Location = new System.Drawing.Point(18, 376);
+            this.AddAppointmentButton.Name = "AddAppointmentButton";
+            this.AddAppointmentButton.Size = new System.Drawing.Size(254, 36);
+            this.AddAppointmentButton.TabIndex = 18;
+            this.AddAppointmentButton.Text = "Add Appointment";
+            this.AddAppointmentButton.UseVisualStyleBackColor = true;
             // 
             // TypeComboBox
             // 
@@ -220,25 +222,45 @@
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
             // 
-            // CustomerNameLabel
+            // CustomerLabel
             // 
-            this.CustomerNameLabel.AutoSize = true;
-            this.CustomerNameLabel.Location = new System.Drawing.Point(12, 24);
-            this.CustomerNameLabel.Name = "CustomerNameLabel";
-            this.CustomerNameLabel.Size = new System.Drawing.Size(107, 16);
-            this.CustomerNameLabel.TabIndex = 22;
-            this.CustomerNameLabel.Text = "Customer Name:";
+            this.CustomerLabel.AutoSize = true;
+            this.CustomerLabel.Location = new System.Drawing.Point(12, 24);
+            this.CustomerLabel.Name = "CustomerLabel";
+            this.CustomerLabel.Size = new System.Drawing.Size(67, 16);
+            this.CustomerLabel.TabIndex = 22;
+            this.CustomerLabel.Text = "Customer:";
+            // 
+            // EditAppointmentButton
+            // 
+            this.EditAppointmentButton.Location = new System.Drawing.Point(290, 418);
+            this.EditAppointmentButton.Name = "EditAppointmentButton";
+            this.EditAppointmentButton.Size = new System.Drawing.Size(262, 35);
+            this.EditAppointmentButton.TabIndex = 23;
+            this.EditAppointmentButton.Text = "Edit Appointment";
+            this.EditAppointmentButton.UseVisualStyleBackColor = true;
+            // 
+            // DeleteAppointmentButton
+            // 
+            this.DeleteAppointmentButton.Location = new System.Drawing.Point(558, 418);
+            this.DeleteAppointmentButton.Name = "DeleteAppointmentButton";
+            this.DeleteAppointmentButton.Size = new System.Drawing.Size(230, 35);
+            this.DeleteAppointmentButton.TabIndex = 24;
+            this.DeleteAppointmentButton.Text = "Delete Appointment";
+            this.DeleteAppointmentButton.UseVisualStyleBackColor = true;
             // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 429);
-            this.Controls.Add(this.CustomerNameLabel);
+            this.ClientSize = new System.Drawing.Size(800, 465);
+            this.Controls.Add(this.DeleteAppointmentButton);
+            this.Controls.Add(this.EditAppointmentButton);
+            this.Controls.Add(this.CustomerLabel);
             this.Controls.Add(this.CalendarViewButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.TypeComboBox);
-            this.Controls.Add(this.SubmitButton);
+            this.Controls.Add(this.AddAppointmentButton);
             this.Controls.Add(this.UrlTextBox);
             this.Controls.Add(this.ContactTextBox);
             this.Controls.Add(this.LocationTextBox);
@@ -279,10 +301,12 @@
         private System.Windows.Forms.TextBox LocationTextBox;
         private System.Windows.Forms.TextBox ContactTextBox;
         private System.Windows.Forms.TextBox UrlTextBox;
-        private System.Windows.Forms.Button SubmitButton;
+        private System.Windows.Forms.Button AddAppointmentButton;
         private System.Windows.Forms.ComboBox TypeComboBox;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button CalendarViewButton;
-        private System.Windows.Forms.Label CustomerNameLabel;
+        private System.Windows.Forms.Label CustomerLabel;
+        private System.Windows.Forms.Button EditAppointmentButton;
+        private System.Windows.Forms.Button DeleteAppointmentButton;
     }
 }

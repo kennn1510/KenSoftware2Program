@@ -34,16 +34,14 @@ namespace KenSoftware2Program.Forms
                     {
                         if (reader.Read())
                         {
-                            CustomerNameLabel.Text = "Customer Name: " + reader["customerName"].ToString();
+                            CustomerLabel.Text = "Customer: " + reader["customerName"].ToString();
                         }
                         else
                         {
                             throw new Exception("Customer not found.");
                         }
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
