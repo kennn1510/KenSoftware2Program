@@ -112,7 +112,7 @@ namespace KenSoftware2Program.Forms
             }
             else if (StartDateTimePicker.Value.Hour >= 17)
             {
-                StartErrorLabel.Text = "Start tiem cannot be after 5:00 PM EST";
+                StartErrorLabel.Text = "Start time cannot be after 5:00 PM EST";
                 StartErrorLabel.Visible = true;
                 AddAppointmentButton.Enabled = false;
             }
