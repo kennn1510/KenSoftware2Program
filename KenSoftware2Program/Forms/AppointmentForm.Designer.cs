@@ -36,8 +36,6 @@
             this.UrlLabel = new System.Windows.Forms.Label();
             this.StartLabel = new System.Windows.Forms.Label();
             this.EndLabel = new System.Windows.Forms.Label();
-            this.StartDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.EndDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.TitleTextBox = new System.Windows.Forms.TextBox();
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.LocationTextBox = new System.Windows.Forms.TextBox();
@@ -49,6 +47,8 @@
             this.CalendarViewButton = new System.Windows.Forms.Button();
             this.EditAppointmentButton = new System.Windows.Forms.Button();
             this.DeleteAppointmentButton = new System.Windows.Forms.Button();
+            this.EndDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.StartDateTimePicker = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -124,59 +124,39 @@
             this.EndLabel.TabIndex = 8;
             this.EndLabel.Text = "End:";
             // 
-            // StartDateTimePicker
-            // 
-            this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
-            this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.StartDateTimePicker.Location = new System.Drawing.Point(96, 297);
-            this.StartDateTimePicker.Name = "StartDateTimePicker";
-            this.StartDateTimePicker.ShowUpDown = true;
-            this.StartDateTimePicker.Size = new System.Drawing.Size(176, 22);
-            this.StartDateTimePicker.TabIndex = 10;
-            // 
-            // EndDateTimePicker
-            // 
-            this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
-            this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.EndDateTimePicker.Location = new System.Drawing.Point(97, 336);
-            this.EndDateTimePicker.Name = "EndDateTimePicker";
-            this.EndDateTimePicker.ShowUpDown = true;
-            this.EndDateTimePicker.Size = new System.Drawing.Size(175, 22);
-            this.EndDateTimePicker.TabIndex = 11;
-            // 
             // TitleTextBox
             // 
-            this.TitleTextBox.Location = new System.Drawing.Point(96, 62);
+            this.TitleTextBox.Location = new System.Drawing.Point(93, 62);
             this.TitleTextBox.Name = "TitleTextBox";
-            this.TitleTextBox.Size = new System.Drawing.Size(176, 22);
+            this.TitleTextBox.Size = new System.Drawing.Size(191, 22);
             this.TitleTextBox.TabIndex = 12;
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(97, 99);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(93, 99);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
-            this.DescriptionTextBox.Size = new System.Drawing.Size(175, 22);
+            this.DescriptionTextBox.Size = new System.Drawing.Size(191, 22);
             this.DescriptionTextBox.TabIndex = 13;
             // 
             // LocationTextBox
             // 
             this.LocationTextBox.Location = new System.Drawing.Point(93, 140);
             this.LocationTextBox.Name = "LocationTextBox";
-            this.LocationTextBox.Size = new System.Drawing.Size(176, 22);
+            this.LocationTextBox.Size = new System.Drawing.Size(191, 22);
             this.LocationTextBox.TabIndex = 14;
             // 
             // ContactTextBox
             // 
             this.ContactTextBox.Location = new System.Drawing.Point(93, 181);
             this.ContactTextBox.Name = "ContactTextBox";
-            this.ContactTextBox.Size = new System.Drawing.Size(176, 22);
+            this.ContactTextBox.Size = new System.Drawing.Size(191, 22);
             this.ContactTextBox.TabIndex = 15;
             // 
             // UrlTextBox
             // 
             this.UrlTextBox.Location = new System.Drawing.Point(93, 260);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(176, 22);
+            this.UrlTextBox.Size = new System.Drawing.Size(191, 22);
             this.UrlTextBox.TabIndex = 17;
             // 
             // AddAppointmentButton
@@ -198,9 +178,9 @@
             "Remote",
             "Interview",
             "Assessment"});
-            this.TypeComboBox.Location = new System.Drawing.Point(96, 221);
+            this.TypeComboBox.Location = new System.Drawing.Point(93, 221);
             this.TypeComboBox.Name = "TypeComboBox";
-            this.TypeComboBox.Size = new System.Drawing.Size(176, 24);
+            this.TypeComboBox.Size = new System.Drawing.Size(191, 24);
             this.TypeComboBox.TabIndex = 19;
             // 
             // AppointmentDataGridView
@@ -242,6 +222,26 @@
             this.DeleteAppointmentButton.TabIndex = 24;
             this.DeleteAppointmentButton.Text = "Delete Appointment";
             this.DeleteAppointmentButton.UseVisualStyleBackColor = true;
+            // 
+            // EndDateTimePicker
+            // 
+            this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt EST";
+            this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EndDateTimePicker.Location = new System.Drawing.Point(93, 336);
+            this.EndDateTimePicker.Name = "EndDateTimePicker";
+            this.EndDateTimePicker.ShowUpDown = true;
+            this.EndDateTimePicker.Size = new System.Drawing.Size(191, 22);
+            this.EndDateTimePicker.TabIndex = 11;
+            // 
+            // StartDateTimePicker
+            // 
+            this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt EST";
+            this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.StartDateTimePicker.Location = new System.Drawing.Point(93, 297);
+            this.StartDateTimePicker.Name = "StartDateTimePicker";
+            this.StartDateTimePicker.ShowUpDown = true;
+            this.StartDateTimePicker.Size = new System.Drawing.Size(191, 22);
+            this.StartDateTimePicker.TabIndex = 10;
             // 
             // AppointmentForm
             // 
@@ -287,8 +287,6 @@
         private System.Windows.Forms.Label UrlLabel;
         private System.Windows.Forms.Label StartLabel;
         private System.Windows.Forms.Label EndLabel;
-        private System.Windows.Forms.DateTimePicker StartDateTimePicker;
-        private System.Windows.Forms.DateTimePicker EndDateTimePicker;
         private System.Windows.Forms.TextBox TitleTextBox;
         private System.Windows.Forms.TextBox DescriptionTextBox;
         private System.Windows.Forms.TextBox LocationTextBox;
@@ -300,5 +298,7 @@
         private System.Windows.Forms.Button CalendarViewButton;
         private System.Windows.Forms.Button EditAppointmentButton;
         private System.Windows.Forms.Button DeleteAppointmentButton;
+        private System.Windows.Forms.DateTimePicker EndDateTimePicker;
+        private System.Windows.Forms.DateTimePicker StartDateTimePicker;
     }
 }
