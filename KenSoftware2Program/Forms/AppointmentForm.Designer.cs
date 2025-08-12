@@ -49,13 +49,15 @@
             this.DeleteAppointmentButton = new System.Windows.Forms.Button();
             this.EndDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.StartDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.StartErrorLabel = new System.Windows.Forms.Label();
+            this.EndErrorLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleLabel
             // 
             this.TitleLabel.AutoSize = true;
-            this.TitleLabel.Location = new System.Drawing.Point(12, 68);
+            this.TitleLabel.Location = new System.Drawing.Point(12, 27);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(36, 16);
             this.TitleLabel.TabIndex = 0;
@@ -64,7 +66,7 @@
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(12, 105);
+            this.DescriptionLabel.Location = new System.Drawing.Point(12, 64);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Size = new System.Drawing.Size(78, 16);
             this.DescriptionLabel.TabIndex = 1;
@@ -73,7 +75,7 @@
             // LocationLabel
             // 
             this.LocationLabel.AutoSize = true;
-            this.LocationLabel.Location = new System.Drawing.Point(12, 140);
+            this.LocationLabel.Location = new System.Drawing.Point(12, 99);
             this.LocationLabel.Name = "LocationLabel";
             this.LocationLabel.Size = new System.Drawing.Size(61, 16);
             this.LocationLabel.TabIndex = 2;
@@ -82,7 +84,7 @@
             // ContactLabel
             // 
             this.ContactLabel.AutoSize = true;
-            this.ContactLabel.Location = new System.Drawing.Point(12, 181);
+            this.ContactLabel.Location = new System.Drawing.Point(12, 140);
             this.ContactLabel.Name = "ContactLabel";
             this.ContactLabel.Size = new System.Drawing.Size(55, 16);
             this.ContactLabel.TabIndex = 3;
@@ -91,7 +93,7 @@
             // TypeLabel
             // 
             this.TypeLabel.AutoSize = true;
-            this.TypeLabel.Location = new System.Drawing.Point(15, 221);
+            this.TypeLabel.Location = new System.Drawing.Point(15, 180);
             this.TypeLabel.Name = "TypeLabel";
             this.TypeLabel.Size = new System.Drawing.Size(42, 16);
             this.TypeLabel.TabIndex = 4;
@@ -100,7 +102,7 @@
             // UrlLabel
             // 
             this.UrlLabel.AutoSize = true;
-            this.UrlLabel.Location = new System.Drawing.Point(12, 260);
+            this.UrlLabel.Location = new System.Drawing.Point(12, 219);
             this.UrlLabel.Name = "UrlLabel";
             this.UrlLabel.Size = new System.Drawing.Size(37, 16);
             this.UrlLabel.TabIndex = 5;
@@ -109,7 +111,7 @@
             // StartLabel
             // 
             this.StartLabel.AutoSize = true;
-            this.StartLabel.Location = new System.Drawing.Point(15, 297);
+            this.StartLabel.Location = new System.Drawing.Point(15, 277);
             this.StartLabel.Name = "StartLabel";
             this.StartLabel.Size = new System.Drawing.Size(37, 16);
             this.StartLabel.TabIndex = 7;
@@ -126,35 +128,35 @@
             // 
             // TitleTextBox
             // 
-            this.TitleTextBox.Location = new System.Drawing.Point(93, 62);
+            this.TitleTextBox.Location = new System.Drawing.Point(93, 21);
             this.TitleTextBox.Name = "TitleTextBox";
             this.TitleTextBox.Size = new System.Drawing.Size(191, 22);
             this.TitleTextBox.TabIndex = 12;
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(93, 99);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(93, 58);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(191, 22);
             this.DescriptionTextBox.TabIndex = 13;
             // 
             // LocationTextBox
             // 
-            this.LocationTextBox.Location = new System.Drawing.Point(93, 140);
+            this.LocationTextBox.Location = new System.Drawing.Point(93, 99);
             this.LocationTextBox.Name = "LocationTextBox";
             this.LocationTextBox.Size = new System.Drawing.Size(191, 22);
             this.LocationTextBox.TabIndex = 14;
             // 
             // ContactTextBox
             // 
-            this.ContactTextBox.Location = new System.Drawing.Point(93, 181);
+            this.ContactTextBox.Location = new System.Drawing.Point(93, 140);
             this.ContactTextBox.Name = "ContactTextBox";
             this.ContactTextBox.Size = new System.Drawing.Size(191, 22);
             this.ContactTextBox.TabIndex = 15;
             // 
             // UrlTextBox
             // 
-            this.UrlTextBox.Location = new System.Drawing.Point(93, 260);
+            this.UrlTextBox.Location = new System.Drawing.Point(93, 219);
             this.UrlTextBox.Name = "UrlTextBox";
             this.UrlTextBox.Size = new System.Drawing.Size(191, 22);
             this.UrlTextBox.TabIndex = 17;
@@ -178,7 +180,7 @@
             "Remote",
             "Interview",
             "Assessment"});
-            this.TypeComboBox.Location = new System.Drawing.Point(93, 221);
+            this.TypeComboBox.Location = new System.Drawing.Point(93, 180);
             this.TypeComboBox.Name = "TypeComboBox";
             this.TypeComboBox.Size = new System.Drawing.Size(191, 24);
             this.TypeComboBox.TabIndex = 19;
@@ -225,29 +227,53 @@
             // 
             // EndDateTimePicker
             // 
-            this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt EST";
+            this.EndDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.EndDateTimePicker.Location = new System.Drawing.Point(93, 336);
             this.EndDateTimePicker.Name = "EndDateTimePicker";
             this.EndDateTimePicker.ShowUpDown = true;
             this.EndDateTimePicker.Size = new System.Drawing.Size(191, 22);
             this.EndDateTimePicker.TabIndex = 11;
+            this.EndDateTimePicker.ValueChanged += new System.EventHandler(this.EndDateTimePicker_ValueChanged);
             // 
             // StartDateTimePicker
             // 
-            this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt EST";
+            this.StartDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.StartDateTimePicker.Location = new System.Drawing.Point(93, 297);
+            this.StartDateTimePicker.Location = new System.Drawing.Point(93, 277);
             this.StartDateTimePicker.Name = "StartDateTimePicker";
             this.StartDateTimePicker.ShowUpDown = true;
             this.StartDateTimePicker.Size = new System.Drawing.Size(191, 22);
             this.StartDateTimePicker.TabIndex = 10;
+            this.StartDateTimePicker.ValueChanged += new System.EventHandler(this.StartDateTimePicker_ValueChanged);
+            // 
+            // StartErrorLabel
+            // 
+            this.StartErrorLabel.AutoSize = true;
+            this.StartErrorLabel.Location = new System.Drawing.Point(12, 258);
+            this.StartErrorLabel.Name = "StartErrorLabel";
+            this.StartErrorLabel.Size = new System.Drawing.Size(97, 16);
+            this.StartErrorLabel.TabIndex = 25;
+            this.StartErrorLabel.Text = "StartErrorLabel";
+            this.StartErrorLabel.Visible = false;
+            // 
+            // EndErrorLabel
+            // 
+            this.EndErrorLabel.AutoSize = true;
+            this.EndErrorLabel.Location = new System.Drawing.Point(13, 317);
+            this.EndErrorLabel.Name = "EndErrorLabel";
+            this.EndErrorLabel.Size = new System.Drawing.Size(94, 16);
+            this.EndErrorLabel.TabIndex = 26;
+            this.EndErrorLabel.Text = "EndErrorLabel";
+            this.EndErrorLabel.Visible = false;
             // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 465);
+            this.Controls.Add(this.EndErrorLabel);
+            this.Controls.Add(this.StartErrorLabel);
             this.Controls.Add(this.DeleteAppointmentButton);
             this.Controls.Add(this.EditAppointmentButton);
             this.Controls.Add(this.CalendarViewButton);
@@ -300,5 +326,7 @@
         private System.Windows.Forms.Button DeleteAppointmentButton;
         private System.Windows.Forms.DateTimePicker EndDateTimePicker;
         private System.Windows.Forms.DateTimePicker StartDateTimePicker;
+        private System.Windows.Forms.Label StartErrorLabel;
+        private System.Windows.Forms.Label EndErrorLabel;
     }
 }

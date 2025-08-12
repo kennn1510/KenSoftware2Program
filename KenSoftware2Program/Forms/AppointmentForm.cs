@@ -36,6 +36,9 @@ namespace KenSoftware2Program.Forms
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 AppointmentDataGridView.DataSource = dataTable;
+
+                StartDateTimePicker.Value = ConvertLocalTimeToEST();
+                EndDateTimePicker.Value = ConvertLocalTimeToEST();
             }
             catch (Exception ex)
             {
@@ -49,14 +52,7 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("The customer already has an appointment.");
                 return;
             }
-            // Get the selected date and time from the DateTimePicker.
-            DateTime localTime = StartDateTimePicker.Value;
-
-            // Get the Eastern Standard Time zone.
-            TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-
-            // Convert the local time to Eastern Standard Time.
-            DateTime estTime = TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, est);
+            DateTime estTime = ConvertLocalTimeToEST();
 
             // Validate the day of the week.
             if (estTime.DayOfWeek == DayOfWeek.Saturday || estTime.DayOfWeek == DayOfWeek.Sunday)
@@ -93,5 +89,43 @@ namespace KenSoftware2Program.Forms
             }
         }
 
+        private DateTime ConvertLocalTimeToEST()
+        {
+            // Get the selected date and time from the DateTimePicker.
+            DateTime localTime = StartDateTimePicker.Value;
+
+            // Get the Eastern Standard Time zone.
+            TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+            // Convert the local time to Eastern Standard Time.
+            DateTime estTime = TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, est);
+            return estTime;
+        }
+
+        private void StartDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (StartDateTimePicker.Value.Hour < 9)
+            {
+                StartErrorLabel.Text = "Start time cannot be before 9:00 AM EST";
+                StartErrorLabel.Visible = true;
+                AddAppointmentButton.Enabled = false;
+            }
+            else if (StartDateTimePicker.Value.Hour >= 17)
+            {
+                StartErrorLabel.Text = "Start tiem cannot be after 5:00 PM EST";
+                StartErrorLabel.Visible = true;
+                AddAppointmentButton.Enabled = false;
+            }
+            else
+            {
+                StartErrorLabel.Visible = false;
+                AddAppointmentButton.Enabled = true;
+            }
+        }
+
+        private void EndDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
