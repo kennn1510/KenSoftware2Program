@@ -86,8 +86,6 @@ namespace KenSoftware2Program
                 UsernameErrorsLabel.ResetText();
                 PasswordErrorsLabel.ResetText();
 
-                Console.WriteLine(User.UserName);
-
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

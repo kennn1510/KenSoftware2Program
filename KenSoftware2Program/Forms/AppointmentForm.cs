@@ -73,11 +73,23 @@ namespace KenSoftware2Program.Forms
                 {
                     command.Connection = Database.DBConnection.conn;
                     command.CommandText = @"
-                        INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end)
-                        VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end)";
+                        INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
+                        VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, @createDate, @createdBy, @lastUpdate, @lastUpdateBy)";
+                    command.Parameters.Clear();
                     command.Parameters.AddWithValue("@customerId", AppointmentDataGridView.SelectedCells[0].Value);
                     command.Parameters.AddWithValue("@userId", Models.User.UserName);
-                    Console.WriteLine(Models.User.UserName);
+                    command.Parameters.AddWithValue("@title", string.IsNullOrWhiteSpace(TitleTextBox.Text) ? "Not needed" : TitleTextBox.Text);
+                    command.Parameters.AddWithValue("@description", string.IsNullOrWhiteSpace(DescriptionTextBox.Text) ? "Not needed" : DescriptionTextBox.Text);
+                    command.Parameters.AddWithValue("@location", string.IsNullOrWhiteSpace(LocationTextBox.Text) ? "Not needed" : LocationTextBox.Text);
+                    command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "Not needed" : ContactTextBox.Text);
+                    command.Parameters.AddWithValue("@type", TypeComboBox.Text);
+                    command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "Not needed" : UrlTextBox.Text);
+                    command.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@createDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@createdBy", Models.User.UserName);
+                    command.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
                 }
                 MessageBox.Show("Appointment submitted successfully.");
             }
