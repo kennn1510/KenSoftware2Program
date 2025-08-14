@@ -16,6 +16,8 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
+                AddAppointmentButton.Enabled = false;
+
                 string query = @"
                     SELECT
                         c.customerName,
@@ -51,21 +53,6 @@ namespace KenSoftware2Program.Forms
             {
                 MessageBox.Show("The customer already has an appointment.");
                 return;
-            }
-            DateTime estTime = ConvertLocalTimeToEST();
-
-            // Validate the day of the week.
-            if (estTime.DayOfWeek == DayOfWeek.Saturday || estTime.DayOfWeek == DayOfWeek.Sunday)
-            {
-                MessageBox.Show("Appointments cannot be scheduled on weekends (Eastern Standard Time). Please select a weekday.");
-                return; // Stop the form submission.
-            }
-
-            // Validate the hour of the day.
-            if (estTime.Hour < 9 || estTime.Hour >= 17)
-            {
-                MessageBox.Show("Appointments can only be scheduled between 9 a.m. and 5 p.m. Eastern Standard Time. The timezone is automatically converted. Please adjust the time.");
-                return; // Stop the form submission.
             }
 
             // If all validations pass, proceed with saving the appointment.
@@ -104,28 +91,34 @@ namespace KenSoftware2Program.Forms
 
         private void StartDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
+            StartErrorLabel.Visible = true;
+            AddAppointmentButton.Enabled = false;
             if (StartDateTimePicker.Value.Hour < 9)
-            {
                 StartErrorLabel.Text = "Start time cannot be before 9:00 AM EST";
-                StartErrorLabel.Visible = true;
-                AddAppointmentButton.Enabled = false;
-            }
             else if (StartDateTimePicker.Value.Hour >= 17)
-            {
                 StartErrorLabel.Text = "Start time cannot be after 5:00 PM EST";
-                StartErrorLabel.Visible = true;
-                AddAppointmentButton.Enabled = false;
-            }
             else
             {
                 StartErrorLabel.Visible = false;
-                AddAppointmentButton.Enabled = true;
+                if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                    AddAppointmentButton.Enabled = true;
             }
         }
 
         private void EndDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-
+            EndErrorLabel.Visible = true;
+            AddAppointmentButton.Enabled = false;
+            if (EndDateTimePicker.Value.Hour < 9)
+                EndErrorLabel.Text = "End time cannot be before 9:00 AM EST";
+            else if (EndDateTimePicker.Value.Hour >= 17)
+                EndErrorLabel.Text = "End time cannot be after 5:00 PM EST";
+            else
+            {
+                EndErrorLabel.Visible = false;
+                if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                    AddAppointmentButton.Enabled = true;
+            }
         }
     }
 }
