@@ -80,10 +80,13 @@ namespace KenSoftware2Program
             UsernameTextBox.Text = UsernameTextBox.Text.Trim();
             PasswordTextBox.Text = PasswordTextBox.Text.Trim();
 
-            if (User.ValidateLogin(UsernameTextBox.Text, PasswordTextBox.Text) != null)
+
+            if (User.ValidateLogin(UsernameTextBox.Text, PasswordTextBox.Text) != false)
             {
                 UsernameErrorsLabel.ResetText();
                 PasswordErrorsLabel.ResetText();
+
+                Console.WriteLine(User.UserName);
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

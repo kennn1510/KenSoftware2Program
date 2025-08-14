@@ -16,10 +16,9 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                AddAppointmentButton.Enabled = false;
-
                 string query = @"
                     SELECT
+                        c.customerId,
                         c.customerName,
                         ap.appointmentId,
                         ap.title,
@@ -38,6 +37,17 @@ namespace KenSoftware2Program.Forms
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 AppointmentDataGridView.DataSource = dataTable;
+                AppointmentDataGridView.Columns[0].Visible = false;
+                AppointmentDataGridView.Columns[1].HeaderText = "Customer Name";
+                AppointmentDataGridView.Columns[2].HeaderText = "Appointment ID";
+                AppointmentDataGridView.Columns[3].HeaderText = "Title";
+                AppointmentDataGridView.Columns[4].HeaderText = "Description";
+                AppointmentDataGridView.Columns[5].HeaderText = "Location";
+                AppointmentDataGridView.Columns[6].HeaderText = "Contact";
+                AppointmentDataGridView.Columns[7].HeaderText = "Type";
+                AppointmentDataGridView.Columns[8].HeaderText = "URL";
+                AppointmentDataGridView.Columns[9].HeaderText = "Start";
+                AppointmentDataGridView.Columns[10].HeaderText = "End";
 
                 StartDateTimePicker.Value = ConvertLocalTimeToEST();
                 EndDateTimePicker.Value = ConvertLocalTimeToEST();
@@ -49,16 +59,11 @@ namespace KenSoftware2Program.Forms
         }
         private void AddAppointmentButton_Click(object sender, EventArgs e)
         {
-            if (AppointmentDataGridView.SelectedCells[1].Value.ToString() != "")
+            if (AppointmentDataGridView.SelectedCells[2].Value.ToString() != "")
             {
                 MessageBox.Show("The customer already has an appointment.");
                 return;
             }
-
-            // If all validations pass, proceed with saving the appointment.
-            // Your code for adding, updating, or deleting the appointment goes here.
-            // Example: SaveAppointment(localTime);
-            MessageBox.Show("Appointment submitted successfully.");
             try
             {
                 if (Database.DBConnection.conn.State != ConnectionState.Open)
@@ -67,12 +72,23 @@ namespace KenSoftware2Program.Forms
                 using (MySqlCommand command = new MySqlCommand())
                 {
                     command.Connection = Database.DBConnection.conn;
-
+                    command.CommandText = @"
+                        INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end)
+                        VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end)";
+                    command.Parameters.AddWithValue("@customerId", AppointmentDataGridView.SelectedCells[0].Value);
+                    command.Parameters.AddWithValue("@userId", Models.User.UserName);
+                    Console.WriteLine(Models.User.UserName);
                 }
+                MessageBox.Show("Appointment submitted successfully.");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error querying appointment data");
+            }
+            finally
+            {
+                if (Database.DBConnection.conn.State == ConnectionState.Open)
+                    Database.DBConnection.conn.Close();
             }
         }
 

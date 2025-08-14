@@ -163,6 +163,7 @@
             // 
             // AddAppointmentButton
             // 
+            this.AddAppointmentButton.Enabled = false;
             this.AddAppointmentButton.Location = new System.Drawing.Point(18, 376);
             this.AddAppointmentButton.Name = "AddAppointmentButton";
             this.AddAppointmentButton.Size = new System.Drawing.Size(254, 36);
