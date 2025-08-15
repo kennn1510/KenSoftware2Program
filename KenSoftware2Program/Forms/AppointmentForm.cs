@@ -125,14 +125,25 @@ namespace KenSoftware2Program.Forms
             StartErrorLabel.Visible = true;
             AddAppointmentButton.Enabled = false;
             if (StartDateTimePicker.Value.Hour < 9)
+            {
                 StartErrorLabel.Text = "Start time cannot be before 9:00 AM EST";
+            }
             else if (StartDateTimePicker.Value.Hour >= 17)
+            {
                 StartErrorLabel.Text = "Start time cannot be after 5:00 PM EST";
+            }
             else
             {
-                StartErrorLabel.Visible = false;
-                if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
-                    AddAppointmentButton.Enabled = true;
+                if (StartDateTimePicker.Value > EndDateTimePicker.Value)
+                {
+                    StartErrorLabel.Text = "Start date cannot be after end date";
+                }
+                else
+                {
+                    StartErrorLabel.Visible = false;
+                    if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                        AddAppointmentButton.Enabled = true;
+                }
             }
         }
 
@@ -141,14 +152,25 @@ namespace KenSoftware2Program.Forms
             EndErrorLabel.Visible = true;
             AddAppointmentButton.Enabled = false;
             if (EndDateTimePicker.Value.Hour < 9)
+            {
                 EndErrorLabel.Text = "End time cannot be before 9:00 AM EST";
+            }
             else if (EndDateTimePicker.Value.Hour >= 17)
+            {
                 EndErrorLabel.Text = "End time cannot be after 5:00 PM EST";
+            }
             else
             {
-                EndErrorLabel.Visible = false;
-                if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
-                    AddAppointmentButton.Enabled = true;
+                if (EndDateTimePicker.Value < StartDateTimePicker.Value)
+                {
+                    EndErrorLabel.Text = "End date cannot be before start date";
+                }
+                else
+                {
+                    EndErrorLabel.Visible = false;
+                    if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                        AddAppointmentButton.Enabled = true;
+                }
             }
         }
     }
