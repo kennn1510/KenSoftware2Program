@@ -16,6 +16,7 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
+                TypeComboBox.SelectedIndex = 0;
                 string query = @"
                     SELECT
                         c.customerId,
@@ -77,25 +78,27 @@ namespace KenSoftware2Program.Forms
                         VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, @createDate, @createdBy, @lastUpdate, @lastUpdateBy)";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@customerId", AppointmentDataGridView.SelectedCells[0].Value);
-                    command.Parameters.AddWithValue("@userId", Models.User.UserName);
-                    command.Parameters.AddWithValue("@title", string.IsNullOrWhiteSpace(TitleTextBox.Text) ? "Not needed" : TitleTextBox.Text);
-                    command.Parameters.AddWithValue("@description", string.IsNullOrWhiteSpace(DescriptionTextBox.Text) ? "Not needed" : DescriptionTextBox.Text);
-                    command.Parameters.AddWithValue("@location", string.IsNullOrWhiteSpace(LocationTextBox.Text) ? "Not needed" : LocationTextBox.Text);
-                    command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "Not needed" : ContactTextBox.Text);
+                    command.Parameters.AddWithValue("@userId", Models.User.UserId);
+                    command.Parameters.AddWithValue("@title", string.IsNullOrWhiteSpace(TitleTextBox.Text) ? "not needed" : TitleTextBox.Text);
+                    command.Parameters.AddWithValue("@description", string.IsNullOrWhiteSpace(DescriptionTextBox.Text) ? "not needed" : DescriptionTextBox.Text);
+                    command.Parameters.AddWithValue("@location", string.IsNullOrWhiteSpace(LocationTextBox.Text) ? "not needed" : LocationTextBox.Text);
+                    command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "not needed" : ContactTextBox.Text);
                     command.Parameters.AddWithValue("@type", TypeComboBox.Text);
-                    command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "Not needed" : UrlTextBox.Text);
+                    command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "not needed" : UrlTextBox.Text);
                     command.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
                     command.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
                     command.Parameters.AddWithValue("@createDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     command.Parameters.AddWithValue("@createdBy", Models.User.UserName);
                     command.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     command.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
+                    command.ExecuteNonQuery();
                 }
                 MessageBox.Show("Appointment submitted successfully.");
+                SetUpForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error querying appointment data");
+                MessageBox.Show("Error with appointment data: " + ex.Message);
             }
             finally
             {
