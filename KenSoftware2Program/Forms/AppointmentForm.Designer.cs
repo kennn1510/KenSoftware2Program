@@ -189,6 +189,7 @@
             // 
             // AppointmentDataGridView
             // 
+            this.AppointmentDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AppointmentDataGridView.Location = new System.Drawing.Point(290, 68);
             this.AppointmentDataGridView.MultiSelect = false;
@@ -197,14 +198,14 @@
             this.AppointmentDataGridView.RowHeadersWidth = 51;
             this.AppointmentDataGridView.RowTemplate.Height = 24;
             this.AppointmentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.AppointmentDataGridView.Size = new System.Drawing.Size(498, 344);
+            this.AppointmentDataGridView.Size = new System.Drawing.Size(794, 344);
             this.AppointmentDataGridView.TabIndex = 20;
             // 
             // CalendarViewButton
             // 
             this.CalendarViewButton.Location = new System.Drawing.Point(290, 14);
             this.CalendarViewButton.Name = "CalendarViewButton";
-            this.CalendarViewButton.Size = new System.Drawing.Size(498, 36);
+            this.CalendarViewButton.Size = new System.Drawing.Size(794, 36);
             this.CalendarViewButton.TabIndex = 21;
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
@@ -220,7 +221,7 @@
             // 
             // DeleteAppointmentButton
             // 
-            this.DeleteAppointmentButton.Location = new System.Drawing.Point(558, 418);
+            this.DeleteAppointmentButton.Location = new System.Drawing.Point(854, 418);
             this.DeleteAppointmentButton.Name = "DeleteAppointmentButton";
             this.DeleteAppointmentButton.Size = new System.Drawing.Size(230, 35);
             this.DeleteAppointmentButton.TabIndex = 24;
@@ -273,7 +274,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 465);
+            this.ClientSize = new System.Drawing.Size(1096, 465);
             this.Controls.Add(this.EndErrorLabel);
             this.Controls.Add(this.StartErrorLabel);
             this.Controls.Add(this.DeleteAppointmentButton);
