@@ -73,6 +73,30 @@ namespace KenSoftware2Program.Forms
                 using (MySqlCommand command = new MySqlCommand())
                 {
                     command.Connection = Database.DBConnection.conn;
+
+                    command.CommandText = @"SELECT * FROM appointment WHERE start < @end AND end > @start";
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@start", StartDateTimePicker.Value);
+                    command.Parameters.AddWithValue("@end", EndDateTimePicker.Value);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Get the details of the first overlapping appointment
+                            string existingStart = reader["start"].ToString();
+                            string existingEnd = reader["end"].ToString();
+                            string existingDescription = reader["description"].ToString(); // assuming a description column
+
+                            // Construct a more detailed message
+                            string message = $"There is an overlapping appointment:\n\n" +
+                                             $"Existing Appointment: {existingDescription}\n" +
+                                             $"Time: {existingStart} to {existingEnd}";
+
+                            MessageBox.Show(message, "Scheduling Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
                     command.CommandText = @"
                         INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
                         VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, @createDate, @createdBy, @lastUpdate, @lastUpdateBy)";
