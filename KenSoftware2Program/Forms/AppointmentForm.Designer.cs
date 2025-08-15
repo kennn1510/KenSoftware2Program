@@ -130,35 +130,35 @@
             // 
             this.TitleTextBox.Location = new System.Drawing.Point(93, 21);
             this.TitleTextBox.Name = "TitleTextBox";
-            this.TitleTextBox.Size = new System.Drawing.Size(191, 22);
+            this.TitleTextBox.Size = new System.Drawing.Size(219, 22);
             this.TitleTextBox.TabIndex = 12;
             // 
             // DescriptionTextBox
             // 
             this.DescriptionTextBox.Location = new System.Drawing.Point(93, 58);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
-            this.DescriptionTextBox.Size = new System.Drawing.Size(191, 22);
+            this.DescriptionTextBox.Size = new System.Drawing.Size(219, 22);
             this.DescriptionTextBox.TabIndex = 13;
             // 
             // LocationTextBox
             // 
             this.LocationTextBox.Location = new System.Drawing.Point(93, 99);
             this.LocationTextBox.Name = "LocationTextBox";
-            this.LocationTextBox.Size = new System.Drawing.Size(191, 22);
+            this.LocationTextBox.Size = new System.Drawing.Size(219, 22);
             this.LocationTextBox.TabIndex = 14;
             // 
             // ContactTextBox
             // 
             this.ContactTextBox.Location = new System.Drawing.Point(93, 140);
             this.ContactTextBox.Name = "ContactTextBox";
-            this.ContactTextBox.Size = new System.Drawing.Size(191, 22);
+            this.ContactTextBox.Size = new System.Drawing.Size(219, 22);
             this.ContactTextBox.TabIndex = 15;
             // 
             // UrlTextBox
             // 
             this.UrlTextBox.Location = new System.Drawing.Point(93, 219);
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(191, 22);
+            this.UrlTextBox.Size = new System.Drawing.Size(219, 22);
             this.UrlTextBox.TabIndex = 17;
             // 
             // AddAppointmentButton
@@ -166,7 +166,7 @@
             this.AddAppointmentButton.Enabled = false;
             this.AddAppointmentButton.Location = new System.Drawing.Point(18, 376);
             this.AddAppointmentButton.Name = "AddAppointmentButton";
-            this.AddAppointmentButton.Size = new System.Drawing.Size(254, 36);
+            this.AddAppointmentButton.Size = new System.Drawing.Size(294, 36);
             this.AddAppointmentButton.TabIndex = 18;
             this.AddAppointmentButton.Text = "Add Appointment";
             this.AddAppointmentButton.UseVisualStyleBackColor = true;
@@ -184,35 +184,35 @@
             "Assessment"});
             this.TypeComboBox.Location = new System.Drawing.Point(93, 180);
             this.TypeComboBox.Name = "TypeComboBox";
-            this.TypeComboBox.Size = new System.Drawing.Size(191, 24);
+            this.TypeComboBox.Size = new System.Drawing.Size(219, 24);
             this.TypeComboBox.TabIndex = 19;
             // 
             // AppointmentDataGridView
             // 
             this.AppointmentDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AppointmentDataGridView.Location = new System.Drawing.Point(290, 68);
+            this.AppointmentDataGridView.Location = new System.Drawing.Point(330, 68);
             this.AppointmentDataGridView.MultiSelect = false;
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
             this.AppointmentDataGridView.ReadOnly = true;
             this.AppointmentDataGridView.RowHeadersWidth = 51;
             this.AppointmentDataGridView.RowTemplate.Height = 24;
             this.AppointmentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.AppointmentDataGridView.Size = new System.Drawing.Size(794, 344);
+            this.AppointmentDataGridView.Size = new System.Drawing.Size(754, 344);
             this.AppointmentDataGridView.TabIndex = 20;
             // 
             // CalendarViewButton
             // 
-            this.CalendarViewButton.Location = new System.Drawing.Point(290, 14);
+            this.CalendarViewButton.Location = new System.Drawing.Point(330, 14);
             this.CalendarViewButton.Name = "CalendarViewButton";
-            this.CalendarViewButton.Size = new System.Drawing.Size(794, 36);
+            this.CalendarViewButton.Size = new System.Drawing.Size(754, 36);
             this.CalendarViewButton.TabIndex = 21;
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
             // 
             // EditAppointmentButton
             // 
-            this.EditAppointmentButton.Location = new System.Drawing.Point(290, 418);
+            this.EditAppointmentButton.Location = new System.Drawing.Point(330, 418);
             this.EditAppointmentButton.Name = "EditAppointmentButton";
             this.EditAppointmentButton.Size = new System.Drawing.Size(262, 35);
             this.EditAppointmentButton.TabIndex = 23;
@@ -235,7 +235,7 @@
             this.EndDateTimePicker.Location = new System.Drawing.Point(93, 336);
             this.EndDateTimePicker.Name = "EndDateTimePicker";
             this.EndDateTimePicker.ShowUpDown = true;
-            this.EndDateTimePicker.Size = new System.Drawing.Size(191, 22);
+            this.EndDateTimePicker.Size = new System.Drawing.Size(219, 22);
             this.EndDateTimePicker.TabIndex = 11;
             this.EndDateTimePicker.ValueChanged += new System.EventHandler(this.EndDateTimePicker_ValueChanged);
             // 
@@ -246,7 +246,7 @@
             this.StartDateTimePicker.Location = new System.Drawing.Point(93, 277);
             this.StartDateTimePicker.Name = "StartDateTimePicker";
             this.StartDateTimePicker.ShowUpDown = true;
-            this.StartDateTimePicker.Size = new System.Drawing.Size(191, 22);
+            this.StartDateTimePicker.Size = new System.Drawing.Size(219, 22);
             this.StartDateTimePicker.TabIndex = 10;
             this.StartDateTimePicker.ValueChanged += new System.EventHandler(this.StartDateTimePicker_ValueChanged);
             // 
