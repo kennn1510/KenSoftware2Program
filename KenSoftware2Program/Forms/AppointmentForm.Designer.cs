@@ -189,6 +189,8 @@
             // 
             // AppointmentDataGridView
             // 
+            this.AppointmentDataGridView.AllowUserToAddRows = false;
+            this.AppointmentDataGridView.AllowUserToDeleteRows = false;
             this.AppointmentDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AppointmentDataGridView.Location = new System.Drawing.Point(330, 68);

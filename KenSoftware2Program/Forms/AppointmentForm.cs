@@ -60,7 +60,7 @@ namespace KenSoftware2Program.Forms
         }
         private void AddAppointmentButton_Click(object sender, EventArgs e)
         {
-            if (AppointmentDataGridView.SelectedCells[2].Value.ToString() != "")
+            if (AppointmentDataGridView.SelectedCells[2].Value != DBNull.Value)
             {
                 MessageBox.Show("The customer already has an appointment.");
                 return;
