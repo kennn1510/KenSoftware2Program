@@ -8,13 +8,17 @@ namespace KenSoftware2Program
 {
     public partial class LoginForm : Form
     {
-        CultureInfo culture;
+        private GeoCoordinateWatcher watcher;
+        private Timer timeout;
+        private CultureInfo culture;
+
         public LoginForm()
         {
             InitializeComponent();
             LocalizeLanguage();
             GetLocation();
         }
+
         private void LocalizeLanguage()
         {
             culture = CultureInfo.CurrentCulture;
@@ -35,90 +39,133 @@ namespace KenSoftware2Program
 
         private void GetLocation()
         {
-            CLocation myLocation = new CLocation(this, culture);
-            myLocation.GetLocationEvent();
+            // Initialize the GeoCoordinateWatcher
+            watcher = new GeoCoordinateWatcher();
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(Watcher_PositionChanged);
+            watcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(Watcher_StatusChanged);
+
+            // Start the watcher
+            watcher.Start();
+
+            // Initialize and start the timeout timer
+            timeout = new Timer();
+            timeout.Interval = 10000; // 10 seconds
+            timeout.Tick += (sender, e) =>
+            {
+                // Check if the watcher is still initializing or has no data
+                if (watcher.Status == GeoPositionStatus.Initializing || watcher.Status == GeoPositionStatus.NoData)
+                {
+                    watcher.Stop();
+                    timeout.Stop();
+                    UpdateLocationLabel("Location services are not available.");
+                }
+            };
+            timeout.Start();
         }
 
-        class CLocation
+        private void Watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            GeoCoordinateWatcher watcher;
-            private LoginForm loginForm;
-            private CultureInfo culture;
+            // Stop both the watcher and the timer
+            watcher.Stop();
+            timeout.Stop();
 
-            public CLocation(LoginForm loginForm, CultureInfo culture)
+            // Check if the location is valid
+            if (!e.Position.Location.IsUnknown)
             {
-                this.loginForm = loginForm;
-                this.culture = culture;
+                string lat = e.Position.Location.Latitude.ToString("F6", CultureInfo.InvariantCulture);
+                string lon = e.Position.Location.Longitude.ToString("F6", CultureInfo.InvariantCulture);
+                UpdateLocationLabel($"Latitude: {lat}, Longitude: {lon}");
             }
-
-            public void GetLocationEvent()
+            else
             {
-                this.watcher = new GeoCoordinateWatcher();
-                this.watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
-                bool started = this.watcher.TryStart(false, TimeSpan.FromMilliseconds(2000));
-                if (!started)
-                {
-                    Console.WriteLine("GeoCoordinateWatcher timed out on start.");
-                }
+                UpdateLocationLabel("Location data is unknown.");
             }
+        }
 
-            void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void Watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        {
+            // Handle different status changes
+            switch (e.Status)
             {
-                if (culture.TwoLetterISOLanguageName == "en")
+                case GeoPositionStatus.Disabled:
+                    watcher.Stop();
+                    timeout.Stop();
+                    UpdateLocationLabel("Location services are disabled.");
+                    break;
+                case GeoPositionStatus.Ready:
+                    // Location is ready, the PositionChanged event will fire next
+                    break;
+                case GeoPositionStatus.NoData:
+                    // This event handles no data, but the timer will eventually stop it.
+                    // No action needed here as the timer handles the final state.
+                    break;
+            }
+        }
+
+        private void UpdateLocationLabel(string text)
+        {
+            if (culture.TwoLetterISOLanguageName == "en")
+            {
+                LocationLabel.Text = $"Location: {text}";
+            }
+            else
+            {
+                string localizedText;
+                switch (text)
                 {
-                    loginForm.LocationLabel.Text = $"Location: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
+                    case "Location services are disabled.":
+                        localizedText = "Les services de localisation sont désactivés.";
+                        break;
+                    case "No location data found.":
+                        localizedText = "Aucune donnée de localisation n'a été trouvée.";
+                        break;
+                    case "Location services are not available.":
+                        localizedText = "Les services de localisation ne sont pas disponibles.";
+                        break;
+                    default:
+                        localizedText = $"Localisation: {text}";
+                        break;
                 }
-                else
-                {
-                    loginForm.LocationLabel.Text = $"Localisation: Latitude: {e.Position.Location.Latitude}, Longitude: {e.Position.Location.Longitude}";
-                }
+                LocationLabel.Text = localizedText;
             }
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            UsernameTextBox.Text = UsernameTextBox.Text.Trim();
-            PasswordTextBox.Text = PasswordTextBox.Text.Trim();
+            // Trim any leading/trailing whitespace from the inputs
+            string username = UsernameTextBox.Text.Trim();
+            string password = PasswordTextBox.Text.Trim();
 
-
-            if (User.ValidateLogin(UsernameTextBox.Text, PasswordTextBox.Text) != false)
+            // Use the refactored User.Login method to authenticate
+            if (User.Login(username, password))
             {
-                UsernameErrorsLabel.ResetText();
-                PasswordErrorsLabel.ResetText();
+                // Login was successful
+                // Clear any previous error messages
+                UsernameErrorsLabel.Visible = false;
+                PasswordErrorsLabel.Visible = false;
+                UsernameErrorsLabel.Text = "";
+                PasswordErrorsLabel.Text = "";
 
+                // Set the dialog result and close the form
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
+                // Login failed
                 UsernameErrorsLabel.Visible = true;
                 PasswordErrorsLabel.Visible = true;
 
-                if (UsernameTextBox.Text != PasswordTextBox.Text)
+                // Display a single, generic error message for security
+                if (culture.TwoLetterISOLanguageName == "en")
                 {
-                    if (culture.TwoLetterISOLanguageName == "en")
-                    {
-                        UsernameErrorsLabel.Text = "The username does not match the password";
-                        PasswordErrorsLabel.Text = "The password does not match the username";
-                    }
-                    else
-                    {
-                        UsernameErrorsLabel.Text = "Le nom d'utilisateur ne correspond pas au mot de passe";
-                        PasswordErrorsLabel.Text = "Le mot de passe ne correspond pas au nom d'utilisateur";
-                    }
+                    UsernameErrorsLabel.Text = "Incorrect username or password.";
+                    PasswordErrorsLabel.Text = "Incorrect username or password.";
                 }
                 else
                 {
-                    if (culture.TwoLetterISOLanguageName == "en")
-                    {
-                        UsernameErrorsLabel.Text = "Incorrect username";
-                        PasswordErrorsLabel.Text = "Incorrect password";
-                    }
-                    else
-                    {
-                        UsernameErrorsLabel.Text = "Nom d'utilisateur incorrect";
-                        PasswordErrorsLabel.Text = "Mot de passe incorrect";
-                    }
+                    UsernameErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
+                    PasswordErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
                 }
             }
         }
