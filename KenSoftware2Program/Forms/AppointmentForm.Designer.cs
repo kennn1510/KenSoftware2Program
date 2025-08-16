@@ -202,6 +202,7 @@
             this.AppointmentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.AppointmentDataGridView.Size = new System.Drawing.Size(754, 344);
             this.AppointmentDataGridView.TabIndex = 20;
+            this.AppointmentDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AppointmentDataGridView_CellClick);
             // 
             // CalendarViewButton
             // 
@@ -220,6 +221,7 @@
             this.EditAppointmentButton.TabIndex = 23;
             this.EditAppointmentButton.Text = "Edit Appointment";
             this.EditAppointmentButton.UseVisualStyleBackColor = true;
+            this.EditAppointmentButton.Click += new System.EventHandler(this.EditAppointmentButton_Click);
             // 
             // DeleteAppointmentButton
             // 
