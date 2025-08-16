@@ -19,12 +19,16 @@ namespace KenSoftware2Program.Models
         {
             try
             {
-                using (Database.DBConnection.conn)
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
+                    conn.Open();
+
                     string query = $"INSERT INTO customer (customerName) VALUES ({customerName})";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                    }
                 }
             }
             catch (Exception ex)

@@ -1,5 +1,4 @@
-﻿using KenSoftware2Program.Database;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 
 namespace KenSoftware2Program.Models
@@ -21,29 +20,34 @@ namespace KenSoftware2Program.Models
 
             try
             {
-                string query = @"
-                SELECT userId, userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy
-                FROM user
-                WHERE userName = @username";
-                using (MySqlCommand cmd = new MySqlCommand(query, DBConnection.conn))
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
-                    cmd.Parameters.AddWithValue("@username", username);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    conn.Open();
+
+                    string query = @"
+                        SELECT userId, userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy
+                        FROM user
+                        WHERE userName = @username";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@username", username);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            string storedPassword = reader.GetString("password");
-                            if (storedPassword == password)
+                            if (reader.Read())
                             {
-                                UserId = reader.GetInt32("userId");
-                                UserName = reader.GetString("userName");
-                                Password = storedPassword;
-                                Active = reader.GetBoolean("active");
-                                CreateDate = reader.GetDateTime("createDate");
-                                CreatedBy = reader.GetString("createdBy");
-                                LastUpdate = reader.GetDateTime("lastUpdate");
-                                LastUpdateBy = reader.GetString("lastUpdateBy");
-                                return true;
+                                string storedPassword = reader.GetString("password");
+                                if (storedPassword == password)
+                                {
+                                    UserId = reader.GetInt32("userId");
+                                    UserName = reader.GetString("userName");
+                                    Password = storedPassword;
+                                    Active = reader.GetBoolean("active");
+                                    CreateDate = reader.GetDateTime("createDate");
+                                    CreatedBy = reader.GetString("createdBy");
+                                    LastUpdate = reader.GetDateTime("lastUpdate");
+                                    LastUpdateBy = reader.GetString("lastUpdateBy");
+                                    return true;
+                                }
                             }
                         }
                     }

@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -21,36 +20,45 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                if (Database.DBConnection.conn.State != ConnectionState.Open)
-                    Database.DBConnection.conn.Open();
-
-                using (MySqlCommand command = new MySqlCommand())
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
-                    command.Connection = Database.DBConnection.conn;
-                    command.CommandText = @"
-                        SELECT c.customerName, a.address, a.address2, a.postalCode, a.phone, ci.city, co.country
-                        FROM customer c
-                        JOIN address a ON c.addressId = a.addressId
-                        JOIN city ci ON a.cityId = ci.cityId
-                        JOIN country co ON ci.countryId = co.countryId
-                        WHERE c.customerId = @CustomerId";
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
+                    conn.Open();
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    using (MySqlCommand command = new MySqlCommand())
                     {
-                        if (reader.Read())
+                        command.Connection = conn;
+                        command.CommandText = @"
+                            SELECT c.customerName, a.address, a.address2, a.postalCode, a.phone, ci.city, co.country,
+                                a.addressId, ci.cityId, co.countryId
+                            FROM customer c
+                            JOIN address a ON c.addressId = a.addressId
+                            JOIN city ci ON a.cityId = ci.cityId
+                            JOIN country co ON ci.countryId = co.countryId
+                            WHERE c.customerId = @CustomerId";
+                        command.Parameters.AddWithValue("@CustomerId", this.customerId);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            NameTextBox.Text = reader["customerName"].ToString();
-                            Address1TextBox.Text = reader["address"].ToString();
-                            Address2TextBox.Text = reader["address2"].ToString();
-                            PostalCodeTextBox.Text = reader["postalCode"].ToString();
-                            PhoneNumberTextBox.Text = reader["phone"].ToString();
-                            CityTextBox.Text = reader["city"].ToString();
-                            CountryTextBox.Text = reader["country"].ToString();
-                        }
-                        else
-                        {
-                            throw new Exception("Customer not found.");
+                            if (reader.Read())
+                            {
+                                NameTextBox.Text = reader["customerName"].ToString();
+                                Address1TextBox.Text = reader["address"].ToString();
+                                Address2TextBox.Text = reader["address2"].ToString();
+                                PostalCodeTextBox.Text = reader["postalCode"].ToString();
+                                PhoneNumberTextBox.Text = reader["phone"].ToString();
+                                CityTextBox.Text = reader["city"].ToString();
+                                CountryTextBox.Text = reader["country"].ToString();
+
+                                // Store the IDs for later use in updates
+                                // This assumes you have private fields to store these values.
+                                // private int currentAddressId, private int currentCityId, etc.
+                                // For simplicity, we can retrieve them again, but this is more efficient.
+                                // If you don't have these fields, you can remove these lines.
+                            }
+                            else
+                            {
+                                throw new Exception("Customer not found.");
+                            }
                         }
                     }
                 }
@@ -58,11 +66,7 @@ namespace KenSoftware2Program.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading customer data: " + ex.Message);
-            }
-            finally
-            {
-                if (Database.DBConnection.conn.State == ConnectionState.Open)
-                    Database.DBConnection.conn.Close();
+                this.Close(); // Close the form if data can't be loaded
             }
         }
 
@@ -70,7 +74,7 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                // Input validation (same as CustomerAddForm)
+                // --- Input and length validation (keep as is) ---
                 if (string.IsNullOrWhiteSpace(NameTextBox.Text))
                     throw new ArgumentException("Customer name is required.");
                 if (string.IsNullOrWhiteSpace(CountryTextBox.Text))
@@ -84,7 +88,6 @@ namespace KenSoftware2Program.Forms
                 if (string.IsNullOrWhiteSpace(PhoneNumberTextBox.Text))
                     throw new ArgumentException("Phone number is required.");
 
-                // Length validations
                 if (NameTextBox.Text.Length > 50)
                     throw new ArgumentException("Customer name cannot exceed 50 characters.");
                 if (CountryTextBox.Text.Length > 50)
@@ -100,94 +103,136 @@ namespace KenSoftware2Program.Forms
                 if (PhoneNumberTextBox.Text.Length > 20)
                     throw new ArgumentException("Phone number cannot exceed 20 characters.");
 
-                // Format validations
                 if (!Regex.IsMatch(PostalCodeTextBox.Text, @"^[0-9A-Za-z\s-]+$"))
                     throw new ArgumentException("Invalid postal code format.");
                 if (!Regex.IsMatch(PhoneNumberTextBox.Text, @"^[\d\s\-\+\(\)]+$"))
                     throw new ArgumentException("Invalid phone number format.");
 
-                if (Database.DBConnection.conn.State != ConnectionState.Open)
-                    Database.DBConnection.conn.Open();
-
-                using (MySqlCommand command = new MySqlCommand())
+                // Use a single connection for the entire operation
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
-                    command.Connection = Database.DBConnection.conn;
-                    string currentUser = "test"; // Replace with actual user ID or username
+                    conn.Open();
 
-                    // Check if country exists, insert if not
-                    command.CommandText = "SELECT countryId FROM country WHERE country = @CountryName";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@CountryName", CountryTextBox.Text.Trim());
-                    object countryId = command.ExecuteScalar();
-
-                    if (countryId == null)
+                    // Use a transaction to ensure atomicity
+                    using (MySqlTransaction transaction = conn.BeginTransaction())
                     {
-                        command.CommandText = "INSERT INTO country (country, createDate, createdBy, lastUpdateBy) VALUES (@CountryName, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@CountryName", CountryTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-                        command.Parameters.AddWithValue("@CreatedBy", currentUser);
-                        command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
-                        countryId = command.ExecuteScalar();
+                        try
+                        {
+                            // Use a single command object for all queries
+                            using (MySqlCommand command = new MySqlCommand())
+                            {
+                                command.Connection = conn;
+                                command.Transaction = transaction;
+                                string currentUser = "test"; // Replace with actual user ID or username
+
+                                // 1. Check if country exists, insert if not
+                                command.CommandText = "SELECT countryId FROM country WHERE country = @CountryName";
+                                command.Parameters.AddWithValue("@CountryName", CountryTextBox.Text.Trim());
+                                object countryId = command.ExecuteScalar();
+
+                                if (countryId == null)
+                                {
+                                    command.CommandText = "INSERT INTO country (country, createDate, createdBy, lastUpdateBy) VALUES (@CountryName, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("@CountryName", CountryTextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+                                    command.Parameters.AddWithValue("@CreatedBy", currentUser);
+                                    command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
+                                    countryId = command.ExecuteScalar();
+                                }
+
+                                // 2. Check if city exists, insert if not
+                                command.CommandText = "SELECT cityId FROM city WHERE city = @CityName AND countryId = @CountryId";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("@CityName", CityTextBox.Text.Trim());
+                                command.Parameters.AddWithValue("@CountryId", countryId);
+                                object cityId = command.ExecuteScalar();
+
+                                if (cityId == null)
+                                {
+                                    command.CommandText = "INSERT INTO city (city, countryId, createDate, createdBy, lastUpdateBy) VALUES (@CityName, @CountryId, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("@CityName", CityTextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@CountryId", countryId);
+                                    command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+                                    command.Parameters.AddWithValue("@CreatedBy", currentUser);
+                                    command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
+                                    cityId = command.ExecuteScalar();
+                                }
+
+                                // 3. Check if a matching address exists
+                                command.CommandText = "SELECT addressId FROM address WHERE address = @Address1 AND cityId = @CityId AND postalCode = @PostalCode AND phone = @Phone AND (address2 = @Address2 OR (address2 IS NULL AND @Address2 IS NULL))";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
+                                command.Parameters.AddWithValue("@Address2", string.IsNullOrWhiteSpace(Address2TextBox.Text) ? (object)DBNull.Value : Address2TextBox.Text.Trim());
+                                command.Parameters.AddWithValue("@CityId", cityId);
+                                command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
+                                command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
+                                object newAddressId = command.ExecuteScalar();
+
+                                if (newAddressId == null)
+                                {
+                                    // Insert new address if it doesn't exist
+                                    command.CommandText = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES (@Address1, @Address2, @CityId, @PostalCode, @Phone, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@Address2", string.IsNullOrWhiteSpace(Address2TextBox.Text) ? (object)DBNull.Value : Address2TextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@CityId", cityId);
+                                    command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
+                                    command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+                                    command.Parameters.AddWithValue("@CreatedBy", currentUser);
+                                    command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
+                                    newAddressId = command.ExecuteScalar();
+                                }
+
+                                // 4. Update the customer's record with the new addressId
+                                command.CommandText = "UPDATE customer SET customerName = @Name, addressId = @AddressId, lastUpdateBy = @LastUpdateBy, lastUpdate = @LastUpdate WHERE customerId = @CustomerId";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("@Name", NameTextBox.Text.Trim());
+                                command.Parameters.AddWithValue("@AddressId", newAddressId);
+                                command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
+                                command.Parameters.AddWithValue("@LastUpdate", DateTime.Now);
+                                command.Parameters.AddWithValue("@CustomerId", this.customerId);
+                                command.ExecuteNonQuery();
+
+                                // 5. Check if the old address is now unused and delete it
+                                // This step is important for data cleanliness
+                                command.CommandText = "SELECT addressId FROM customer WHERE customerId = @CustomerId";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("@CustomerId", this.customerId);
+                                object oldAddressId = command.ExecuteScalar();
+
+                                if (oldAddressId != null && !oldAddressId.Equals(newAddressId))
+                                {
+                                    // Check if other customers reference this address
+                                    command.CommandText = "SELECT COUNT(*) FROM customer WHERE addressId = @OldAddressId";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("@OldAddressId", oldAddressId);
+                                    long count = (long)command.ExecuteScalar();
+
+                                    if (count == 0) // No other customers use this address
+                                    {
+                                        command.CommandText = "DELETE FROM address WHERE addressId = @OldAddressId";
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddWithValue("@OldAddressId", oldAddressId);
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+
+                            // Commit the transaction
+                            transaction.Commit();
+                            MessageBox.Show("Customer updated successfully!");
+                            this.Close();
+                        }
+                        catch (Exception)
+                        {
+                            // Roll back the transaction on error
+                            transaction.Rollback();
+                            throw; // Re-throw to be caught by the outer try-catch block
+                        }
                     }
-
-                    // Check if city exists, insert if not
-                    command.CommandText = "SELECT cityId FROM city WHERE city = @CityName AND countryId = @CountryId";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@CityName", CityTextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@CountryId", countryId);
-                    object cityId = command.ExecuteScalar();
-
-                    if (cityId == null)
-                    {
-                        command.CommandText = "INSERT INTO city (city, countryId, createDate, createdBy, lastUpdateBy) VALUES (@CityName, @CountryId, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@CityName", CityTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@CountryId", countryId);
-                        command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-                        command.Parameters.AddWithValue("@CreatedBy", currentUser);
-                        command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
-                        cityId = command.ExecuteScalar();
-                    }
-
-                    // Check if address already exists
-                    command.CommandText = "SELECT addressId FROM address WHERE address = @Address1 AND cityId = @CityId AND postalCode = @PostalCode AND phone = @Phone AND (address2 = @Address2 OR (address2 IS NULL AND @Address2 = ''))";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@Address2", Address2TextBox.Text?.Trim() ?? "");
-                    command.Parameters.AddWithValue("@CityId", cityId);
-                    command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
-                    object addressId = command.ExecuteScalar();
-
-                    if (addressId == null)
-                    {
-                        // Insert new address
-                        command.CommandText = "INSERT INTO address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES (@Address1, @Address2, @CityId, @PostalCode, @Phone, @CreateDate, @CreatedBy, @LastUpdateBy); SELECT LAST_INSERT_ID();";
-                        command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@Address1", Address1TextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@Address2", Address2TextBox.Text?.Trim() ?? "");
-                        command.Parameters.AddWithValue("@CityId", cityId);
-                        command.Parameters.AddWithValue("@PostalCode", PostalCodeTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@Phone", PhoneNumberTextBox.Text.Trim());
-                        command.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-                        command.Parameters.AddWithValue("@CreatedBy", currentUser);
-                        command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
-                        addressId = command.ExecuteScalar();
-                    }
-
-                    // Update customer
-                    command.CommandText = "UPDATE customer SET customerName = @Name, addressId = @AddressId, lastUpdateBy = @LastUpdateBy, lastUpdate = @LastUpdate WHERE customerId = @CustomerId";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@Name", NameTextBox.Text.Trim());
-                    command.Parameters.AddWithValue("@AddressId", addressId);
-                    command.Parameters.AddWithValue("@LastUpdateBy", currentUser);
-                    command.Parameters.AddWithValue("@LastUpdate", DateTime.Now);
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
-                    command.ExecuteNonQuery();
-
-                    MessageBox.Show("Customer updated successfully!");
-                    this.Close();
                 }
             }
             catch (ArgumentException ex)
@@ -197,11 +242,6 @@ namespace KenSoftware2Program.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                if (Database.DBConnection.conn.State == ConnectionState.Open)
-                    Database.DBConnection.conn.Close();
             }
         }
     }

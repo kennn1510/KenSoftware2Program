@@ -34,7 +34,7 @@ namespace KenSoftware2Program.Forms
                         customer c
                     LEFT JOIN
                         appointment ap ON c.customerId = ap.customerId";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.GetConnectionString());
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 AppointmentDataGridView.DataSource = dataTable;
@@ -67,69 +67,68 @@ namespace KenSoftware2Program.Forms
             }
             try
             {
-                if (Database.DBConnection.conn.State != ConnectionState.Open)
-                    Database.DBConnection.conn.Open();
-
-                using (MySqlCommand command = new MySqlCommand())
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
-                    command.Connection = Database.DBConnection.conn;
+                    conn.Open();
 
-                    command.CommandText = @"SELECT * FROM appointment WHERE start < @end AND end > @start";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@start", StartDateTimePicker.Value);
-                    command.Parameters.AddWithValue("@end", EndDateTimePicker.Value);
-
-                    using (var reader = command.ExecuteReader())
+                    string checkQuery = @"SELECT * FROM appointment WHERE start < @end AND end > @start";
+                    using (MySqlCommand command = new MySqlCommand(checkQuery, conn))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@start", StartDateTimePicker.Value);
+                        command.Parameters.AddWithValue("@end", EndDateTimePicker.Value);
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            // Get the details of the first overlapping appointment
-                            string existingStart = reader["start"].ToString();
-                            string existingEnd = reader["end"].ToString();
-                            string existingDescription = reader["description"].ToString(); // assuming a description column
+                            if (reader.Read())
+                            {
+                                // Get the details of the first overlapping appointment
+                                string existingStart = reader["start"].ToString();
+                                string existingEnd = reader["end"].ToString();
+                                string existingDescription = reader["description"].ToString(); // assuming a description column
 
-                            // Construct a more detailed message
-                            string message = $"There is an overlapping appointment:\n\n" +
-                                             $"Existing Appointment: {existingDescription}\n" +
-                                             $"Time: {existingStart} to {existingEnd}";
+                                // Construct a more detailed message
+                                string message = $"There is an overlapping appointment:\n\n" +
+                                                 $"Existing Appointment: {existingDescription}\n" +
+                                                 $"Time: {existingStart} to {existingEnd}";
 
-                            MessageBox.Show(message, "Scheduling Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
+                                MessageBox.Show(message, "Scheduling Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
                         }
                     }
-                    command.CommandText = @"
+
+                    string insertQuery = @"
                         INSERT INTO appointment (customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)
                         VALUES (@customerId, @userId, @title, @description, @location, @contact, @type, @url, @start, @end, @createDate, @createdBy, @lastUpdate, @lastUpdateBy)";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@customerId", AppointmentDataGridView.SelectedCells[0].Value);
-                    command.Parameters.AddWithValue("@userId", Models.User.UserId);
-                    command.Parameters.AddWithValue("@title", string.IsNullOrWhiteSpace(TitleTextBox.Text) ? "not needed" : TitleTextBox.Text);
-                    command.Parameters.AddWithValue("@description", string.IsNullOrWhiteSpace(DescriptionTextBox.Text) ? "not needed" : DescriptionTextBox.Text);
-                    command.Parameters.AddWithValue("@location", string.IsNullOrWhiteSpace(LocationTextBox.Text) ? "not needed" : LocationTextBox.Text);
-                    command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "not needed" : ContactTextBox.Text);
-                    command.Parameters.AddWithValue("@type", TypeComboBox.Text);
-                    command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "not needed" : UrlTextBox.Text);
-                    command.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    command.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                    command.Parameters.AddWithValue("@createDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                    command.Parameters.AddWithValue("@createdBy", Models.User.UserName);
-                    command.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                    command.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
-                    command.ExecuteNonQuery();
+                    using (MySqlCommand command = new MySqlCommand(insertQuery, conn))
+                    {
+                        command.Parameters.AddWithValue("@customerId", AppointmentDataGridView.SelectedCells[0].Value);
+                        command.Parameters.AddWithValue("@userId", Models.User.UserId);
+                        command.Parameters.AddWithValue("@title", string.IsNullOrWhiteSpace(TitleTextBox.Text) ? "not needed" : TitleTextBox.Text);
+                        command.Parameters.AddWithValue("@description", string.IsNullOrWhiteSpace(DescriptionTextBox.Text) ? "not needed" : DescriptionTextBox.Text);
+                        command.Parameters.AddWithValue("@location", string.IsNullOrWhiteSpace(LocationTextBox.Text) ? "not needed" : LocationTextBox.Text);
+                        command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "not needed" : ContactTextBox.Text);
+                        command.Parameters.AddWithValue("@type", TypeComboBox.Text);
+                        command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "not needed" : UrlTextBox.Text);
+                        command.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@createDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@createdBy", Models.User.UserName);
+                        command.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
+                        command.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Appointment submitted successfully.");
+                    SetUpForm();
                 }
-                MessageBox.Show("Appointment submitted successfully.");
-                SetUpForm();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error with appointment data: " + ex.Message);
             }
-            finally
-            {
-                if (Database.DBConnection.conn.State == ConnectionState.Open)
-                    Database.DBConnection.conn.Close();
-            }
         }
+
 
         private DateTime ConvertLocalTimeToEST()
         {

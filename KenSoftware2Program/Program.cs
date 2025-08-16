@@ -1,5 +1,4 @@
-﻿using KenSoftware2Program.Database;
-using KenSoftware2Program.Forms;
+﻿using KenSoftware2Program.Forms;
 using System;
 using System.Windows.Forms;
 
@@ -16,7 +15,6 @@ namespace KenSoftware2Program
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            DBConnection.startConnection();
             using (LoginForm loginForm = new LoginForm())
             {
                 Application.Run(loginForm);
@@ -25,7 +23,6 @@ namespace KenSoftware2Program
                     Application.Run(new CustomerForm());
                 }
             }
-            DBConnection.closeConnection();
         }
     }
 }

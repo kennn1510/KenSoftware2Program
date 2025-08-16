@@ -17,21 +17,29 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                string query = @"
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+                {
+                    conn.Open();
+
+                    string query = @"
                         SELECT c.customerId, c.customerName, a.address, a.phone
                         FROM customer c
                         LEFT JOIN address a ON c.addressId = a.addressId";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.conn);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-                CustomerDataGridView.DataSource = dataTable;
-                CustomerDataGridView.Columns["customerId"].HeaderText = "Customer ID";
-                CustomerDataGridView.Columns["customerName"].HeaderText = "Customer Name";
-                CustomerDataGridView.Columns["address"].HeaderText = "Address";
-                CustomerDataGridView.Columns["phone"].HeaderText = "Phone Number";
 
-                CustomerDataGridView.Columns["customerId"].Visible = false;
-                CustomerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        CustomerDataGridView.DataSource = dataTable;
+                    }
+                    CustomerDataGridView.Columns["customerId"].HeaderText = "Customer ID";
+                    CustomerDataGridView.Columns["customerName"].HeaderText = "Customer Name";
+                    CustomerDataGridView.Columns["address"].HeaderText = "Address";
+                    CustomerDataGridView.Columns["phone"].HeaderText = "Phone Number";
+
+                    CustomerDataGridView.Columns["customerId"].Visible = false;
+                    CustomerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                }
             }
             catch (Exception ex)
             {
@@ -40,17 +48,7 @@ namespace KenSoftware2Program.Forms
         }
         private void RefreshButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SetUpForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-                // Ensure connection is closed on error
-                if (Database.DBConnection.conn.State == ConnectionState.Open)
-                    Database.DBConnection.conn.Close();
-            }
+            SetUpForm();
         }
 
         private void AddCustomerButton_Click(object sender, EventArgs e)
@@ -89,70 +87,73 @@ namespace KenSoftware2Program.Forms
 
         private void DeleteCustomerButton_Click(object sender, EventArgs e)
         {
+            // Check if a row is selected
+            if (CustomerDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a customer to delete.");
+                return;
+            }
+
+            // Get the customerId from the selected row
+            int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
+
+            // Confirm deletion with the user
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this customer? This action cannot be undone.",
+                "Confirm Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
+            // Wrap the entire database operation in a try-catch block
             try
             {
-                // Check if a row is selected
-                if (CustomerDataGridView.SelectedRows.Count == 0)
+                // Use a single connection for all operations
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
-                    MessageBox.Show("Please select a customer to delete.");
-                    return;
-                }
-
-                // Get the customerId from the selected row
-                int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
-
-                // Confirm deletion with the user
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you want to delete this customer? This action cannot be undone.",
-                    "Confirm Deletion",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (result == DialogResult.No)
-                {
-                    return;
-                }
-
-                // Open connection if not already open
-                if (Database.DBConnection.conn.State != ConnectionState.Open)
-                    Database.DBConnection.conn.Open();
-
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = Database.DBConnection.conn;
+                    conn.Open();
 
                     // Start a transaction to ensure data integrity
-                    using (MySqlTransaction transaction = Database.DBConnection.conn.BeginTransaction())
+                    using (MySqlTransaction transaction = conn.BeginTransaction())
                     {
                         try
                         {
-                            // Get the addressId associated with the customer
-                            command.CommandText = "SELECT addressId FROM customer WHERE customerId = @customerId";
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@customerId", customerId);
-                            object addressId = command.ExecuteScalar();
-
-                            // Delete the customer
-                            command.CommandText = "DELETE FROM customer WHERE customerId = @customerId";
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@customerId", customerId);
-                            command.ExecuteNonQuery();
-
-                            // Delete the address if it exists and is not referenced by other customers
-                            if (addressId != null && addressId != DBNull.Value)
+                            // Use a single command object for all queries within the transaction
+                            using (MySqlCommand command = new MySqlCommand())
                             {
-                                // Check if other customers reference this address
-                                command.CommandText = "SELECT COUNT(*) FROM customer WHERE addressId = @addressId";
-                                command.Parameters.Clear();
-                                command.Parameters.AddWithValue("@addressId", addressId);
-                                long count = (long)command.ExecuteScalar();
+                                command.Connection = conn;
+                                command.Transaction = transaction;
 
-                                if (count == 0) // No other customers use this address
+                                // Get the addressId associated with the customer
+                                command.CommandText = "SELECT addressId FROM customer WHERE customerId = @customerId";
+                                command.Parameters.AddWithValue("@customerId", customerId);
+                                object addressId = command.ExecuteScalar();
+
+                                // Delete the customer
+                                command.CommandText = "DELETE FROM customer WHERE customerId = @customerId";
+                                command.Parameters.Clear(); // Clear parameters before re-using the command
+                                command.Parameters.AddWithValue("@customerId", customerId);
+                                command.ExecuteNonQuery();
+
+                                // Delete the address if it exists and is not referenced by other customers
+                                if (addressId != null && addressId != DBNull.Value)
                                 {
-                                    command.CommandText = "DELETE FROM address WHERE addressId = @addressId";
+                                    command.CommandText = "SELECT COUNT(*) FROM customer WHERE addressId = @addressId";
                                     command.Parameters.Clear();
                                     command.Parameters.AddWithValue("@addressId", addressId);
-                                    command.ExecuteNonQuery();
+                                    long count = (long)command.ExecuteScalar();
+
+                                    if (count == 0) // No other customers use this address
+                                    {
+                                        command.CommandText = "DELETE FROM address WHERE addressId = @addressId";
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddWithValue("@addressId", addressId);
+                                        command.ExecuteNonQuery();
+                                    }
                                 }
                             }
 
@@ -164,13 +165,10 @@ namespace KenSoftware2Program.Forms
                         {
                             // Roll back the transaction on error
                             transaction.Rollback();
-                            throw; // Re-throw to handle in outer catch block
+                            throw; // Re-throw to be caught by the outer try-catch block
                         }
                     }
-                }
-
-                // Refresh the DataGridView
-                SetUpForm();
+                } // The connection is automatically closed here
             }
             catch (MySqlException ex)
             {
@@ -186,14 +184,11 @@ namespace KenSoftware2Program.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                // Ensure connection is closed
-                if (Database.DBConnection.conn.State == ConnectionState.Open)
-                    Database.DBConnection.conn.Close();
-            }
+
+            // Refresh the DataGridView
+            SetUpForm();
         }
 
         private void ManageAppointmentsButton_Click(object sender, EventArgs e)
