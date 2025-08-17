@@ -60,7 +60,7 @@
             this.Controls.Add(this.CalendarDataGridView);
             this.Controls.Add(this.CalendarMonthCalendar);
             this.Name = "CalendarViewForm";
-            this.Text = "CalendarViewForm";
+            this.Text = "Calendar View";
             ((System.ComponentModel.ISupportInitialize)(this.CalendarDataGridView)).EndInit();
             this.ResumeLayout(false);
 

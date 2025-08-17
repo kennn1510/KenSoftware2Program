@@ -55,10 +55,7 @@ namespace KenSoftware2Program.Forms
 
                 if (AppointmentDataGridView.Rows.Count > 0)
                 {
-                    AppointmentDataGridView.Rows[0].Selected = true;
-                    int selectedRowIndex = AppointmentDataGridView.SelectedRows[0].Index;
-                    DataGridViewCellEventArgs args = new DataGridViewCellEventArgs(0, selectedRowIndex);
-                    AppointmentDataGridView_CellClick(AppointmentDataGridView, args);
+                    AppointmentDataGridView_CellClick(AppointmentDataGridView, new DataGridViewCellEventArgs(0, AppointmentDataGridView.SelectedRows[0].Index));
                 }
             }
             catch (Exception ex)
