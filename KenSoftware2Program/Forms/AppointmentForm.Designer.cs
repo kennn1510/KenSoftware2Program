@@ -212,6 +212,7 @@
             this.CalendarViewButton.TabIndex = 21;
             this.CalendarViewButton.Text = "Calendar View";
             this.CalendarViewButton.UseVisualStyleBackColor = true;
+            this.CalendarViewButton.Click += new System.EventHandler(this.CalendarViewButton_Click);
             // 
             // EditAppointmentButton
             // 

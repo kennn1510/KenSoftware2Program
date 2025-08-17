@@ -365,5 +365,11 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("Error deleting appointent: " + ex.Message);
             }
         }
+
+        private void CalendarViewButton_Click(object sender, EventArgs e)
+        {
+            CalendarViewForm calendarViewForm = new CalendarViewForm();
+            calendarViewForm.ShowDialog();
+        }
     }
 }
