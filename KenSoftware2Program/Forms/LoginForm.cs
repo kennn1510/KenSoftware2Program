@@ -1,4 +1,5 @@
 ﻿using KenSoftware2Program.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Device.Location;
 using System.Globalization;
@@ -146,6 +147,8 @@ namespace KenSoftware2Program
                 UsernameErrorsLabel.Text = "";
                 PasswordErrorsLabel.Text = "";
 
+                CheckForUpcomingAppointments();
+
                 // Set the dialog result and close the form
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -167,6 +170,68 @@ namespace KenSoftware2Program
                     UsernameErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
                     PasswordErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
                 }
+            }
+        }
+
+        private void CheckForUpcomingAppointments()
+        {
+            int alertWindowMinutes = 15;
+
+            try
+            {
+                int currentUserId = Models.User.UserId;
+
+                // Log the user ID for debugging
+                Console.WriteLine($"Checking appointments for User ID: {currentUserId}");
+
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+                {
+                    conn.Open();
+
+                    string query = @"
+                SELECT title, start
+                FROM appointment
+                WHERE userId = @userId AND start >= @now AND start <= @alertTime";
+
+                    using (MySqlCommand command = new MySqlCommand(query, conn))
+                    {
+                        // Use the correct DateTime reference (UTC or Local)
+                        DateTime now = DateTime.Now; // Or DateTime.UtcNow if that's what's in the DB
+                        DateTime alertTime = now.AddMinutes(alertWindowMinutes);
+
+                        command.Parameters.AddWithValue("@userId", currentUserId);
+                        command.Parameters.AddWithValue("@now", now);
+                        command.Parameters.AddWithValue("@alertTime", alertTime);
+
+                        // Log the time range being checked
+                        Console.WriteLine($"Checking for appointments between {now} and {alertTime}");
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string title = reader["title"].ToString();
+                                DateTime startTime = Convert.ToDateTime(reader["start"]);
+
+                                MessageBox.Show($"You have an upcoming appointment within the next 15 minutes:\n\n" +
+                                                $"Title: {title}\n" +
+                                                $"Time: {startTime.ToShortTimeString()}",
+                                                "Upcoming Appointment Alert",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                Console.WriteLine("No upcoming appointments found in the next 15 minutes.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error checking for upcoming appointments: " + ex.Message);
+                MessageBox.Show("An error occurred while checking appointments: " + ex.Message);
             }
         }
     }
