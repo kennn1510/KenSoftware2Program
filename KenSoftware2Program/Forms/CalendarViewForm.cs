@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KenSoftware2Program.Forms
@@ -15,6 +8,16 @@ namespace KenSoftware2Program.Forms
         public CalendarViewForm()
         {
             InitializeComponent();
+            SetUpForm();
+        }
+        private void SetUpForm()
+        {
+            var date = CalendarMonthCalendar.SelectionStart;
+            Console.WriteLine(date);
+        }
+        private void CalendarMonthCalendar_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            SetUpForm();
         }
     }
 }

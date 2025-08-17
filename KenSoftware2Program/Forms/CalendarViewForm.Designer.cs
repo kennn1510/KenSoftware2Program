@@ -36,8 +36,10 @@
             // CalendarMonthCalendar
             // 
             this.CalendarMonthCalendar.Location = new System.Drawing.Point(18, 108);
+            this.CalendarMonthCalendar.MaxSelectionCount = 1;
             this.CalendarMonthCalendar.Name = "CalendarMonthCalendar";
             this.CalendarMonthCalendar.TabIndex = 0;
+            this.CalendarMonthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.CalendarMonthCalendar_DateSelected);
             // 
             // CalendarDataGridView
             // 
