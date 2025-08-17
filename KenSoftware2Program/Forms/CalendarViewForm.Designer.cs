@@ -35,7 +35,7 @@
             // 
             // CalendarMonthCalendar
             // 
-            this.CalendarMonthCalendar.Location = new System.Drawing.Point(12, 110);
+            this.CalendarMonthCalendar.Location = new System.Drawing.Point(18, 108);
             this.CalendarMonthCalendar.Name = "CalendarMonthCalendar";
             this.CalendarMonthCalendar.TabIndex = 0;
             // 
@@ -44,12 +44,12 @@
             this.CalendarDataGridView.AllowUserToAddRows = false;
             this.CalendarDataGridView.AllowUserToDeleteRows = false;
             this.CalendarDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CalendarDataGridView.Location = new System.Drawing.Point(292, 12);
+            this.CalendarDataGridView.Location = new System.Drawing.Point(337, 12);
             this.CalendarDataGridView.Name = "CalendarDataGridView";
             this.CalendarDataGridView.ReadOnly = true;
             this.CalendarDataGridView.RowHeadersWidth = 51;
             this.CalendarDataGridView.RowTemplate.Height = 24;
-            this.CalendarDataGridView.Size = new System.Drawing.Size(819, 426);
+            this.CalendarDataGridView.Size = new System.Drawing.Size(774, 426);
             this.CalendarDataGridView.TabIndex = 1;
             // 
             // CalendarViewForm
