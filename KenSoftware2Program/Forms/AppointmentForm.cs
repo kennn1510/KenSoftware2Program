@@ -53,7 +53,13 @@ namespace KenSoftware2Program.Forms
                 StartDateTimePicker.Value = ConvertLocalTimeToEST();
                 EndDateTimePicker.Value = ConvertLocalTimeToEST();
 
-                //AppointmentDataGridView_CellClick(this.AppointmentDataGridView, new DataGridViewCellEventArgs(0,0));
+                if (AppointmentDataGridView.Rows.Count > 0)
+                {
+                    AppointmentDataGridView.Rows[0].Selected = true;
+                    int selectedRowIndex = AppointmentDataGridView.SelectedRows[0].Index;
+                    DataGridViewCellEventArgs args = new DataGridViewCellEventArgs(0, selectedRowIndex);
+                    AppointmentDataGridView_CellClick(AppointmentDataGridView, args);
+                }
             }
             catch (Exception ex)
             {
