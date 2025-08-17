@@ -231,6 +231,7 @@
             this.DeleteAppointmentButton.TabIndex = 24;
             this.DeleteAppointmentButton.Text = "Delete Appointment";
             this.DeleteAppointmentButton.UseVisualStyleBackColor = true;
+            this.DeleteAppointmentButton.Click += new System.EventHandler(this.DeleteAppointmentButton_Click);
             // 
             // EndDateTimePicker
             // 

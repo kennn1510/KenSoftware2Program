@@ -53,7 +53,7 @@ namespace KenSoftware2Program.Forms
                 StartDateTimePicker.Value = ConvertLocalTimeToEST();
                 EndDateTimePicker.Value = ConvertLocalTimeToEST();
 
-                AppointmentDataGridView_CellClick(this.AppointmentDataGridView, new DataGridViewCellEventArgs(0, 0));
+                //AppointmentDataGridView_CellClick(this.AppointmentDataGridView, new DataGridViewCellEventArgs(0,0));
             }
             catch (Exception ex)
             {
@@ -295,6 +295,16 @@ namespace KenSoftware2Program.Forms
 
         private void AppointmentDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (AppointmentDataGridView.SelectedCells[2].Value == DBNull.Value)
+            {
+                EditAppointmentButton.Enabled = false;
+                DeleteAppointmentButton.Enabled = false;
+            }
+            else
+            {
+                EditAppointmentButton.Enabled = true;
+                DeleteAppointmentButton.Enabled = true;
+            }
             DataGridViewRow row = this.AppointmentDataGridView.Rows[e.RowIndex];
 
             TitleTextBox.Text = row.Cells["title"].Value?.ToString() ?? string.Empty;
@@ -314,6 +324,39 @@ namespace KenSoftware2Program.Forms
             if (DateTime.TryParse(row.Cells["end"].Value.ToString(), out DateTime endDateTime))
             {
                 EndDateTimePicker.Value = endDateTime;
+            }
+        }
+
+        private void DeleteAppointmentButton_Click(object sender, EventArgs e)
+        {
+            int appointmentId = Convert.ToInt32(AppointmentDataGridView.SelectedCells[2].Value);
+
+            DialogResult confirmDelete = MessageBox.Show("Are you sure you want to delete this appointment?", "Yes, delete this appointment.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmDelete == DialogResult.No)
+            {
+                return;
+            }
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+                {
+                    conn.Open();
+
+                    string deleteQuery = @"DELETE FROM appointment WHERE appointmentId = @appointmentId";
+
+                    using (MySqlCommand command = new MySqlCommand(deleteQuery, conn))
+                    {
+                        command.Parameters.AddWithValue("@appointmentId", appointmentId);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Appointment deleted successfully.");
+                SetUpForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting appointent: " + ex.Message);
             }
         }
     }
