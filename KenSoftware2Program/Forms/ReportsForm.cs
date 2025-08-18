@@ -18,7 +18,7 @@ namespace KenSoftware2Program.Forms
         private void SetUpReportsForm()
         {
             GenerateReportNumberOfAppointmentTypesByMonth();
-            //GenerateReportScheduleForEachUser();
+            GenerateReportScheduleForEachUser();
             //GenerateReportNumberOfCustomersWithAndWithoutAppointments();
         }
         private void GenerateReportNumberOfAppointmentTypesByMonth()
@@ -75,7 +75,72 @@ namespace KenSoftware2Program.Forms
         }
         private void GenerateReportScheduleForEachUser()
         {
-            throw new NotImplementedException();
+            Report2RichTextBox.Clear();
+            var appointments = new List<Appointment>();
+            var users = new List<User>();
+
+            try
+            {
+                using (var conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+                {
+                    conn.Open();
+                    string sqlAppointments = "SELECT userId, start, end, type FROM appointment";
+                    using (var cmd = new MySqlCommand(sqlAppointments, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                appointments.Add(new Appointment()
+                                {
+                                    UserId = reader.GetInt32("userId"),
+                                    Start = reader.GetDateTime("start"),
+                                    End = reader.GetDateTime("end"),
+                                    Type = reader.GetString("type")
+                                });
+                            }
+                        }
+                    }
+
+                    string sqlUsers = "SELECT userId, userName FROM user";
+                    using (var cmd = new MySqlCommand(sqlUsers, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                users.Add(new User()
+                                {
+                                    Id = reader.GetInt32("userId"),
+                                    Name = reader.GetString("username"),
+                                });
+                            }
+                        }
+                    }
+                }
+                var userSchedules = from user in users
+                                    join appointment in appointments on user.Id equals appointment.UserId
+                                    group appointment by user.Name into g
+                                    select new
+                                    {
+                                        UserName = g.Key,
+                                        Appointments = g.ToList()
+                                    };
+
+                // Format and display the report
+                foreach (var schedule in userSchedules)
+                {
+                    Report2RichTextBox.AppendText($"Schedule for the user: {schedule.UserName}\n\n");
+                    foreach (var appointment in schedule.Appointments)
+                    {
+                        Report2RichTextBox.AppendText($"Type: {appointment.Type}, Start: {appointment.Start}, End: {appointment.End}\n\n");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error generating user scedule report: " + ex.Message);
+            }
         }
 
         private void GenerateReportNumberOfCustomersWithAndWithoutAppointments()

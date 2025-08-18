@@ -5,6 +5,8 @@ namespace KenSoftware2Program.Models
 {
     internal class User
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
         // Public static properties for global access to the current user
         public static int UserId { get; private set; } // Setters are now private
         public static string UserName { get; private set; }
