@@ -32,7 +32,7 @@
             this.Report1RichTextBox = new System.Windows.Forms.RichTextBox();
             this.Report2Label = new System.Windows.Forms.Label();
             this.Report2RichTextBox = new System.Windows.Forms.RichTextBox();
-            this.Reports3Label = new System.Windows.Forms.Label();
+            this.Report3Label = new System.Windows.Forms.Label();
             this.Report3RichTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -50,7 +50,7 @@
             this.Report1RichTextBox.Location = new System.Drawing.Point(15, 51);
             this.Report1RichTextBox.Name = "Report1RichTextBox";
             this.Report1RichTextBox.ReadOnly = true;
-            this.Report1RichTextBox.Size = new System.Drawing.Size(239, 387);
+            this.Report1RichTextBox.Size = new System.Drawing.Size(252, 387);
             this.Report1RichTextBox.TabIndex = 2;
             this.Report1RichTextBox.Text = "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDece" +
     "mber";
@@ -68,18 +68,18 @@
             // 
             this.Report2RichTextBox.Location = new System.Drawing.Point(300, 51);
             this.Report2RichTextBox.Name = "Report2RichTextBox";
-            this.Report2RichTextBox.Size = new System.Drawing.Size(239, 387);
+            this.Report2RichTextBox.Size = new System.Drawing.Size(252, 387);
             this.Report2RichTextBox.TabIndex = 4;
             this.Report2RichTextBox.Text = "";
             // 
-            // Reports3Label
+            // Report3Label
             // 
-            this.Reports3Label.AutoSize = true;
-            this.Reports3Label.Location = new System.Drawing.Point(560, 18);
-            this.Reports3Label.Name = "Reports3Label";
-            this.Reports3Label.Size = new System.Drawing.Size(312, 16);
-            this.Reports3Label.TabIndex = 5;
-            this.Reports3Label.Text = "Number of customers with and without appointments";
+            this.Report3Label.AutoSize = true;
+            this.Report3Label.Location = new System.Drawing.Point(560, 18);
+            this.Report3Label.Name = "Report3Label";
+            this.Report3Label.Size = new System.Drawing.Size(312, 16);
+            this.Report3Label.TabIndex = 5;
+            this.Report3Label.Text = "Number of customers with and without appointments";
             // 
             // Report3RichTextBox
             // 
@@ -95,7 +95,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(915, 450);
             this.Controls.Add(this.Report3RichTextBox);
-            this.Controls.Add(this.Reports3Label);
+            this.Controls.Add(this.Report3Label);
             this.Controls.Add(this.Report2RichTextBox);
             this.Controls.Add(this.Report2Label);
             this.Controls.Add(this.Report1RichTextBox);
@@ -113,7 +113,7 @@
         private System.Windows.Forms.RichTextBox Report1RichTextBox;
         private System.Windows.Forms.Label Report2Label;
         private System.Windows.Forms.RichTextBox Report2RichTextBox;
-        private System.Windows.Forms.Label Reports3Label;
+        private System.Windows.Forms.Label Report3Label;
         private System.Windows.Forms.RichTextBox Report3RichTextBox;
     }
 }
