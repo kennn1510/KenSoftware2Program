@@ -23,15 +23,14 @@ namespace KenSoftware2Program.Forms
         }
         private void GenerateReportNumberOfAppointmentTypesByMonth()
         {
-            RichTextBox report = Report1RichTextBox;
             Report1RichTextBox.Clear();
-            List<Appointment> appointments = new List<Appointment>();
+            var appointments = new List<Appointment>();
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
-                    string sql = "SELECT start, end, type FROM appointment";
+                    string sql = "SELECT start, type FROM appointment";
                     using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                     {
                         using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -41,7 +40,6 @@ namespace KenSoftware2Program.Forms
                                 appointments.Add(new Appointment()
                                 {
                                     Start = reader.GetDateTime("start"),
-                                    End = reader.GetDateTime("end"),
                                     Type = reader.GetString("type")
                                 });
                             }
@@ -56,14 +54,17 @@ namespace KenSoftware2Program.Forms
                         })
                         .Select(g => new
                         {
+                            MonthNumber = g.Key.Month,
                             MonthName = new DateTime(2000, g.Key.Month, 1).ToString("MMMM"),
                             g.Key.Type,
                             Count = g.Count()
-                        });
-                    report.AppendText("Appointment Types by Month Report\n\n");
+                        })
+                        .OrderBy(result => result.MonthNumber)
+                        .ThenBy(result => result.Type);
+                    Report1RichTextBox.AppendText("Appointment Types by Month Report\n\n");
                     foreach (var group in appointmentCounts)
                     {
-                        report.AppendText($"Month: {group.MonthName}, Type: {group.Type}, Count: {group.Count}\n\n");
+                        Report1RichTextBox.AppendText($"Month: {group.MonthName}, Type: {group.Type}, Count: {group.Count}\n\n");
                     }
                 }
             }

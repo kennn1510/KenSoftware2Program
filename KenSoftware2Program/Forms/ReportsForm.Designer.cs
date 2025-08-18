@@ -52,8 +52,7 @@
             this.Report1RichTextBox.ReadOnly = true;
             this.Report1RichTextBox.Size = new System.Drawing.Size(252, 387);
             this.Report1RichTextBox.TabIndex = 2;
-            this.Report1RichTextBox.Text = "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDece" +
-    "mber";
+            this.Report1RichTextBox.Text = "";
             // 
             // Report2Label
             // 
