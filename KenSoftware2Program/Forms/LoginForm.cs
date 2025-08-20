@@ -177,36 +177,26 @@ namespace KenSoftware2Program
 
         private void RecordLoginTimestamp(string username)
         {
-            // Get the path to the user's local application data folder
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-            // Create a specific folder for your application's data
-            string appFolder = Path.Combine(appDataPath, "YourAppName");
-
-            // Create the 'Login_History' subdirectory within your app's folder
-            string logDirectory = Path.Combine(appFolder, "Login_History");
-
-            // Ensure the directory exists
-            Directory.CreateDirectory(logDirectory);
-
-            // Combine the directory path with the file name
-            string logFilePath = Path.Combine(logDirectory, "Login_History.txt");
-
-            // Get the current date and time
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-            // The log entry to write to the file
-            string logEntry = $"{timestamp} - {username} logged in.";
-
             try
             {
-                // Append the log entry to the file, creating it if it doesn't exist
+                // Get the path to the current user's desktop
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+                // Define the path for the log file
+                string logFilePath = Path.Combine(desktopPath, "Login_History.txt");
+
+                // Get the current timestamp and format the log entry
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string logEntry = $"{timestamp} - {username} logged in.";
+
+                // Append the log entry to the file
                 File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
+
+                MessageBox.Show($"Login history recorded to: {logFilePath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                // Handle potential errors, such as file access issues
-                MessageBox.Show($"Failed to record login timestamp: {ex.Message}");
+                MessageBox.Show($"Failed to record login timestamp: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
