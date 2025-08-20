@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Device.Location;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 
 namespace KenSoftware2Program
@@ -148,6 +149,7 @@ namespace KenSoftware2Program
                 PasswordErrorsLabel.Text = "";
 
                 CheckForUpcomingAppointments();
+                RecordLoginTimestamp(username);
 
                 // Set the dialog result and close the form
                 this.DialogResult = DialogResult.OK;
@@ -170,6 +172,41 @@ namespace KenSoftware2Program
                     UsernameErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
                     PasswordErrorsLabel.Text = "Nom d'utilisateur ou mot de passe incorrect.";
                 }
+            }
+        }
+
+        private void RecordLoginTimestamp(string username)
+        {
+            // Get the path to the user's local application data folder
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+            // Create a specific folder for your application's data
+            string appFolder = Path.Combine(appDataPath, "YourAppName");
+
+            // Create the 'Login_History' subdirectory within your app's folder
+            string logDirectory = Path.Combine(appFolder, "Login_History");
+
+            // Ensure the directory exists
+            Directory.CreateDirectory(logDirectory);
+
+            // Combine the directory path with the file name
+            string logFilePath = Path.Combine(logDirectory, "Login_History.txt");
+
+            // Get the current date and time
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            // The log entry to write to the file
+            string logEntry = $"{timestamp} - {username} logged in.";
+
+            try
+            {
+                // Append the log entry to the file, creating it if it doesn't exist
+                File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                // Handle potential errors, such as file access issues
+                MessageBox.Show($"Failed to record login timestamp: {ex.Message}");
             }
         }
 
