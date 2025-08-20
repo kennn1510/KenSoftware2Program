@@ -19,7 +19,7 @@ namespace KenSoftware2Program.Forms
         {
             GenerateReportNumberOfAppointmentTypesByMonth();
             GenerateReportScheduleForEachUser();
-            //GenerateReportNumberOfCustomersWithAndWithoutAppointments();
+            GenerateReportCustomerNamesWithAndWithoutAppointments();
         }
         private void GenerateReportNumberOfAppointmentTypesByMonth()
         {
@@ -143,9 +143,99 @@ namespace KenSoftware2Program.Forms
             }
         }
 
-        private void GenerateReportNumberOfCustomersWithAndWithoutAppointments()
+        private void GenerateReportCustomerNamesWithAndWithoutAppointments()
         {
-            throw new NotImplementedException();
+            Report3RichTextBox.Clear();
+            var customers = new List<Customer>();
+            var appointments = new List<Appointment>();
+            try
+            {
+                using (var conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+                {
+                    conn.Open();
+
+                    // SQL to get all customers
+                    string sqlCustomers = "SELECT customerId, customerName FROM customer";
+                    using (var cmd = new MySqlCommand(sqlCustomers, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customers.Add(new Customer()
+                                {
+                                    CustomerId = reader.GetInt32("customerId"),
+                                    CustomerName = reader.GetString("customerName")
+                                });
+                            }
+                        }
+                    }
+
+                    // SQL to get all appointments
+                    string sqlAppointments = "SELECT customerId FROM appointment";
+                    using (var cmd = new MySqlCommand(sqlAppointments, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                appointments.Add(new Appointment()
+                                {
+                                    CustomerId = reader.GetInt32("customerId")
+                                });
+                            }
+                        }
+                    }
+                }
+
+                // Get a distinct list of customer IDs that have appointments
+                var customerIdsWithAppointments = appointments
+                    .Select(a => a.CustomerId)
+                    .Distinct()
+                    .ToList();
+
+                // LINQ with lambda expressions to filter the customer lists
+                var customersWithAppointments = customers
+                    .Where(c => customerIdsWithAppointments.Contains(c.CustomerId))
+                    .ToList();
+
+                var customersWithoutAppointments = customers
+                    .Where(c => !customerIdsWithAppointments.Contains(c.CustomerId))
+                    .ToList();
+
+                // Format and display the report
+                Report3RichTextBox.AppendText("Customers With Appointments:\n\n");
+                if (customersWithAppointments.Any())
+                {
+                    foreach (var customer in customersWithAppointments)
+                    {
+                        Report3RichTextBox.AppendText($"- {customer.CustomerName}\n");
+                    }
+                }
+                else
+                {
+                    Report3RichTextBox.AppendText("No customers found with appointments.\n");
+                }
+
+                Report3RichTextBox.AppendText("\n----------------------------------------\n\n");
+
+                Report3RichTextBox.AppendText("Customers Without Appointments:\n\n");
+                if (customersWithoutAppointments.Any())
+                {
+                    foreach (var customer in customersWithoutAppointments)
+                    {
+                        Report3RichTextBox.AppendText($"- {customer.CustomerName}\n");
+                    }
+                }
+                else
+                {
+                    Report3RichTextBox.AppendText("All customers have appointments.\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error generating report on customers with and without appointments: " + ex.Message);
+            }
         }
 
 
