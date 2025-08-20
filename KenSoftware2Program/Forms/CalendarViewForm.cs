@@ -14,20 +14,16 @@ namespace KenSoftware2Program.Forms
         }
         private void SetUpForm()
         {
-            // Get the selected date from the MonthCalendar
             var selectedDate = CalendarMonthCalendar.SelectionStart;
 
             try
             {
-                // Use a DataTable to hold the filtered data
                 DataTable dataTable = new DataTable();
 
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
 
-                    // SQL query to select appointments for the selected date
-                    // The BETWEEN clause checks if the appointment start date is between the start of the day and the end of the day.
                     string query = @"
                         SELECT
                             c.customerId,
@@ -48,11 +44,10 @@ namespace KenSoftware2Program.Forms
                         WHERE
                             ap.start >= @startOfDay AND ap.start < @endOfDay
                         ORDER BY
-                            ap.start"; // Order by start time to make the view logical
+                            ap.start";
 
                     using (MySqlCommand command = new MySqlCommand(query, conn))
                     {
-                        // Set the parameters for the date range
                         command.Parameters.AddWithValue("@startOfDay", selectedDate.Date);
                         command.Parameters.AddWithValue("@endOfDay", selectedDate.Date.AddDays(1));
 
@@ -63,13 +58,10 @@ namespace KenSoftware2Program.Forms
                     }
                 }
 
-                // Bind the filtered data to the DataGridView
                 CalendarDataGridView.DataSource = dataTable;
 
-                // Hide the customerId column
                 CalendarDataGridView.Columns["customerId"].Visible = false;
 
-                // Set column headers for readability
                 CalendarDataGridView.Columns["customerName"].HeaderText = "Customer Name";
                 CalendarDataGridView.Columns["appointmentId"].HeaderText = "Appointment ID";
                 CalendarDataGridView.Columns["title"].HeaderText = "Title";

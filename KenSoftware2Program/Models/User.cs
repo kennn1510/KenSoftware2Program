@@ -7,10 +7,9 @@ namespace KenSoftware2Program.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        // Public static properties for global access to the current user
-        public static int UserId { get; private set; } // Setters are now private
+        public static int UserId { get; private set; }
         public static string UserName { get; private set; }
-        public static string Password { get; private set; } // It is better to remove this property completely in a real app
+        public static string Password { get; private set; }
         public static bool Active { get; private set; }
         public static DateTime CreateDate { get; private set; }
         public static string CreatedBy { get; private set; }
@@ -30,7 +29,6 @@ namespace KenSoftware2Program.Models
                 {
                     conn.Open();
 
-                    // Query to get user data for validation
                     string query = @"
                         SELECT userId, userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy
                         FROM user
@@ -43,12 +41,9 @@ namespace KenSoftware2Program.Models
                         {
                             if (reader.Read())
                             {
-                                // In a real app, you would use a hashing library here (e.g., BCrypt.Net)
-                                // For this example, we'll stick to a simple string comparison
                                 string storedPassword = reader.GetString("password");
                                 if (storedPassword == password)
                                 {
-                                    // Populate static properties after successful login
                                     UserId = reader.GetInt32("userId");
                                     UserName = reader.GetString("userName");
                                     Active = reader.GetBoolean("active");
@@ -57,7 +52,6 @@ namespace KenSoftware2Program.Models
                                     LastUpdate = reader.GetDateTime("lastUpdate");
                                     LastUpdateBy = reader.GetString("lastUpdateBy");
 
-                                    // DO NOT store the password! We'll keep it for this example to match your original code
                                     Password = storedPassword;
 
                                     return true;
@@ -69,11 +63,10 @@ namespace KenSoftware2Program.Models
             }
             catch (Exception ex)
             {
-                // It's better to log the exception rather than just throwing a new one
                 Console.WriteLine("Error during login: " + ex.Message);
             }
 
-            return false; // Username not found or password incorrect
+            return false;
         }
     }
 }

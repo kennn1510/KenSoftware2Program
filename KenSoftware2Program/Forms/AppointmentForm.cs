@@ -89,12 +89,10 @@ namespace KenSoftware2Program.Forms
                         {
                             if (reader.Read())
                             {
-                                // Get the details of the first overlapping appointment
                                 string existingStart = reader["start"].ToString();
                                 string existingEnd = reader["end"].ToString();
-                                string existingDescription = reader["description"].ToString(); // assuming a description column
+                                string existingDescription = reader["description"].ToString();
 
-                                // Construct a more detailed message
                                 string message = $"There is an overlapping appointment:\n\n" +
                                                  $"Existing Appointment: {existingDescription}\n" +
                                                  $"Time: {existingStart} to {existingEnd}";
@@ -140,13 +138,8 @@ namespace KenSoftware2Program.Forms
 
         private DateTime ConvertLocalTimeToEST()
         {
-            // Get the selected date and time from the DateTimePicker.
             DateTime localTime = StartDateTimePicker.Value;
-
-            // Get the Eastern Standard Time zone.
             TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-
-            // Convert the local time to Eastern Standard Time.
             DateTime estTime = TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, est);
             return estTime;
         }
@@ -207,7 +200,6 @@ namespace KenSoftware2Program.Forms
 
         private void EditAppointmentButton_Click(object sender, EventArgs e)
         {
-            // Make sure an appointment is selected
             if (AppointmentDataGridView.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select an appointment to edit.");
@@ -216,14 +208,12 @@ namespace KenSoftware2Program.Forms
 
             try
             {
-                // Get the appointmentId of the selected appointment from the DataGridView
                 int appointmentId = Convert.ToInt32(AppointmentDataGridView.SelectedCells[2].Value);
 
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
 
-                    // Check for overlapping appointments, but exclude the current appointmentId
                     string checkQuery = @"
                         SELECT * FROM appointment 
                         WHERE start < @end AND end > @start AND appointmentId != @appointmentId";
@@ -252,7 +242,6 @@ namespace KenSoftware2Program.Forms
                         }
                     }
 
-                    // Construct the UPDATE query
                     string updateQuery = @"
                         UPDATE appointment
                         SET 
@@ -284,13 +273,13 @@ namespace KenSoftware2Program.Forms
                         updateCommand.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
                         updateCommand.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         updateCommand.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
-                        updateCommand.Parameters.AddWithValue("@appointmentId", appointmentId); // Important for the WHERE clause
+                        updateCommand.Parameters.AddWithValue("@appointmentId", appointmentId);
 
                         updateCommand.ExecuteNonQuery();
                     }
 
                     MessageBox.Show("Appointment updated successfully.");
-                    SetUpForm(); // Refresh the form to show the updated data
+                    SetUpForm();
                 }
             }
             catch (Exception ex)
@@ -320,8 +309,6 @@ namespace KenSoftware2Program.Forms
             UrlTextBox.Text = row.Cells["url"].Value?.ToString() ?? string.Empty;
             TypeComboBox.Text = row.Cells["type"].Value?.ToString() ?? string.Empty;
 
-            // For DateTimePickers, you need to parse the value
-            // Use DateTime.TryParse to handle cases where the cell value might be invalid
             if (DateTime.TryParse(row.Cells["start"].Value.ToString(), out DateTime startDateTime))
             {
                 StartDateTimePicker.Value = startDateTime;

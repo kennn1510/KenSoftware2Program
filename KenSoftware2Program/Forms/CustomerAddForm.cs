@@ -16,7 +16,6 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                // --- Input and length validation ---
                 if (string.IsNullOrWhiteSpace(NameTextBox.Text))
                     throw new ArgumentException("Customer name is required.");
                 if (string.IsNullOrWhiteSpace(CountryTextBox.Text))
@@ -30,7 +29,6 @@ namespace KenSoftware2Program.Forms
                 if (string.IsNullOrWhiteSpace(PhoneNumberTextBox.Text))
                     throw new ArgumentException("Phone number is required.");
 
-                // Length validations
                 if (NameTextBox.Text.Length > 50)
                     throw new ArgumentException("Customer name cannot exceed 50 characters.");
                 if (CountryTextBox.Text.Length > 50)
@@ -46,26 +44,22 @@ namespace KenSoftware2Program.Forms
                 if (PhoneNumberTextBox.Text.Length > 20)
                     throw new ArgumentException("Phone number cannot exceed 20 characters.");
 
-                // Format validations
                 if (!Regex.IsMatch(PostalCodeTextBox.Text, @"^[0-9A-Za-z\s-]+$"))
                     throw new ArgumentException("Invalid postal code format.");
                 if (!Regex.IsMatch(PhoneNumberTextBox.Text, @"^[\d\s\-\+\(\)]+$"))
                     throw new ArgumentException("Invalid phone number format.");
 
-                // Use a single connection for the entire operation
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
 
-                    // Use a transaction to ensure atomicity
                     using (MySqlTransaction transaction = conn.BeginTransaction())
                     {
-                        // Use a single command object for all queries
                         using (MySqlCommand command = new MySqlCommand())
                         {
                             command.Connection = conn;
                             command.Transaction = transaction;
-                            string currentUser = "test"; // Replace with actual user ID or username
+                            string currentUser = Models.User.UserName;
 
                             // 1. Check if country exists, insert if not
                             command.CommandText = "SELECT countryId FROM country WHERE country = @CountryName";

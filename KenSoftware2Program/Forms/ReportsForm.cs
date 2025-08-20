@@ -127,7 +127,6 @@ namespace KenSoftware2Program.Forms
                                         Appointments = g.ToList()
                                     };
 
-                // Format and display the report
                 foreach (var schedule in userSchedules)
                 {
                     Report2RichTextBox.AppendText($"Schedule for the user: {schedule.UserName}\n\n");
@@ -154,7 +153,6 @@ namespace KenSoftware2Program.Forms
                 {
                     conn.Open();
 
-                    // SQL to get all customers
                     string sqlCustomers = "SELECT customerId, customerName FROM customer";
                     using (var cmd = new MySqlCommand(sqlCustomers, conn))
                     {
@@ -171,7 +169,6 @@ namespace KenSoftware2Program.Forms
                         }
                     }
 
-                    // SQL to get all appointments
                     string sqlAppointments = "SELECT customerId FROM appointment";
                     using (var cmd = new MySqlCommand(sqlAppointments, conn))
                     {
@@ -203,7 +200,6 @@ namespace KenSoftware2Program.Forms
                     .Where(c => !customerIdsWithAppointments.Contains(c.CustomerId))
                     .ToList();
 
-                // Format and display the report
                 Report3RichTextBox.AppendText("Customers With Appointments:\n\n");
                 if (customersWithAppointments.Any())
                 {

@@ -48,12 +48,6 @@ namespace KenSoftware2Program.Forms
                                 PhoneNumberTextBox.Text = reader["phone"].ToString();
                                 CityTextBox.Text = reader["city"].ToString();
                                 CountryTextBox.Text = reader["country"].ToString();
-
-                                // Store the IDs for later use in updates
-                                // This assumes you have private fields to store these values.
-                                // private int currentAddressId, private int currentCityId, etc.
-                                // For simplicity, we can retrieve them again, but this is more efficient.
-                                // If you don't have these fields, you can remove these lines.
                             }
                             else
                             {
@@ -66,7 +60,7 @@ namespace KenSoftware2Program.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading customer data: " + ex.Message);
-                this.Close(); // Close the form if data can't be loaded
+                this.Close();
             }
         }
 
@@ -74,7 +68,6 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                // --- Input and length validation (keep as is) ---
                 if (string.IsNullOrWhiteSpace(NameTextBox.Text))
                     throw new ArgumentException("Customer name is required.");
                 if (string.IsNullOrWhiteSpace(CountryTextBox.Text))
@@ -108,22 +101,19 @@ namespace KenSoftware2Program.Forms
                 if (!Regex.IsMatch(PhoneNumberTextBox.Text, @"^[\d\s\-\+\(\)]+$"))
                     throw new ArgumentException("Invalid phone number format.");
 
-                // Use a single connection for the entire operation
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
 
-                    // Use a transaction to ensure atomicity
                     using (MySqlTransaction transaction = conn.BeginTransaction())
                     {
                         try
                         {
-                            // Use a single command object for all queries
                             using (MySqlCommand command = new MySqlCommand())
                             {
                                 command.Connection = conn;
                                 command.Transaction = transaction;
-                                string currentUser = "test"; // Replace with actual user ID or username
+                                string currentUser = Models.User.UserName;
 
                                 // 1. Check if country exists, insert if not
                                 command.CommandText = "SELECT countryId FROM country WHERE country = @CountryName";
@@ -197,7 +187,6 @@ namespace KenSoftware2Program.Forms
                                 command.ExecuteNonQuery();
 
                                 // 5. Check if the old address is now unused and delete it
-                                // This step is important for data cleanliness
                                 command.CommandText = "SELECT addressId FROM customer WHERE customerId = @CustomerId";
                                 command.Parameters.Clear();
                                 command.Parameters.AddWithValue("@CustomerId", this.customerId);
@@ -221,16 +210,14 @@ namespace KenSoftware2Program.Forms
                                 }
                             }
 
-                            // Commit the transaction
                             transaction.Commit();
                             MessageBox.Show("Customer updated successfully!");
                             this.Close();
                         }
                         catch (Exception)
                         {
-                            // Roll back the transaction on error
                             transaction.Rollback();
-                            throw; // Re-throw to be caught by the outer try-catch block
+                            throw;
                         }
                     }
                 }

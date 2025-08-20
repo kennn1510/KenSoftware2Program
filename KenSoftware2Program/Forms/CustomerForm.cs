@@ -63,20 +63,16 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                // Check if a row is selected
                 if (CustomerDataGridView.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a customer to update.");
                     return;
                 }
 
-                // Get the customerId from the selected row
                 int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
 
-                // Open the CustomerUpdateForm with the customerId
                 CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(customerId);
                 customerUpdateForm.ShowDialog();
-                // Refresh the grid after updating
                 SetUpForm();
             }
             catch (Exception ex)
@@ -87,17 +83,14 @@ namespace KenSoftware2Program.Forms
 
         private void DeleteCustomerButton_Click(object sender, EventArgs e)
         {
-            // Check if a row is selected
             if (CustomerDataGridView.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select a customer to delete.");
                 return;
             }
 
-            // Get the customerId from the selected row
             int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
 
-            // Confirm deletion with the user
             DialogResult result = MessageBox.Show(
                 "Are you sure you want to delete this customer? This action cannot be undone.",
                 "Confirm Deletion",
@@ -109,20 +102,16 @@ namespace KenSoftware2Program.Forms
                 return;
             }
 
-            // Wrap the entire database operation in a try-catch block
             try
             {
-                // Use a single connection for all operations
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
                     conn.Open();
 
-                    // Start a transaction to ensure data integrity
                     using (MySqlTransaction transaction = conn.BeginTransaction())
                     {
                         try
                         {
-                            // Use a single command object for all queries within the transaction
                             using (MySqlCommand command = new MySqlCommand())
                             {
                                 command.Connection = conn;
@@ -157,22 +146,19 @@ namespace KenSoftware2Program.Forms
                                 }
                             }
 
-                            // Commit the transaction
                             transaction.Commit();
                             MessageBox.Show("Customer deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception)
                         {
-                            // Roll back the transaction on error
                             transaction.Rollback();
-                            throw; // Re-throw to be caught by the outer try-catch block
+                            throw;
                         }
                     }
-                } // The connection is automatically closed here
+                }
             }
             catch (MySqlException ex)
             {
-                // Handle specific MySQL errors (e.g., foreign key constraints)
                 if (ex.Number == 1451) // MySQL error code for foreign key constraint violation
                 {
                     MessageBox.Show("Cannot delete this customer because they are referenced by other records (e.g., appointments).", "Deletion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -187,7 +173,6 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Refresh the DataGridView
             SetUpForm();
         }
 
@@ -195,19 +180,16 @@ namespace KenSoftware2Program.Forms
         {
             try
             {
-                // Check if a row is selected
                 if (CustomerDataGridView.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a customer to update.");
                     return;
                 }
 
-                // Get the customerId from the selected row
                 int customerId = Convert.ToInt32(CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value);
 
                 AppointmentForm appointmentForm = new AppointmentForm();
                 appointmentForm.ShowDialog();
-                // Refresh the grid after updating
                 SetUpForm();
             }
             catch (Exception ex)
