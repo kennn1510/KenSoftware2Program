@@ -98,8 +98,9 @@ namespace KenSoftware2Program.Forms
 
                 if (!Regex.IsMatch(PostalCodeTextBox.Text, @"^[0-9A-Za-z\s-]+$"))
                     throw new ArgumentException("Invalid postal code format.");
-                if (!Regex.IsMatch(PhoneNumberTextBox.Text, @"^[\d\s\-\+\(\)]+$"))
-                    throw new ArgumentException("Invalid phone number format.");
+                if (!Regex.IsMatch(PhoneNumberTextBox.Text, @"^(\d{3}-\d{3}-\d{4}|\d{3}-\d{4})$"))
+                    throw new ArgumentException("Invalid phone number format. The number must be in the format 123-456-7890 or 555-1212.");
+
 
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
                 {
