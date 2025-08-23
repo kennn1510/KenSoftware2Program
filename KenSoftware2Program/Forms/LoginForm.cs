@@ -198,23 +198,23 @@ namespace KenSoftware2Program
 
                     using (MySqlCommand command = new MySqlCommand(query, conn))
                     {
-                        DateTime now = DateTime.Now;
-                        DateTime alertTime = now.AddMinutes(alertWindowMinutes);
+                        DateTime nowUtc = DateTime.UtcNow;
+                        DateTime alertTimeUtc = nowUtc.AddMinutes(alertWindowMinutes);
 
                         command.Parameters.AddWithValue("@userId", currentUserId);
-                        command.Parameters.AddWithValue("@now", now);
-                        command.Parameters.AddWithValue("@alertTime", alertTime);
+                        command.Parameters.AddWithValue("@now", nowUtc);
+                        command.Parameters.AddWithValue("@alertTime", alertTimeUtc);
 
                         using (var reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
                                 string title = reader["title"].ToString();
-                                DateTime startTime = Convert.ToDateTime(reader["start"]);
-
+                                DateTime startTimeUtc = Convert.ToDateTime(reader["start"]);
+                                DateTime localStartTime = startTimeUtc.ToLocalTime();
                                 MessageBox.Show($"You have an upcoming appointment within the next 15 minutes:\n\n" +
                                                 $"Title: {title}\n" +
-                                                $"Time: {startTime.ToShortTimeString()}",
+                                                $"Time: {localStartTime.ToShortTimeString()}",
                                                 "Upcoming Appointment Alert",
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Information);
