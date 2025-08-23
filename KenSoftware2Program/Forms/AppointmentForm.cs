@@ -37,21 +37,29 @@ namespace KenSoftware2Program.Forms
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, Database.DBConnection.GetConnectionString());
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    if (row["start"] != DBNull.Value)
+                    {
+                        row["start"] = ((DateTime)row["start"]).ToLocalTime();
+                    }
+                    if (row["end"] != DBNull.Value)
+                    {
+                        row["end"] = ((DateTime)row["end"]).ToLocalTime();
+                    }
+                }
                 AppointmentDataGridView.DataSource = dataTable;
-                AppointmentDataGridView.Columns[0].Visible = false;
-                AppointmentDataGridView.Columns[1].HeaderText = "Customer Name";
-                AppointmentDataGridView.Columns[2].HeaderText = "Appointment ID";
-                AppointmentDataGridView.Columns[3].HeaderText = "Title";
-                AppointmentDataGridView.Columns[4].HeaderText = "Description";
-                AppointmentDataGridView.Columns[5].HeaderText = "Location";
-                AppointmentDataGridView.Columns[6].HeaderText = "Contact";
-                AppointmentDataGridView.Columns[7].HeaderText = "Type";
-                AppointmentDataGridView.Columns[8].HeaderText = "URL";
-                AppointmentDataGridView.Columns[9].HeaderText = "Start";
-                AppointmentDataGridView.Columns[10].HeaderText = "End";
-
-                StartDateTimePicker.Value = ConvertLocalTimeToEST();
-                EndDateTimePicker.Value = ConvertLocalTimeToEST();
+                AppointmentDataGridView.Columns["customerId"].Visible = false;
+                AppointmentDataGridView.Columns["customerName"].HeaderText = "Customer Name";
+                AppointmentDataGridView.Columns["appointmentId"].HeaderText = "Appointment ID";
+                AppointmentDataGridView.Columns["title"].HeaderText = "Title";
+                AppointmentDataGridView.Columns["description"].HeaderText = "Description";
+                AppointmentDataGridView.Columns["location"].HeaderText = "Location";
+                AppointmentDataGridView.Columns["contact"].HeaderText = "Contact";
+                AppointmentDataGridView.Columns["type"].HeaderText = "Type";
+                AppointmentDataGridView.Columns["url"].HeaderText = "URL";
+                AppointmentDataGridView.Columns["start"].HeaderText = "Start";
+                AppointmentDataGridView.Columns["end"].HeaderText = "End";
 
                 if (AppointmentDataGridView.Rows.Count > 0)
                 {
@@ -73,6 +81,8 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("The customer already has an appointment.");
                 return;
             }
+            DateTime utcStart = StartDateTimePicker.Value.ToUniversalTime();
+            DateTime utcEnd = EndDateTimePicker.Value.ToUniversalTime();
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
@@ -82,8 +92,8 @@ namespace KenSoftware2Program.Forms
                     string checkQuery = @"SELECT * FROM appointment WHERE start < @end AND end > @start";
                     using (MySqlCommand command = new MySqlCommand(checkQuery, conn))
                     {
-                        command.Parameters.AddWithValue("@start", StartDateTimePicker.Value);
-                        command.Parameters.AddWithValue("@end", EndDateTimePicker.Value);
+                        command.Parameters.AddWithValue("@start", utcStart);
+                        command.Parameters.AddWithValue("@end", utcEnd);
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -116,11 +126,11 @@ namespace KenSoftware2Program.Forms
                         command.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "not needed" : ContactTextBox.Text);
                         command.Parameters.AddWithValue("@type", TypeComboBox.Text);
                         command.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "not needed" : UrlTextBox.Text);
-                        command.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                        command.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                        command.Parameters.AddWithValue("@createDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@start", utcStart);
+                        command.Parameters.AddWithValue("@end", utcEnd);
+                        command.Parameters.AddWithValue("@createDate", DateTime.UtcNow);
                         command.Parameters.AddWithValue("@createdBy", Models.User.UserName);
-                        command.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        command.Parameters.AddWithValue("@lastUpdate", DateTime.UtcNow);
                         command.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
                         command.ExecuteNonQuery();
                     }
@@ -135,26 +145,16 @@ namespace KenSoftware2Program.Forms
             }
         }
 
-
-        private DateTime ConvertLocalTimeToEST()
-        {
-            DateTime localTime = StartDateTimePicker.Value;
-            TimeZoneInfo est = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            DateTime estTime = TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, est);
-            return estTime;
-        }
-
         private void StartDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
             StartErrorLabel.Visible = true;
             AddAppointmentButton.Enabled = false;
-            if (StartDateTimePicker.Value.Hour < 9)
+            TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            DateTime estTime = TimeZoneInfo.ConvertTime(StartDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
+
+            if (estTime.Hour < 9 || estTime.Hour >= 17)
             {
-                StartErrorLabel.Text = "Start time cannot be before 9:00 AM EST";
-            }
-            else if (StartDateTimePicker.Value.Hour >= 17)
-            {
-                StartErrorLabel.Text = "Start time cannot be after 5:00 PM EST";
+                StartErrorLabel.Text = "Start time must be between 9:00 AM and 5:00 PM EST";
             }
             else
             {
@@ -165,8 +165,10 @@ namespace KenSoftware2Program.Forms
                 else
                 {
                     StartErrorLabel.Visible = false;
-                    if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                    if (!StartErrorLabel.Visible && !EndErrorLabel.Visible)
+                    {
                         AddAppointmentButton.Enabled = true;
+                    }
                 }
             }
         }
@@ -175,25 +177,26 @@ namespace KenSoftware2Program.Forms
         {
             EndErrorLabel.Visible = true;
             AddAppointmentButton.Enabled = false;
-            if (EndDateTimePicker.Value.Hour < 9)
+            TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            DateTime estTime = TimeZoneInfo.ConvertTime(EndDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
+
+            if (estTime.Hour < 9 || estTime.Hour >= 17)
             {
-                EndErrorLabel.Text = "End time cannot be before 9:00 AM EST";
-            }
-            else if (EndDateTimePicker.Value.Hour >= 17)
-            {
-                EndErrorLabel.Text = "End time cannot be after 5:00 PM EST";
+                EndErrorLabel.Text = "End time must be between 9:00 AM and 5:00 PM EST";
             }
             else
             {
-                if (EndDateTimePicker.Value < StartDateTimePicker.Value)
+                if (StartDateTimePicker.Value > EndDateTimePicker.Value)
                 {
-                    EndErrorLabel.Text = "End date cannot be before start date";
+                    EndErrorLabel.Text = "End date cannot be after end date";
                 }
                 else
                 {
                     EndErrorLabel.Visible = false;
-                    if (StartErrorLabel.Visible == false && EndErrorLabel.Visible == false)
+                    if (!EndErrorLabel.Visible && !StartErrorLabel.Visible)
+                    {
                         AddAppointmentButton.Enabled = true;
+                    }
                 }
             }
         }
@@ -205,7 +208,8 @@ namespace KenSoftware2Program.Forms
                 MessageBox.Show("Please select an appointment to edit.");
                 return;
             }
-
+            DateTime utcStart = StartDateTimePicker.Value.ToUniversalTime();
+            DateTime utcEnd = EndDateTimePicker.Value.ToUniversalTime();
             try
             {
                 int appointmentId = Convert.ToInt32(AppointmentDataGridView.SelectedCells[2].Value);
@@ -220,8 +224,8 @@ namespace KenSoftware2Program.Forms
 
                     using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, conn))
                     {
-                        checkCommand.Parameters.AddWithValue("@start", StartDateTimePicker.Value);
-                        checkCommand.Parameters.AddWithValue("@end", EndDateTimePicker.Value);
+                        checkCommand.Parameters.AddWithValue("@start", utcStart);
+                        checkCommand.Parameters.AddWithValue("@end", utcEnd);
                         checkCommand.Parameters.AddWithValue("@appointmentId", appointmentId);
 
                         using (var reader = checkCommand.ExecuteReader())
@@ -269,9 +273,9 @@ namespace KenSoftware2Program.Forms
                         updateCommand.Parameters.AddWithValue("@contact", string.IsNullOrWhiteSpace(ContactTextBox.Text) ? "not needed" : ContactTextBox.Text);
                         updateCommand.Parameters.AddWithValue("@type", TypeComboBox.Text);
                         updateCommand.Parameters.AddWithValue("@url", string.IsNullOrWhiteSpace(UrlTextBox.Text) ? "not needed" : UrlTextBox.Text);
-                        updateCommand.Parameters.AddWithValue("@start", StartDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                        updateCommand.Parameters.AddWithValue("@end", EndDateTimePicker.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                        updateCommand.Parameters.AddWithValue("@lastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        updateCommand.Parameters.AddWithValue("@start", utcStart);
+                        updateCommand.Parameters.AddWithValue("@end", utcEnd);
+                        updateCommand.Parameters.AddWithValue("@lastUpdate", DateTime.UtcNow);
                         updateCommand.Parameters.AddWithValue("@lastUpdateBy", Models.User.UserName);
                         updateCommand.Parameters.AddWithValue("@appointmentId", appointmentId);
 

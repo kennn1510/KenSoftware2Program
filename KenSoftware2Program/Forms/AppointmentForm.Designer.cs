@@ -193,7 +193,7 @@
             this.AppointmentDataGridView.AllowUserToDeleteRows = false;
             this.AppointmentDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AppointmentDataGridView.Location = new System.Drawing.Point(330, 68);
+            this.AppointmentDataGridView.Location = new System.Drawing.Point(363, 68);
             this.AppointmentDataGridView.MultiSelect = false;
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
             this.AppointmentDataGridView.ReadOnly = true;
@@ -206,7 +206,7 @@
             // 
             // CalendarViewButton
             // 
-            this.CalendarViewButton.Location = new System.Drawing.Point(330, 14);
+            this.CalendarViewButton.Location = new System.Drawing.Point(363, 14);
             this.CalendarViewButton.Name = "CalendarViewButton";
             this.CalendarViewButton.Size = new System.Drawing.Size(754, 36);
             this.CalendarViewButton.TabIndex = 21;
@@ -216,7 +216,7 @@
             // 
             // EditAppointmentButton
             // 
-            this.EditAppointmentButton.Location = new System.Drawing.Point(330, 418);
+            this.EditAppointmentButton.Location = new System.Drawing.Point(363, 418);
             this.EditAppointmentButton.Name = "EditAppointmentButton";
             this.EditAppointmentButton.Size = new System.Drawing.Size(262, 35);
             this.EditAppointmentButton.TabIndex = 23;
@@ -226,7 +226,7 @@
             // 
             // DeleteAppointmentButton
             // 
-            this.DeleteAppointmentButton.Location = new System.Drawing.Point(854, 418);
+            this.DeleteAppointmentButton.Location = new System.Drawing.Point(887, 418);
             this.DeleteAppointmentButton.Name = "DeleteAppointmentButton";
             this.DeleteAppointmentButton.Size = new System.Drawing.Size(230, 35);
             this.DeleteAppointmentButton.TabIndex = 24;
@@ -259,7 +259,7 @@
             // StartErrorLabel
             // 
             this.StartErrorLabel.AutoSize = true;
-            this.StartErrorLabel.Location = new System.Drawing.Point(12, 258);
+            this.StartErrorLabel.Location = new System.Drawing.Point(2, 258);
             this.StartErrorLabel.Name = "StartErrorLabel";
             this.StartErrorLabel.Size = new System.Drawing.Size(97, 16);
             this.StartErrorLabel.TabIndex = 25;
@@ -269,7 +269,7 @@
             // EndErrorLabel
             // 
             this.EndErrorLabel.AutoSize = true;
-            this.EndErrorLabel.Location = new System.Drawing.Point(13, 317);
+            this.EndErrorLabel.Location = new System.Drawing.Point(3, 317);
             this.EndErrorLabel.Name = "EndErrorLabel";
             this.EndErrorLabel.Size = new System.Drawing.Size(94, 16);
             this.EndErrorLabel.TabIndex = 26;
@@ -280,7 +280,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1096, 465);
+            this.ClientSize = new System.Drawing.Size(1121, 465);
             this.Controls.Add(this.EndErrorLabel);
             this.Controls.Add(this.StartErrorLabel);
             this.Controls.Add(this.DeleteAppointmentButton);
