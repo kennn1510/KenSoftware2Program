@@ -75,71 +75,96 @@ namespace KenSoftware2Program.Forms
         }
         private void GenerateReportScheduleForEachUser()
         {
-            Report2RichTextBox.Clear();
-            var appointments = new List<Appointment>();
-            var users = new List<User>();
-
             try
             {
-                using (var conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
-                {
-                    conn.Open();
-                    string sqlAppointments = "SELECT userId, start, end, type FROM appointment";
-                    using (var cmd = new MySqlCommand(sqlAppointments, conn))
-                    {
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                appointments.Add(new Appointment()
-                                {
-                                    UserId = reader.GetInt32("userId"),
-                                    Start = reader.GetDateTime("start"),
-                                    End = reader.GetDateTime("end"),
-                                    Type = reader.GetString("type")
-                                });
-                            }
-                        }
-                    }
+                List<Appointment> appointments = GetAllAppointmentsFromDb();
+                List<User> users = GetAllUsersFromDb();
 
-                    string sqlUsers = "SELECT userId, userName FROM user";
-                    using (var cmd = new MySqlCommand(sqlUsers, conn))
-                    {
-                        using (var reader = cmd.ExecuteReader())
+                // lambda expression on the collections
+                var userSchedules = users
+                    .GroupJoin(
+                        appointments,
+                        user => user.Id,
+                        appt => appt.UserId,
+                        (user, appts) => new
                         {
-                            while (reader.Read())
-                            {
-                                users.Add(new User()
-                                {
-                                    Id = reader.GetInt32("userId"),
-                                    Name = reader.GetString("username"),
-                                });
-                            }
-                        }
-                    }
-                }
-                var userSchedules = from user in users
-                                    join appointment in appointments on user.Id equals appointment.UserId
-                                    group appointment by user.Name into g
-                                    select new
-                                    {
-                                        UserName = g.Key,
-                                        Appointments = g.ToList()
-                                    };
+                            UserName = user.Name,
+                            Appointments = appts.OrderBy(a => a.Start)
+                        })
+                    .OrderBy(user => user.UserName);
 
-                foreach (var schedule in userSchedules)
-                {
-                    Report2RichTextBox.AppendText($"Schedule for the user: {schedule.UserName}\n\n");
-                    foreach (var appointment in schedule.Appointments)
-                    {
-                        Report2RichTextBox.AppendText($"Type: {appointment.Type}, Start: {appointment.Start}, End: {appointment.End}\n\n");
-                    }
-                }
+                Report2RichTextBox.Text = BuildScheduleReportString(userSchedules);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error generating user scedule report: " + ex.Message);
+                MessageBox.Show("Error generating user schedule report: " + ex.Message);
             }
+        }
+
+        private List<Appointment> GetAllAppointmentsFromDb()
+        {
+            var appointments = new List<Appointment>();
+            using (var conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+            {
+                conn.Open();
+                string sql = "SELECT userId, start, end, type FROM appointment";
+                using (var cmd = new MySqlCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        appointments.Add(new Appointment()
+                        {
+                            UserId = reader.GetInt32("userId"),
+                            Start = reader.GetDateTime("start"),
+                            End = reader.GetDateTime("end"),
+                            Type = reader.GetString("type")
+                        });
+                    }
+                }
+            }
+            return appointments;
+        }
+
+        private List<User> GetAllUsersFromDb()
+        {
+            var users = new List<User>();
+            using (var conn = new MySqlConnection(Database.DBConnection.GetConnectionString()))
+            {
+                conn.Open();
+                string sql = "SELECT userId, userName FROM user";
+                using (var cmd = new MySqlCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        users.Add(new User()
+                        {
+                            Id = reader.GetInt32("userId"),
+                            Name = reader.GetString("username"),
+                        });
+                    }
+                }
+            }
+            return users;
+        }
+
+        private string BuildScheduleReportString(IEnumerable<dynamic> userSchedules)
+        {
+            var reportContent = new System.Text.StringBuilder("User Schedule Report\n\n");
+            foreach (var schedule in userSchedules)
+            {
+                reportContent.Append($"Schedule for user: {schedule.UserName}\n");
+                reportContent.Append("----------------------------------------\n");
+
+                foreach (var appointment in schedule.Appointments)
+                {
+                    reportContent.Append($"Type: {appointment.Type}\n");
+                    reportContent.Append($"Start: {appointment.Start.ToLocalTime()}\n");
+                    reportContent.Append($"End: {appointment.End.ToLocalTime()}\n\n");
+                }
+            }
+            return reportContent.ToString();
         }
 
         private void GenerateReportCustomerNamesWithAndWithoutAppointments()

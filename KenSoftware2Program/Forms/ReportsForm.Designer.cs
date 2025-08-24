@@ -67,6 +67,7 @@
             // 
             this.Report2RichTextBox.Location = new System.Drawing.Point(300, 51);
             this.Report2RichTextBox.Name = "Report2RichTextBox";
+            this.Report2RichTextBox.ReadOnly = true;
             this.Report2RichTextBox.Size = new System.Drawing.Size(252, 387);
             this.Report2RichTextBox.TabIndex = 4;
             this.Report2RichTextBox.Text = "";
@@ -84,6 +85,7 @@
             // 
             this.Report3RichTextBox.Location = new System.Drawing.Point(593, 51);
             this.Report3RichTextBox.Name = "Report3RichTextBox";
+            this.Report3RichTextBox.ReadOnly = true;
             this.Report3RichTextBox.Size = new System.Drawing.Size(258, 387);
             this.Report3RichTextBox.TabIndex = 6;
             this.Report3RichTextBox.Text = "";
