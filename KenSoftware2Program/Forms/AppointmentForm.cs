@@ -147,58 +147,12 @@ namespace KenSoftware2Program.Forms
 
         private void StartDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            StartErrorLabel.Visible = true;
-            AddAppointmentButton.Enabled = false;
-            TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            DateTime estTime = TimeZoneInfo.ConvertTime(StartDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
-
-            if (estTime.Hour < 9 || estTime.Hour >= 17)
-            {
-                StartErrorLabel.Text = "Start time must be between 9:00 AM and 5:00 PM EST";
-            }
-            else
-            {
-                if (StartDateTimePicker.Value > EndDateTimePicker.Value)
-                {
-                    StartErrorLabel.Text = "Start date cannot be after end date";
-                }
-                else
-                {
-                    StartErrorLabel.Visible = false;
-                    if (!StartErrorLabel.Visible && !EndErrorLabel.Visible)
-                    {
-                        AddAppointmentButton.Enabled = true;
-                    }
-                }
-            }
+            ValidateAppointmentTimes();
         }
 
         private void EndDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            EndErrorLabel.Visible = true;
-            AddAppointmentButton.Enabled = false;
-            TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            DateTime estTime = TimeZoneInfo.ConvertTime(EndDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
-
-            if (estTime.Hour < 9 || estTime.Hour >= 17)
-            {
-                EndErrorLabel.Text = "End time must be between 9:00 AM and 5:00 PM EST";
-            }
-            else
-            {
-                if (StartDateTimePicker.Value > EndDateTimePicker.Value)
-                {
-                    EndErrorLabel.Text = "End date cannot be after end date";
-                }
-                else
-                {
-                    EndErrorLabel.Visible = false;
-                    if (!EndErrorLabel.Visible && !StartErrorLabel.Visible)
-                    {
-                        AddAppointmentButton.Enabled = true;
-                    }
-                }
-            }
+            ValidateAppointmentTimes();
         }
 
         private void EditAppointmentButton_Click(object sender, EventArgs e)
@@ -361,6 +315,45 @@ namespace KenSoftware2Program.Forms
         {
             CalendarViewForm calendarViewForm = new CalendarViewForm();
             calendarViewForm.ShowDialog();
+        }
+
+        private void ValidateAppointmentTimes()
+        {
+            bool hasError = false;
+            StartErrorLabel.Visible = false;
+            EndErrorLabel.Visible = false;
+
+            if (StartDateTimePicker.Value >= EndDateTimePicker.Value)
+            {
+                StartErrorLabel.Text = "Start time must be before the end time";
+                StartErrorLabel.Visible = true;
+                EndErrorLabel.Text = "End time must be after the start time";
+                EndErrorLabel.Visible = true;
+                hasError = true;
+            }
+            else
+            {
+                TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+                // Check business hours for Start Time
+                DateTime startEst = TimeZoneInfo.ConvertTime(StartDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
+                if (startEst.Hour < 9 || startEst.Hour >= 17)
+                {
+                    StartErrorLabel.Text = "Time must be within business hours (9 AM - 5 PM EST)";
+                    StartErrorLabel.Visible = true;
+                    hasError = true;
+                }
+
+                DateTime endEst = TimeZoneInfo.ConvertTime(EndDateTimePicker.Value, TimeZoneInfo.Local, estTimeZone);
+                if (endEst.Hour < 9 || endEst.Hour > 17 || (endEst.Hour == 17 && endEst.Minute > 0))
+                {
+                    EndErrorLabel.Text = "Time must be within business hours (9 AM - 5 PM EST)";
+                    EndErrorLabel.Visible = true;
+                    hasError = true;
+                }
+            }
+
+            AddAppointmentButton.Enabled = !hasError;
         }
     }
 }
