@@ -166,7 +166,7 @@ namespace KenSoftware2Program
             {
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 string logFilePath = Path.Combine(desktopPath, "Login_History.txt");
-                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime timestamp = DateTime.UtcNow;
                 string logEntry = $"{timestamp} - {username} logged in.";
 
                 File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
