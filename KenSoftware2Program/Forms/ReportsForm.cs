@@ -93,7 +93,22 @@ namespace KenSoftware2Program.Forms
                         })
                     .OrderBy(user => user.UserName);
 
-                Report2RichTextBox.Text = BuildScheduleReportString(userSchedules);
+                Report2RichTextBox.AppendText("User Schedule Report\n\n");
+                if (userSchedules.Any())
+                {
+                    foreach (var schedule in userSchedules)
+                    {
+                        Report2RichTextBox.AppendText($"Schedule for user: {schedule.UserName}\n");
+                        Report2RichTextBox.AppendText("----------------------------------------\n");
+
+                        foreach (var appointment in schedule.Appointments)
+                        {
+                            Report2RichTextBox.AppendText($"Type: {appointment.Type}\n");
+                            Report2RichTextBox.AppendText($"Start: {appointment.Start.ToLocalTime()}\n");
+                            Report2RichTextBox.AppendText($"End: {appointment.End.ToLocalTime()}\n\n");
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -147,24 +162,6 @@ namespace KenSoftware2Program.Forms
                 }
             }
             return users;
-        }
-
-        private string BuildScheduleReportString(IEnumerable<dynamic> userSchedules)
-        {
-            var reportContent = new System.Text.StringBuilder("User Schedule Report\n\n");
-            foreach (var schedule in userSchedules)
-            {
-                reportContent.Append($"Schedule for user: {schedule.UserName}\n");
-                reportContent.Append("----------------------------------------\n");
-
-                foreach (var appointment in schedule.Appointments)
-                {
-                    reportContent.Append($"Type: {appointment.Type}\n");
-                    reportContent.Append($"Start: {appointment.Start.ToLocalTime()}\n");
-                    reportContent.Append($"End: {appointment.End.ToLocalTime()}\n\n");
-                }
-            }
-            return reportContent.ToString();
         }
 
         private void GenerateReportCustomerNamesWithAndWithoutAppointments()
